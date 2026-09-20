@@ -59,7 +59,8 @@
   .card{display:flex;flex-direction:column;align-self:stretch;flex:0 0 250px;scroll-snap-align:start;text-align:left;background:var(--black-2);border:1px solid var(--line);border-radius:14px;overflow:hidden;color:inherit;font-family:inherit;cursor:pointer;transition:border-color .25s var(--ease),transform .25s var(--ease);}
   .card:hover,.card.active{border-color:var(--red);transform:translateY(-3px);}
   .ribbon{position:absolute;top:12px;left:12px;z-index:2;background:#f5b301;color:#111;font:800 11px/1 'Sora',sans-serif;letter-spacing:.14em;padding:7px 11px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.4);}
-  .card .ph{position:relative}
+  .card .ph{position:relative;overflow:hidden}
+  .card .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
   .pin.res path{fill:#f5b301}.pin.res circle{fill:#111}
   .card .ph{height:130px;background:var(--black-3) center/cover no-repeat;}
   .card .bd{padding:14px 15px 16px;display:flex;flex-direction:column;gap:5px;}
@@ -94,6 +95,14 @@
   .pp .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 
   /* panel de detalle (estilo portal inmobiliario) */
+  .navarrow{position:absolute;top:50%;transform:translateY(-50%);z-index:1200;width:50px;height:50px;border-radius:50%;background:var(--red);border:2px solid rgba(255,255,255,.92);display:grid;place-items:center;cursor:pointer;padding:0;box-shadow:0 10px 26px -6px var(--glow),0 4px 12px rgba(0,0,0,.5);transition:transform .2s var(--ease),background .2s,left .25s var(--ease);}
+  .navarrow[hidden]{display:none}
+  .navarrow svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;}
+  .navarrow:hover{transform:translateY(-50%) scale(1.1);background:#f03a63;}
+  .navarrow:active{transform:translateY(-50%) scale(.95);}
+  .navarrow.prev{left:14px}.navarrow.next{right:14px}
+  .mapwrap.has-detail .navarrow.prev{left:372px}
+  @media(max-width:640px){.navarrow{top:calc(max(46vh,340px)/2);width:44px;height:44px}.navarrow svg{width:19px;height:19px}.navarrow.prev{left:10px}.navarrow.next{right:10px}.mapwrap.has-detail .navarrow.prev{left:10px}}
   .mapwrap{position:relative;margin-top:6px;}
   .mapwrap #map{margin-top:0;}
   .detail{display:none;position:absolute;z-index:1100;left:12px;top:12px;bottom:12px;width:344px;background:var(--black-2);border:1px solid var(--line);border-radius:16px;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.65);}
@@ -227,6 +236,8 @@
   <div class="mapwrap" id="mapwrap">
     <div id="map" role="region" aria-label="Mapa de pisos disponibles"></div>
     <aside class="detail" id="detail" aria-live="polite" aria-label="Detalle del piso"></aside>
+    <button class="navarrow prev" id="navPrev" type="button" aria-label="Piso anterior" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4l-8 8 8 8"/></svg></button>
+    <button class="navarrow next" id="navNext" type="button" aria-label="Piso siguiente" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4l8 8-8 8"/></svg></button>
   </div>
   <div class="status" id="status"><span id="statusTxt">Cargando pisos…</span><button class="btn" id="retry" type="button" hidden>↻ Reintentar</button></div>
 
@@ -386,7 +397,7 @@
   }
   function hideDetail(){
     unmark(); sel = null;
-    $('detail').classList.remove('open');
+    $('detail').classList.remove('open'); $('mapwrap').classList.remove('has-detail');
     document.querySelectorAll('.card.active').forEach(function(c){c.classList.remove('active');});
   }
   function select(p){
@@ -396,12 +407,13 @@
     var e = pinEl(p.id); if(e) e.classList.add('sel');
     m.setZIndexOffset(1000);
     setActive(p.id); history.replaceState(null,'',piso(p.id));
-    var d = $('detail'); d.innerHTML = detailHTML(p); d.scrollTop = 0; d.classList.add('open');
+    var d = $('detail'); d.innerHTML = detailHTML(p); d.scrollTop = 0; d.classList.add('open'); $('mapwrap').classList.add('has-detail');
   }
   var sel = null;
 
   function render(list){
     hideDetail(); shown = list; layer.clearLayers(); markers = {}; byId = {};
+    $('navPrev').hidden = $('navNext').hidden = list.length < 2;
     $('count').textContent = list.length + (list.length===1?' piso':' pisos');
     var cards = $('cards'); cards.innerHTML='';
     if(!list.length){
@@ -415,18 +427,23 @@
       markers[p.id]=m; byId[p.id]=p; bounds.push([p.lat,p.lng]);
 
       var b = document.createElement('button'); b.type='button'; b.className='card'; b.dataset.id=p.id;
-      b.innerHTML = '<div class="ph"'+(p.imagen?' style="background-image:url(\''+esc(photo(p.imagen))+'\')"':'')+'>'+(p.reservado?'<span class="ribbon">RESERVADO</span>':'')+'</div><div class="bd"><span class="zona">'+esc(p.zona)+'</span><span class="tt">'+esc(p.titulo)+'</span>'+
+      b.innerHTML = '<div class="ph">'+(p.imagen?'<img src="'+esc(photo(p.imagen))+'" alt="" loading="eager" decoding="async" data-raw="'+esc(safeUrl(p.imagen))+'">':'')+(p.reservado?'<span class="ribbon">RESERVADO</span>':'')+'</div><div class="bd"><span class="zona">'+esc(p.zona)+'</span><span class="tt">'+esc(p.titulo)+'</span>'+
         (p.precio!=null?'<span class="pr">'+eur(p.precio)+' <small>/ mes</small></span>':'')+
         '<span class="sp">'+[p.habitaciones!=null?p.habitaciones+' hab.':'',p.m2!=null?p.m2+' m²':''].filter(Boolean).join(' · ')+'</span></div>';
       b.addEventListener('click',function(){ open(p.id); });
+      var im = b.querySelector('.ph img');
+      if(im) im.addEventListener('error',function(){
+        if(!im.dataset.retry){ im.dataset.retry='1'; im.src = im.dataset.raw.replace(/\/upload\//,'/upload/f_jpg/'); }
+        else im.remove();
+      });
       cards.appendChild(b);
     });
     if(bounds.length) map.fitBounds(bounds,{padding:[50,50],maxZoom:15});
   }
   function setActive(id){ document.querySelectorAll('.card').forEach(function(c){ c.classList.toggle('active', c.dataset.id===id); }); }
-  function open(id){
+  function open(id, keepScroll){
     var m = markers[id], p = byId[id]; if(!m || !p) return;
-    $('mapwrap').scrollIntoView({behavior:'smooth',block: isMob() ? 'start' : 'center'});
+    if(!keepScroll) $('mapwrap').scrollIntoView({behavior:'smooth',block: isMob() ? 'start' : 'center'});
     var z = Math.max(map.getZoom(),15), target = m.getLatLng();
     if(!isMob()){ target = map.unproject(map.project(target,z).subtract([176,0]),z); } /* deja libre el hueco del panel izquierdo */
     map.flyTo(target,z,{duration:.6});
@@ -513,7 +530,20 @@
     }
   })();
 
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape') hideDetail(); });
+  function go(dir){
+    if(!shown || shown.length<2) return;
+    var i = -1; for(var k=0;k<shown.length;k++){ if(shown[k].id===sel){ i=k; break; } }
+    i = i<0 ? (dir>0 ? 0 : shown.length-1) : (i+dir+shown.length)%shown.length;
+    open(shown[i].id, true);
+    var c = document.querySelector('.card.active'); if(c && c.scrollIntoView) c.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+  }
+  $('navPrev').addEventListener('click',function(){ go(-1); });
+  $('navNext').addEventListener('click',function(){ go(1); });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape') hideDetail();
+    var t = e.target && e.target.tagName;
+    if((e.key==='ArrowLeft'||e.key==='ArrowRight') && t!=='INPUT' && t!=='SELECT' && t!=='TEXTAREA' && sel){ go(e.key==='ArrowRight'?1:-1); }
+  });
   initMap(); load();
 
   /* ---- formulario de captación (Web3Forms) ---- */
