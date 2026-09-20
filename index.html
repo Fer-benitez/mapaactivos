@@ -58,6 +58,9 @@
   .cards::-webkit-scrollbar{height:6px}.cards::-webkit-scrollbar-thumb{background:var(--black-3);border-radius:6px}
   .card{display:flex;flex-direction:column;align-self:stretch;flex:0 0 250px;scroll-snap-align:start;text-align:left;background:var(--black-2);border:1px solid var(--line);border-radius:14px;overflow:hidden;color:inherit;font-family:inherit;cursor:pointer;transition:border-color .25s var(--ease),transform .25s var(--ease);}
   .card:hover,.card.active{border-color:var(--red);transform:translateY(-3px);}
+  .ribbon{position:absolute;top:12px;left:12px;z-index:2;background:#f5b301;color:#111;font:800 11px/1 'Sora',sans-serif;letter-spacing:.14em;padding:7px 11px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.4);}
+  .card .ph{position:relative}
+  .pin.res path{fill:#f5b301}.pin.res circle{fill:#111}
   .card .ph{height:130px;background:var(--black-3) center/cover no-repeat;}
   .card .bd{padding:14px 15px 16px;display:flex;flex-direction:column;gap:5px;}
   .card .zona{font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--red);}
@@ -308,7 +311,7 @@
 <script>
 (function(){
   /* ====== CONFIGURACIÓN ====== */
-  var API_URL   = 'PEGA_AQUI_LA_URL_DEL_APPS_SCRIPT_/exec';   // Web App "Mapa alquileres"
+  var API_URL   = 'https://script.google.com/macros/s/AKfycbwz3g8ZNRAtqxDwHMT3ersFKSxRNFNCx1WtvYnPL42ujnE_AY4cJXnQ9N4eIOFmfjn-AA/exec';   // Web App "Mapa alquileres"
   var WA_NUMBER = '34672907381';
   var CENTER    = [41.3874, 2.1686];                         // Barcelona
   /* =========================== */
@@ -326,6 +329,7 @@
   var base = location.href.split('#')[0].split('?')[0];
   var piso = function(id){ return base + '?piso=' + encodeURIComponent(id); };
   var safeUrl = function(u){ return /^https?:\/\//i.test(u) ? u : '#'; };
+  var photo = function(u){ u = safeUrl(u); var m = u.match(/^(https:\/\/res\.cloudinary\.com\/[^\/]+\/image\/upload\/)(.+?)(\.[a-z0-9]+)?$/i); return m ? m[1]+'w_900,q_auto/'+m[2]+'.jpg' : u; };
 
   function toast(msg){ var t=$('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(function(){t.classList.remove('show');},2200); }
   function copy(text){
@@ -362,13 +366,13 @@
   }
   function acts(p){
     var msg = 'Hola Fernando, me interesa el piso "'+p.titulo+'" ('+p.zona+') que vi en tu mapa de alquileres: '+piso(p.id);
-    return '<div class="acts"><a class="btn red" href="'+esc(safeUrl(p.link))+'" target="_blank" rel="noopener">Quiero visitarlo</a>'+
+    return '<div class="acts">'+(p.reservado?'<a class="btn" href="'+esc(wa('Hola Fernando, vi en tu mapa el piso "'+p.titulo+'" (reservado). Avísame si se libera o si tienes algo parecido.'))+'" target="_blank" rel="noopener">Reservado · avísame si se libera</a>':'<a class="btn red" href="'+esc(safeUrl(p.link))+'" target="_blank" rel="noopener">Quiero visitarlo</a>')+
       '<div class="row2"><a class="btn wa" href="'+esc(wa(msg))+'" target="_blank" rel="noopener">WhatsApp</a>'+
       '<button class="btn" type="button" data-share="'+esc(p.id)+'">Compartir</button></div></div>';
   }
   function pinEl(id){ var m = markers[id], e = m && m.getElement(); return e && e.querySelector('.pin'); }
   function detailHTML(p){
-    return '<div class="dph"'+(p.imagen?' style="background-image:url(\''+esc(safeUrl(p.imagen))+'\')"':'')+' role="img" aria-label="Foto del piso en '+esc(p.zona)+'">'+
+    return '<div class="dph"'+(p.imagen?' style="background-image:url(\''+esc(photo(p.imagen))+'\')"':'')+' role="img" aria-label="Foto del piso en '+esc(p.zona)+'">'+(p.reservado?'<span class="ribbon">RESERVADO</span>':'')+
       '<button class="d-close" type="button" aria-label="Cerrar" data-close>✕</button></div>'+
       '<div class="bd"><span class="zona">'+esc(p.zona)+'</span><h3>'+esc(p.titulo)+'</h3>'+
       (p.precio!=null?'<div class="pr">'+eur(p.precio)+' <small>/ mes</small></div>':'')+
@@ -406,12 +410,12 @@
     }
     var bounds = [];
     list.forEach(function(p){
-      var m = L.marker([p.lat,p.lng],{icon:L.divIcon({html:PIN,className:'',iconSize:[34,42],iconAnchor:[17,40],popupAnchor:[0,-36]}),title:p.titulo,alt:p.titulo}).addTo(layer);
+      var m = L.marker([p.lat,p.lng],{icon:L.divIcon({html:(p.reservado?PIN.replace('class="pin"','class="pin res"'):PIN),className:'',iconSize:[34,42],iconAnchor:[17,40],popupAnchor:[0,-36]}),title:p.titulo,alt:p.titulo}).addTo(layer);
       m.on('click',function(){ open(p.id); });
       markers[p.id]=m; byId[p.id]=p; bounds.push([p.lat,p.lng]);
 
       var b = document.createElement('button'); b.type='button'; b.className='card'; b.dataset.id=p.id;
-      b.innerHTML = '<div class="ph"'+(p.imagen?' style="background-image:url(\''+esc(safeUrl(p.imagen))+'\')"':'')+'></div><div class="bd"><span class="zona">'+esc(p.zona)+'</span><span class="tt">'+esc(p.titulo)+'</span>'+
+      b.innerHTML = '<div class="ph"'+(p.imagen?' style="background-image:url(\''+esc(photo(p.imagen))+'\')"':'')+'>'+(p.reservado?'<span class="ribbon">RESERVADO</span>':'')+'</div><div class="bd"><span class="zona">'+esc(p.zona)+'</span><span class="tt">'+esc(p.titulo)+'</span>'+
         (p.precio!=null?'<span class="pr">'+eur(p.precio)+' <small>/ mes</small></span>':'')+
         '<span class="sp">'+[p.habitaciones!=null?p.habitaciones+' hab.':'',p.m2!=null?p.m2+' m²':''].filter(Boolean).join(' · ')+'</span></div>';
       b.addEventListener('click',function(){ open(p.id); });
