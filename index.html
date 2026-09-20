@@ -207,11 +207,23 @@
   .reel iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff;}
   .ig-note{font-size:12.5px;color:var(--muted);margin-top:4px;}
   @media(max-width:640px){.cta .who img{width:84px;height:84px}.ig-head{justify-content:flex-start}}
+  .nvs{display:block;position:relative;overflow:hidden;background:linear-gradient(90deg,#b3163a,var(--red) 30%,#ff4a73 50%,var(--red) 70%,#b3163a);color:#fff;text-decoration:none;box-shadow:0 6px 24px var(--glow);z-index:20}
+  .nvs .nvs-mq{display:flex;width:max-content;animation:nvsmq 26s linear infinite}
+  .nvs:hover .nvs-mq{animation-play-state:paused}
+  .nvs .nvs-it{display:flex;align-items:center;gap:14px;padding:12px 26px 12px 0;font:800 15px/1 'Sora',sans-serif;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+  .nvs .nvs-it i{width:9px;height:9px;border-radius:50%;background:#fff;box-shadow:0 0 0 0 rgba(255,255,255,.8);animation:nvspls 1.6s infinite}
+  .nvs .nvs-it em{font-style:normal;background:#090909;color:#fff;padding:6px 11px;border-radius:999px;letter-spacing:.12em}
+  .nvs .nvs-it b{font-weight:800;opacity:.55}
+  @keyframes nvsmq{to{transform:translateX(-50%)}}
+  @keyframes nvspls{70%{box-shadow:0 0 0 9px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
+  @media(max-width:640px){.nvs .nvs-it{font-size:13px;padding:11px 20px 11px 0}}
+  @media(prefers-reduced-motion:reduce){.nvs .nvs-mq{animation:none}.nvs .nvs-it:nth-child(n+2){display:none}.nvs{text-align:center}.nvs .nvs-mq{width:100%;justify-content:center}}
   @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <div id="demoBar" class="demo" hidden>MODO DEMO — datos de ejemplo. Configura <b>API_URL</b> en index.html para mostrar tus pisos reales.</div>
+<a class="nvs" id="nvsLink" href="#" target="_blank" rel="noopener" aria-label="Novedades cada semana, algunas off market. Escríbeme por WhatsApp"><div class="nvs-mq" aria-hidden="true"><span class="nvs-it"><i></i>Novedades cada semana<b>·</b><em>Algunas off market</em><b>·</b>Pregúntame</span><span class="nvs-it"><i></i>Novedades cada semana<b>·</b><em>Algunas off market</em><b>·</b>Pregúntame</span><span class="nvs-it"><i></i>Novedades cada semana<b>·</b><em>Algunas off market</em><b>·</b>Pregúntame</span><span class="nvs-it"><i></i>Novedades cada semana<b>·</b><em>Algunas off market</em><b>·</b>Pregúntame</span><span class="nvs-it"><i></i>Novedades cada semana<b>·</b><em>Algunas off market</em><b>·</b>Pregúntame</span><span class="nvs-it"><i></i>Novedades cada semana<b>·</b><em>Algunas off market</em><b>·</b>Pregúntame</span><span class="nvs-it"><i></i>Novedades cada semana<b>·</b><em>Algunas off market</em><b>·</b>Pregúntame</span><span class="nvs-it"><i></i>Novedades cada semana<b>·</b><em>Algunas off market</em><b>·</b>Pregúntame</span></div></a>
 <header>
   <div class="wrap top">
     <a class="brandrow" href="https://fer-benitez.github.io/consultor/"><img class="avatar" src="fer-azul.webp" alt="Fernando Benitez, asesor inmobiliario" width="38" height="38"><span class="brand">Fernando <span>Benitez</span></span></a>
@@ -548,6 +560,7 @@
     var t = e.target && e.target.tagName;
     if((e.key==='ArrowLeft'||e.key==='ArrowRight') && t!=='INPUT' && t!=='SELECT' && t!=='TEXTAREA' && sel){ go(e.key==='ArrowRight'?1:-1); }
   });
+  try{ $('nvsLink').href = wa('Hola Fernando, quiero enterarme de las novedades de alquiler, también las off market'); }catch(e){}
   initMap(); load();
 
   /* ---- formulario de captación (Web3Forms) ---- */
