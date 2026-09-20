@@ -26,10 +26,10 @@
   function get() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
   function set(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
 
-  var css = '.ck{position:fixed;left:16px;right:16px;bottom:16px;z-index:300;max-width:520px;background:#141414;color:#f7f5f2;border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:18px 20px;font:14px/1.55 Inter,sans-serif;box-shadow:0 20px 50px -12px rgba(0,0,0,.7)}' +
+  var css = '.ck{position:fixed;left:16px;right:16px;bottom:16px;z-index:300;max-width:520px;background:#141414;color:#f7f5f2;border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:18px 20px;font:14px/1.55 'Plus Jakarta Sans',sans-serif;box-shadow:0 20px 50px -12px rgba(0,0,0,.7)}' +
     '.ck p{margin:0 0 14px;color:#cfcfcf}.ck a{color:#f7f5f2;text-decoration:underline}' +
     '.ck-row{display:flex;gap:10px;flex-wrap:wrap}' +
-    '.ck button{font:700 13px Inter,sans-serif;padding:11px 20px;border-radius:999px;cursor:pointer;border:1px solid rgba(255,255,255,.25);background:transparent;color:#f7f5f2}' +
+    '.ck button{font:700 13px 'Plus Jakarta Sans',sans-serif;padding:11px 20px;border-radius:999px;cursor:pointer;border:1px solid rgba(255,255,255,.25);background:transparent;color:#f7f5f2}' +
     '.ck button.ok{background:#e0264f;border-color:#e0264f}' +
     '@media(max-width:640px){.ck{bottom:76px}}';
 

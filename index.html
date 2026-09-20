@@ -24,20 +24,20 @@
 <meta name="twitter:image" content="https://fer-benitez.github.io/alquileres/og-alquileres.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600&family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" crossorigin>
 <style>
   :root{--black:#090909;--black-2:#141414;--black-3:#232323;--line:rgba(255,255,255,.1);--white:#f7f5f2;--muted:#a3a3a3;--red:#e0264f;--red-dim:#a01c3a;--glow:rgba(224,38,79,.4);--wa:#1fa855;--ease:cubic-bezier(.22,.68,0,1);}
   *{margin:0;padding:0;box-sizing:border-box;}
   [hidden]{display:none!important;}
-  body{background:var(--black);color:var(--white);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  body{background:var(--black);color:var(--white);font-family:'Plus Jakarta Sans',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
   a{color:inherit;text-decoration:none;}
-  h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;line-height:1.1;letter-spacing:-.01em;}
+  h1,h2,h3{font-family:'Sora',sans-serif;font-weight:700;line-height:1.12;letter-spacing:-.025em;}
   :focus-visible{outline:2px solid var(--red);outline-offset:3px;}
   .wrap{max-width:1240px;margin:0 auto;padding:0 20px;}
   header{border-bottom:1px solid var(--line);}
   .top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0;}
-  .brand{font-family:'Anton',sans-serif;text-transform:uppercase;font-size:19px;letter-spacing:.01em;}
+  .brand{font-family:'Sora',sans-serif;font-weight:700;text-transform:uppercase;font-size:16px;letter-spacing:.02em;}
   .brand span{color:var(--red);}
   .top-actions{display:flex;gap:10px;}
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 20px;border-radius:999px;font-weight:700;font-size:13.5px;border:1px solid rgba(255,255,255,.25);background:transparent;color:var(--white);cursor:pointer;font-family:inherit;transition:transform .25s var(--ease),background .25s var(--ease);}
@@ -61,7 +61,7 @@
   .card .ph{height:130px;background:var(--black-3) center/cover no-repeat;}
   .card .bd{padding:14px 15px 16px;display:flex;flex-direction:column;gap:5px;}
   .card .zona{font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--red);}
-  .card .tt{font-family:'Fraunces',serif;font-weight:600;font-size:17px;line-height:1.2;}
+  .card .tt{font-family:'Sora',sans-serif;font-weight:600;font-size:17px;line-height:1.2;}
   .card .pr{font-weight:800;font-size:18px;}
   .card .pr small{font-weight:500;color:var(--muted);font-size:12px;}
   .card .sp{font-size:13px;color:var(--muted);}
@@ -165,7 +165,7 @@
   .reel .play svg{width:28px;height:28px;margin-left:4px;fill:#fff;}
   .reel .meta{position:absolute;left:18px;right:18px;bottom:18px;display:flex;flex-direction:column;gap:6px;}
   .reel .tag{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--red);}
-  .reel .tt{font-family:'Fraunces',serif;font-weight:600;font-size:20px;line-height:1.15;}
+  .reel .tt{font-family:'Sora',sans-serif;font-weight:600;font-size:20px;line-height:1.15;}
   .reel iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff;}
   .ig-note{font-size:12.5px;color:var(--muted);margin-top:4px;}
   @media(prefers-reduced-motion:reduce){.ring,.ring>span{animation:none}}
@@ -177,7 +177,7 @@
 <div id="demoBar" class="demo" hidden>MODO DEMO — datos de ejemplo. Configura <b>API_URL</b> en index.html para mostrar tus pisos reales.</div>
 <header>
   <div class="wrap top">
-    <a class="brandrow" href="https://fer-benitez.github.io/consultor/"><img class="avatar" src="fer.webp" alt="Fernando Benitez, asesor inmobiliario" width="38" height="38"><span class="brand">Fernando <span>Benitez</span></span></a>
+    <a class="brandrow" href="https://fer-benitez.github.io/consultor/"><img class="avatar" src="fer-azul.webp" alt="Fernando Benitez, asesor inmobiliario" width="38" height="38"><span class="brand">Fernando <span>Benitez</span></span></a>
     <div class="top-actions">
       <button class="btn" id="copyAll" type="button">🔗 <span>Copiar enlace</span></button>
       <a class="btn wa" id="waTop" href="#" target="_blank" rel="noopener">WhatsApp</a>
@@ -208,7 +208,7 @@
 
   <section class="cta">
     <div class="who">
-      <img src="fer.webp" alt="Fernando Benitez" width="104" height="104" loading="lazy">
+      <img src="fer-rojo.webp" alt="Fernando Benitez" width="104" height="104" loading="lazy">
       <div>
         <h2>¿No encuentras lo que buscas? Cuéntame qué necesitas.</h2>
         <p>Soy Fernando: gestiono cada alquiler yo mismo y te contesto directamente, sin intermediarios.</p>
@@ -220,7 +220,7 @@
   <section class="ig" id="instagram" aria-labelledby="igTitle">
     <div class="ig-head">
       <div class="ig-id">
-        <div class="ring"><span><img src="fer.webp" alt="Fernando Benitez en Instagram" width="88" height="88" loading="lazy"></span></div>
+        <div class="ring"><span><img src="fer-amarillo.webp" alt="Fernando Benitez en Instagram" width="88" height="88" loading="lazy"></span></div>
         <div>
           <h2 id="igTitle">Mis últimos reels</h2>
           <a class="handle" href="https://www.instagram.com/fer_real_estate/" target="_blank" rel="noopener">@fer_real_estate</a>
