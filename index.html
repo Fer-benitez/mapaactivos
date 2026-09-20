@@ -136,6 +136,26 @@
   .avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--red);background:var(--black-2);}
   .brandrow{display:flex;align-items:center;gap:12px;}
   .cta{align-items:center;gap:28px;}
+
+  .cta-btns{display:flex;flex-wrap:wrap;gap:10px;}
+  dialog#leadDlg{margin:auto;border:1px solid var(--line);border-radius:18px;background:var(--black-2);color:var(--white);padding:0;width:min(520px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;}
+  dialog#leadDlg::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(3px);}
+  #leadForm{padding:28px 24px 22px;position:relative;}
+  #leadForm h2{font-size:24px;padding-right:32px;}
+  #leadForm .x{position:absolute;top:12px;right:14px;background:none;border:0;color:var(--muted);font-size:28px;line-height:1;cursor:pointer;}
+  .lsub{color:var(--muted);font-size:14px;margin:8px 0 18px;line-height:1.5;}
+  .lgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .lgrid[hidden]{display:none!important}
+  .lgrid .wide{grid-column:1/-1}
+  #leadForm label{display:flex;flex-direction:column;gap:5px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+  #leadForm input:not([type=checkbox]),#leadForm select{font:inherit;font-size:15px;letter-spacing:0;text-transform:none;font-weight:500;color:var(--white);background:var(--black);border:1px solid var(--line);border-radius:10px;padding:11px 12px;width:100%;color-scheme:dark;}
+  #leadForm input:focus,#leadForm select:focus{outline:2px solid var(--red);outline-offset:1px;}
+  #leadForm .chk{flex-direction:row;align-items:flex-start;gap:10px;text-transform:none;letter-spacing:0;font-weight:500;font-size:12.5px;margin:16px 0;line-height:1.45;}
+  #leadForm .chk a{color:var(--white)}
+  .lsend{width:100%;justify-content:center;padding:14px}
+  .lmsg{margin-top:12px;font-size:14px;min-height:20px}
+  .lmsg.ok{color:#4ade80}.lmsg.err{color:#ff8a8a}
+  @media(max-width:520px){.lgrid{grid-template-columns:1fr}}
   .cta .who{display:flex;align-items:center;gap:22px;flex:1 1 420px;}
   .cta .who img{width:104px;height:104px;border-radius:50%;flex:none;box-shadow:0 0 0 3px var(--red),0 18px 40px -10px var(--glow);}
   .cta .who p{color:var(--muted);margin-top:10px;line-height:1.55;font-size:14.5px;}
@@ -168,7 +188,6 @@
   .reel .tt{font-family:'Sora',sans-serif;font-weight:600;font-size:20px;line-height:1.15;}
   .reel iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff;}
   .ig-note{font-size:12.5px;color:var(--muted);margin-top:4px;}
-  @media(prefers-reduced-motion:reduce){.ring,.ring>span{animation:none}}
   @media(max-width:640px){.cta .who img{width:84px;height:84px}.ig-head{justify-content:flex-start}}
   @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -206,16 +225,53 @@
   </div>
   <div class="status" id="status"><span id="statusTxt">Cargando pisos…</span><button class="btn" id="retry" type="button" hidden>↻ Reintentar</button></div>
 
-  <section class="cta">
+  <section class="cta" id="servicios">
     <div class="who">
       <img src="fer-rojo.webp" alt="Fernando Benitez" width="104" height="104" loading="lazy">
       <div>
-        <h2>¿No encuentras lo que buscas? Cuéntame qué necesitas.</h2>
-        <p>Soy Fernando: gestiono cada alquiler yo mismo y te contesto directamente, sin intermediarios.</p>
+        <h2>¿Tienes un piso o buscas uno con prioridad?</h2>
+        <p>Soy Fernando: gestiono cada alquiler yo mismo. Cuéntame tu caso y te respondo personalmente, sin intermediarios.</p>
       </div>
     </div>
-    <a class="btn red" id="waCta" href="#" target="_blank" rel="noopener">Escribirme por WhatsApp</a>
+    <div class="cta-btns">
+      <button class="btn red" type="button" data-lead="owner">Tengo un piso para alquilar</button>
+      <button class="btn" type="button" data-lead="tenant">Busco piso y quiero prioridad</button>
+    </div>
   </section>
+
+  <dialog id="leadDlg" aria-labelledby="leadTitle">
+    <form id="leadForm" action="https://api.web3forms.com/submit" method="POST">
+      <button class="x" type="button" data-lclose aria-label="Cerrar">×</button>
+      <input type="hidden" name="access_key" value="77447d6b-9902-4e95-bde8-d14e3fed7375">
+      <input type="hidden" name="subject" id="lSubject" value="Mapa de alquileres: nuevo contacto">
+      <input type="hidden" name="from_name" value="Mapa de alquileres · Fernando Benitez">
+      <input type="hidden" name="tipo" id="lTipo" value="">
+      <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+      <h2 id="leadTitle"></h2>
+      <p class="lsub" id="leadSub"></p>
+      <div class="lgrid">
+        <label>Nombre<input name="nombre" required autocomplete="name"></label>
+        <label>Teléfono / WhatsApp<input name="telefono" type="tel" required autocomplete="tel"></label>
+        <label class="wide">Email (opcional)<input name="email" type="email" autocomplete="email"></label>
+        <div class="wide lgrid" id="fOwner">
+          <label class="wide">Dirección o barrio del piso<input name="direccion" data-o placeholder="Calle y número, o barrio"></label>
+          <label>Superficie (m²)<input name="m2" inputmode="numeric" data-o></label>
+          <label>Habitaciones<input name="habitaciones_piso" inputmode="numeric" data-o></label>
+          <label class="wide">Qué te interesa<select name="servicio" data-o><option>Valoración gratuita de alquiler</option><option>Gestión completa (inquilino, contrato y seguimiento)</option><option>Las dos cosas</option></select></label>
+        </div>
+        <div class="wide lgrid" id="fTenant" hidden>
+          <label>Zona o barrios<input name="zona" data-t placeholder="Ej. Eixample, Gràcia"></label>
+          <label>Presupuesto máx. (€/mes)<input name="presupuesto" inputmode="numeric" data-t></label>
+          <label>Habitaciones<select name="habitaciones" data-t><option>1</option><option>2</option><option>3</option><option>4 o más</option></select></label>
+          <label>Fecha de entrada<input name="entrada" type="date" data-t></label>
+          <label class="wide">Algo más (mascotas, amueblado…)<input name="notas" data-t></label>
+        </div>
+      </div>
+      <label class="chk"><input type="checkbox" name="consentimiento" value="Sí" required> <span>Acepto que Fernando Benitez use mis datos para contactarme. <a href="https://fer-benitez.github.io/consultor/privacidad.html" target="_blank" rel="noopener">Privacidad</a></span></label>
+      <button class="btn red lsend" type="submit" id="lSend">Enviar</button>
+      <p class="lmsg" id="lMsg" role="status"></p>
+    </form>
+  </dialog>
 
   <section class="ig" id="instagram" aria-labelledby="igTitle">
     <div class="ig-head">
@@ -406,7 +462,7 @@
 
   /* botones generales */
   var generic = 'Hola Fernando, vi tu mapa de pisos en alquiler y quiero información.';
-  ['waTop','waCta'].forEach(function(id){ $(id).href = wa(generic); });
+  $('waTop').href = wa(generic);
   $('copyAll').addEventListener('click',function(){ share('Mira los pisos en alquiler disponibles ahora en Barcelona:',base); });
   $('retry').addEventListener('click',load);
   ['fZona','fPrecio','fHab'].forEach(function(id){ $(id).addEventListener('change',applyFilters); });
@@ -452,6 +508,44 @@
 
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') hideDetail(); });
   initMap(); load();
+
+  /* ---- formulario de captación (Web3Forms) ---- */
+  (function(){
+    var dlg=document.getElementById('leadDlg'), f=document.getElementById('leadForm'), msg=document.getElementById('lMsg'), send=document.getElementById('lSend');
+    var T={owner:['Cuéntame sobre tu piso','Te digo cuánto puedes cobrar de alquiler y, si quieres, me encargo de todo. Sin compromiso.','Propietario'],
+           tenant:['Te aviso antes que a nadie','Dime qué buscas y te escribo cuando entre un piso que encaje, antes de que se publique.','Inquilino']};
+    function mode(m){
+      document.getElementById('leadTitle').textContent=T[m][0];
+      document.getElementById('leadSub').textContent=T[m][1];
+      document.getElementById('lTipo').value=T[m][2];
+      document.getElementById('lSubject').value='Mapa de alquileres · '+T[m][2]+': nuevo contacto';
+      var o=m==='owner';
+      document.getElementById('fOwner').hidden=!o; document.getElementById('fTenant').hidden=o;
+      f.querySelectorAll('[data-o]').forEach(function(e){e.disabled=!o;});
+      f.querySelectorAll('[data-t]').forEach(function(e){e.disabled=o;});
+      f.querySelector('[name=direccion]').required=o;
+      f.querySelector('[name=zona]').required=!o;
+      msg.textContent=''; msg.className='lmsg';
+    }
+    document.querySelectorAll('[data-lead]').forEach(function(b){b.addEventListener('click',function(){
+      mode(b.getAttribute('data-lead')); dlg.showModal();
+      if(window.fbTrack) fbTrack('open_lead_form',{tipo:b.getAttribute('data-lead')});
+    });});
+    dlg.querySelector('[data-lclose]').addEventListener('click',function(){dlg.close();});
+    dlg.addEventListener('click',function(e){ if(e.target===dlg) dlg.close(); });
+    f.addEventListener('submit',function(e){
+      e.preventDefault(); send.disabled=true; msg.className='lmsg'; msg.textContent='Enviando…';
+      var fd=new FormData(f);
+      fetch(f.action,{method:'POST',headers:{'Accept':'application/json'},body:fd})
+        .then(function(r){return r.json();})
+        .then(function(j){
+          if(j.success){ msg.className='lmsg ok'; msg.textContent='¡Recibido! Te escribo en cuanto lo revise.'; f.reset(); if(window.fbTrack) fbTrack('generate_lead',{form:'mapa_'+fd.get('tipo')}); setTimeout(function(){dlg.close();},2600); }
+          else throw 0;
+        })
+        .catch(function(){ msg.className='lmsg err'; msg.textContent='No se pudo enviar. Escríbeme por WhatsApp y lo vemos.'; })
+        .then(function(){ send.disabled=false; });
+    });
+  })();
 })();
 </script>
 <script src="site.js" defer></script>
