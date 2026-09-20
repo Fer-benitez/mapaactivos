@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pisos en alquiler disponibles en Barcelona | Fernando Benitez</title>
+<meta name="description" content="Mapa de pisos en alquiler disponibles ahora en Barcelona. Mira zona, precio y fotos, y pide visita directamente con Fernando Benitez.">
+<link rel="icon" type="image/svg+xml" href="favicon-fb.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-fb-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-fb-180.png">
+<link rel="canonical" href="https://fer-benitez.github.io/alquileres/">
+<link rel="shortcut icon" href="favicon-fb.ico">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Fernando Benitez">
+<meta property="og:url" content="https://fer-benitez.github.io/alquileres/">
+<meta property="og:image" content="https://fer-benitez.github.io/alquileres/og-alquileres.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Pisos en alquiler disponibles ahora en Barcelona — Fernando Benitez">
+<meta property="og:title" content="Pisos en alquiler disponibles en Barcelona">
+<meta property="og:description" content="Mapa con los pisos disponibles ahora. Pide visita en un clic.">
+<meta property="og:locale" content="es_ES">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://fer-benitez.github.io/alquileres/og-alquileres.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600&family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" crossorigin>
+<style>
+  :root{--black:#090909;--black-2:#141414;--black-3:#232323;--line:rgba(255,255,255,.1);--white:#f7f5f2;--muted:#a3a3a3;--red:#e0264f;--red-dim:#a01c3a;--glow:rgba(224,38,79,.4);--wa:#1fa855;--ease:cubic-bezier(.22,.68,0,1);}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--black);color:var(--white);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  a{color:inherit;text-decoration:none;}
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;line-height:1.1;letter-spacing:-.01em;}
+  :focus-visible{outline:2px solid var(--red);outline-offset:3px;}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 20px;}
+  header{border-bottom:1px solid var(--line);}
+  .top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0;}
+  .brand{font-family:'Anton',sans-serif;text-transform:uppercase;font-size:19px;letter-spacing:.01em;}
+  .brand span{color:var(--red);}
+  .top-actions{display:flex;gap:10px;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 20px;border-radius:999px;font-weight:700;font-size:13.5px;border:1px solid rgba(255,255,255,.25);background:transparent;color:var(--white);cursor:pointer;font-family:inherit;transition:transform .25s var(--ease),background .25s var(--ease);}
+  .btn:hover{transform:translateY(-1px);}
+  .btn.red{background:var(--red);border-color:var(--red);}
+  .btn.red:hover{background:#f43a63;}
+  .btn.wa{background:var(--wa);border-color:var(--wa);}
+  .hero{padding:34px 0 18px;}
+  .eyebrow{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;padding-bottom:9px;border-bottom:3px solid var(--red);margin-bottom:16px;}
+  .hero h1{font-size:clamp(28px,4.2vw,46px);max-width:760px;}
+  .hero p{color:var(--muted);margin-top:12px;max-width:620px;line-height:1.6;}
+  .count{display:inline-block;margin-left:10px;font-size:13px;font-weight:700;color:var(--red);background:rgba(224,38,79,.12);border:1px solid var(--red-dim);border-radius:999px;padding:3px 12px;vertical-align:middle;}
+  .filters{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 18px;}
+  .filters label{display:flex;flex-direction:column;gap:5px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+  .filters select{background:var(--black-2);color:var(--white);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:600 14px Inter,sans-serif;min-width:150px;}
+  .filters .clear{align-self:flex-end;}
+  .cards{display:flex;gap:14px;overflow-x:auto;padding:4px 2px 14px;scroll-snap-type:x proximity;}
+  .cards::-webkit-scrollbar{height:6px}.cards::-webkit-scrollbar-thumb{background:var(--black-3);border-radius:6px}
+  .card{display:flex;flex-direction:column;align-self:stretch;flex:0 0 250px;scroll-snap-align:start;text-align:left;background:var(--black-2);border:1px solid var(--line);border-radius:14px;overflow:hidden;color:inherit;font-family:inherit;cursor:pointer;transition:border-color .25s var(--ease),transform .25s var(--ease);}
+  .card:hover,.card.active{border-color:var(--red);transform:translateY(-3px);}
+  .card .ph{height:130px;background:var(--black-3) center/cover no-repeat;}
+  .card .bd{padding:14px 15px 16px;display:flex;flex-direction:column;gap:5px;}
+  .card .zona{font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--red);}
+  .card .tt{font-family:'Fraunces',serif;font-weight:600;font-size:17px;line-height:1.2;}
+  .card .pr{font-weight:800;font-size:18px;}
+  .card .pr small{font-weight:500;color:var(--muted);font-size:12px;}
+  .card .sp{font-size:13px;color:var(--muted);}
+  #map{height:min(64vh,620px);min-height:380px;border-radius:16px;border:1px solid var(--line);margin-top:6px;background:var(--black-2);}
+  .status{margin:12px 2px 0;font-size:13.5px;color:var(--muted);display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+  .status button{font-size:12.5px;padding:7px 14px;}
+  .pin{width:34px;height:42px;position:relative;filter:drop-shadow(0 6px 8px rgba(0,0,0,.5));transition:transform .2s var(--ease);}
+  .pin:hover,.pin.on{transform:scale(1.18);}
+  .pin svg{width:34px;height:42px;display:block;}
+  .leaflet-popup-content-wrapper{background:var(--black-2);color:var(--white);border:1px solid var(--line);border-radius:14px;padding:0;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,.6);}
+  .leaflet-popup-content{margin:0;width:270px!important;}
+  .leaflet-popup-tip{background:var(--black-2);}
+  .leaflet-container a.leaflet-popup-close-button{color:var(--white);background:rgba(0,0,0,.5);border-radius:50%;width:26px;height:26px;line-height:24px;top:8px;right:8px;font-size:18px;text-align:center;padding:0;}
+  .pp .ph{height:110px;background:var(--black-3) center/cover no-repeat;}
+  .pp .bd{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;}
+  .pp .zona{font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--red);}
+  .pp h3{font-size:18px;}
+  .pp .pr{font-weight:800;font-size:20px;}
+  .pp .pr small{font-weight:500;color:var(--muted);font-size:12px;}
+  .pp .sp{display:flex;flex-wrap:wrap;gap:6px;font-size:12.5px;color:#cfccc7;}
+  .pp .sp span{background:var(--black-3);border-radius:999px;padding:4px 10px;}
+  .pp .approx{font-size:11.5px;color:var(--muted);}
+  .pp .acts{display:grid;gap:8px;margin-top:4px;}
+  .pp .acts .btn{padding:11px 12px;font-size:13px;color:var(--white)!important;}
+  .pp .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .empty{padding:60px 20px;text-align:center;color:var(--muted);line-height:1.7;}
+  .demo{background:#3a2a00;border:1px solid #7a5b00;color:#ffd77a;padding:10px 16px;font-size:13px;text-align:center;}
+  .cta{margin:44px 0 0;padding:34px 28px;background:var(--black-2);border:1px solid var(--line);border-radius:16px;display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between;}
+  .cta h2{font-size:clamp(22px,3vw,30px);max-width:520px;}
+  footer{border-top:1px solid var(--line);margin-top:48px;padding:26px 0 40px;font-size:13px;color:var(--muted);}
+  footer .fl{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:10px;}
+  footer a:hover{color:var(--white);}
+  .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:var(--white);color:#111;padding:11px 20px;border-radius:999px;font-weight:700;font-size:13.5px;opacity:0;pointer-events:none;transition:.3s var(--ease);z-index:2000;}
+  .toast.show{opacity:1;transform:translate(-50%,0);}
+  @media(max-width:640px){.top-actions .btn span{display:none}.card{flex-basis:78%}.filters select{min-width:0;width:100%}.filters label{flex:1 1 44%}#map{height:58vh}}
+
+  /* ---- foto + instagram ---- */
+  .avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--red);background:var(--black-2);}
+  .brandrow{display:flex;align-items:center;gap:12px;}
+  .cta{align-items:center;gap:28px;}
+  .cta .who{display:flex;align-items:center;gap:22px;flex:1 1 420px;}
+  .cta .who img{width:104px;height:104px;border-radius:50%;flex:none;box-shadow:0 0 0 3px var(--red),0 18px 40px -10px var(--glow);}
+  .cta .who p{color:var(--muted);margin-top:10px;line-height:1.55;font-size:14.5px;}
+  .ig{position:relative;margin-top:64px;padding:56px 0 8px;overflow:hidden;}
+  .ig::before{content:"";position:absolute;left:50%;top:-140px;width:900px;height:520px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(224,38,79,.22),transparent);pointer-events:none;}
+  .ig-head{position:relative;display:flex;align-items:center;gap:22px;flex-wrap:wrap;justify-content:space-between;}
+  .ig-id{display:flex;align-items:center;gap:20px;}
+  .ring{width:96px;height:96px;border-radius:50%;padding:4px;background:conic-gradient(from 0deg,#e0264f,#ff8a5c,#e0264f,#a01c3a,#e0264f);animation:spin 8s linear infinite;flex:none;}
+  .ring>span{display:block;width:100%;height:100%;border-radius:50%;background:var(--black);padding:3px;animation:spin 8s linear infinite reverse;}
+  .ring img{width:100%;height:100%;border-radius:50%;display:block;}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .ig-id h2{font-size:clamp(26px,3.6vw,38px);}
+  .ig-id .handle{color:var(--red);font-weight:700;font-size:15px;margin-top:6px;display:block;}
+  .ig-id p{color:var(--muted);font-size:14.5px;margin-top:6px;}
+  .ig-btn{background:linear-gradient(135deg,#e0264f,#ff8a5c);border:0;color:#fff!important;}
+  .reels{position:relative;display:flex;gap:18px;overflow-x:auto;padding:34px 4px 26px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;}
+  .reels::-webkit-scrollbar{height:6px}.reels::-webkit-scrollbar-thumb{background:var(--black-3);border-radius:6px}
+  .reel{position:relative;flex:0 0 min(300px,78vw);aspect-ratio:9/16;scroll-snap-align:center;border-radius:22px;overflow:hidden;border:1px solid var(--line);background:var(--black-2);cursor:pointer;color:inherit;font-family:inherit;text-align:left;padding:0;transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .3s;}
+  .reel:hover{transform:translateY(-8px) rotate(-.6deg);box-shadow:0 30px 60px -20px var(--glow);border-color:var(--red);}
+  .reel:nth-child(even):hover{transform:translateY(-8px) rotate(.6deg);}
+  .reel .bg{position:absolute;inset:0;background-size:cover;background-position:center;}
+  .reel .bg.gen{background:radial-gradient(120% 70% at 20% 0%,rgba(224,38,79,.55),transparent 60%),radial-gradient(90% 60% at 100% 100%,rgba(255,138,92,.35),transparent 60%),linear-gradient(160deg,#1b1b1b,#0b0b0b);}
+  .reel .bg.gen::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.035) 0 2px,transparent 2px 18px);}
+  .reel .shade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(9,9,9,.92),transparent 55%);}
+  .reel .play{position:absolute;left:50%;top:44%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:50%;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.35);display:grid;place-items:center;transition:transform .3s var(--ease),background .3s;}
+  .reel:hover .play{transform:scale(1.12);background:var(--red);}
+  .reel .play svg{width:28px;height:28px;margin-left:4px;fill:#fff;}
+  .reel .meta{position:absolute;left:18px;right:18px;bottom:18px;display:flex;flex-direction:column;gap:6px;}
+  .reel .tag{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--red);}
+  .reel .tt{font-family:'Fraunces',serif;font-weight:600;font-size:20px;line-height:1.15;}
+  .reel iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff;}
+  .ig-note{font-size:12.5px;color:var(--muted);margin-top:4px;}
+  @media(prefers-reduced-motion:reduce){.ring,.ring>span{animation:none}}
+  @media(max-width:640px){.cta .who img{width:84px;height:84px}.ig-head{justify-content:flex-start}}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div id="demoBar" class="demo" hidden>MODO DEMO — datos de ejemplo. Configura <b>API_URL</b> en index.html para mostrar tus pisos reales.</div>
+<header>
+  <div class="wrap top">
+    <a class="brandrow" href="https://fer-benitez.github.io/consultor/"><img class="avatar" src="fer.webp" alt="Fernando Benitez, asesor inmobiliario" width="38" height="38"><span class="brand">Fernando <span>Benitez</span></span></a>
+    <div class="top-actions">
+      <button class="btn" id="copyAll" type="button">🔗 <span>Copiar enlace</span></button>
+      <a class="btn wa" id="waTop" href="#" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <span class="eyebrow">Alquiler · Barcelona</span>
+    <h1>Pisos disponibles ahora<span class="count" id="count">…</span></h1>
+    <p>Mira dónde está cada piso, su precio y sus fotos. Cuando uno te encaje, pide la visita desde su ficha: te contesto yo directamente.</p>
+  </section>
+
+  <div class="filters" id="filters" hidden>
+    <label>Zona<select id="fZona"><option value="">Todas</option></select></label>
+    <label>Precio máx.<select id="fPrecio"><option value="">Sin límite</option></select></label>
+    <label>Habitaciones<select id="fHab"><option value="">Cualquiera</option><option value="1">1 o más</option><option value="2">2 o más</option><option value="3">3 o más</option></select></label>
+    <button class="btn clear" id="fClear" type="button">Limpiar</button>
+  </div>
+
+  <div class="cards" id="cards" aria-label="Lista de pisos"></div>
+  <div id="map" role="region" aria-label="Mapa de pisos disponibles"></div>
+  <div class="status" id="status"><span id="statusTxt">Cargando pisos…</span><button class="btn" id="retry" type="button" hidden>↻ Reintentar</button></div>
+
+  <section class="cta">
+    <div class="who">
+      <img src="fer.webp" alt="Fernando Benitez" width="104" height="104" loading="lazy">
+      <div>
+        <h2>¿No encuentras lo que buscas? Cuéntame qué necesitas.</h2>
+        <p>Soy Fernando: gestiono cada alquiler yo mismo y te contesto directamente, sin intermediarios.</p>
+      </div>
+    </div>
+    <a class="btn red" id="waCta" href="#" target="_blank" rel="noopener">Escribirme por WhatsApp</a>
+  </section>
+
+  <section class="ig" id="instagram" aria-labelledby="igTitle">
+    <div class="ig-head">
+      <div class="ig-id">
+        <div class="ring"><span><img src="fer.webp" alt="Fernando Benitez en Instagram" width="88" height="88" loading="lazy"></span></div>
+        <div>
+          <h2 id="igTitle">Mis últimos reels</h2>
+          <a class="handle" href="https://www.instagram.com/fer_real_estate/" target="_blank" rel="noopener">@fer_real_estate</a>
+          <p>Pisos, zonas y consejos de alquiler en Barcelona.</p>
+        </div>
+      </div>
+      <a class="btn ig-btn" href="https://www.instagram.com/fer_real_estate/" target="_blank" rel="noopener">Seguir en Instagram</a>
+    </div>
+    <div class="reels" id="reels" aria-label="Últimos reels de Instagram"></div>
+    <p class="ig-note">Pulsa un reel para reproducirlo aquí. Al hacerlo se carga contenido de Instagram.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    © 2026 Fernando Benitez · Barcelona
+    <div class="fl">
+      <a href="https://fer-benitez.github.io/consultor/">Web de Fernando Benitez</a>
+      <a href="https://fer-benitez.github.io/consultor/privacidad.html">Privacidad</a>
+      <a href="https://fer-benitez.github.io/consultor/privacidad.html#cookies" data-cookie-settings>Cookies</a>
+    </div>
+  </div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" crossorigin></script>
+<script>
+(function(){
+  /* ====== CONFIGURACIÓN ====== */
+  var API_URL   = 'PEGA_AQUI_LA_URL_DEL_APPS_SCRIPT_/exec';   // Web App "Mapa alquileres"
+  var WA_NUMBER = '34672907381';
+  var CENTER    = [41.3874, 2.1686];                         // Barcelona
+  /* =========================== */
+
+  var DEMO = [
+    {id:'demo1',titulo:'Piso luminoso con balcón',zona:"l'Eixample",imagen:'',link:'#',lat:41.3946,lng:2.1613,precio:1350,habitaciones:2,banos:1,m2:68,disponibilidad:'Inmediata'},
+    {id:'demo2',titulo:'Ático con terraza',zona:'Gràcia',imagen:'',link:'#',lat:41.4036,lng:2.1571,precio:1800,habitaciones:3,banos:2,m2:95,disponibilidad:'1 de octubre'},
+    {id:'demo3',titulo:'Piso reformado junto al metro',zona:'Sant Martí',imagen:'',link:'#',lat:41.4102,lng:2.1990,precio:1100,habitaciones:2,banos:1,m2:60,disponibilidad:'Inmediata'}
+  ];
+
+  var $ = function(id){ return document.getElementById(id); };
+  var map, layer, markers = {}, all = [], shown = [];
+  var esc = function(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); };
+  var eur = function(n){ return n==null ? '' : n.toLocaleString('es-ES') + ' €'; };
+  var base = location.href.split('#')[0].split('?')[0];
+  var piso = function(id){ return base + '?piso=' + encodeURIComponent(id); };
+  var safeUrl = function(u){ return /^https?:\/\//i.test(u) ? u : '#'; };
+
+  function toast(msg){ var t=$('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(function(){t.classList.remove('show');},2200); }
+  function copy(text){
+    if(navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text).then(function(){toast('Enlace copiado ✓');}).catch(function(){prompt('Copia el enlace:',text);});
+    prompt('Copia el enlace:',text);
+  }
+  function share(text,url){
+    if(navigator.share){ navigator.share({title:'Pisos en alquiler — Fernando Benitez',text:text,url:url}).catch(function(){}); }
+    else copy(url);
+  }
+  function wa(text){ return 'https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(text); }
+
+  var PIN = '<div class="pin"><svg viewBox="0 0 34 42"><path d="M17 1C8.7 1 2 7.6 2 15.8 2 26.6 17 41 17 41s15-14.4 15-25.2C32 7.6 25.3 1 17 1z" fill="#090909" stroke="#e0264f" stroke-width="2"/><circle cx="17" cy="16" r="6" fill="#e0264f"/></svg></div>';
+
+  function initMap(){
+    map = L.map('map',{scrollWheelZoom:false}).setView(CENTER,12);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap &copy; CARTO'}).addTo(map);
+    layer = L.layerGroup().addTo(map);
+    map.on('click',function(){ document.querySelectorAll('.card.active').forEach(function(c){c.classList.remove('active');}); });
+  }
+
+  function popupHTML(p){
+    var msg = 'Hola Fernando, me interesa el piso "'+p.titulo+'" ('+p.zona+') que vi en tu mapa de alquileres: '+piso(p.id);
+    var sp = [];
+    if(p.habitaciones!=null) sp.push('<span>'+p.habitaciones+' hab.</span>');
+    if(p.banos!=null) sp.push('<span>'+p.banos+' baño'+(p.banos==1?'':'s')+'</span>');
+    if(p.m2!=null) sp.push('<span>'+p.m2+' m²</span>');
+    if(p.amueblado) sp.push('<span>'+esc(p.amueblado)+'</span>');
+    if(p.disponibilidad) sp.push('<span>Libre: '+esc(p.disponibilidad)+'</span>');
+    return '<div class="pp">'+
+      '<div class="ph"'+(p.imagen?' style="background-image:url(\''+esc(safeUrl(p.imagen))+'\')"':'')+' role="img" aria-label="Foto del piso en '+esc(p.zona)+'"></div>'+
+      '<div class="bd"><span class="zona">'+esc(p.zona)+'</span><h3>'+esc(p.titulo)+'</h3>'+
+      (p.precio!=null?'<div class="pr">'+eur(p.precio)+' <small>/ mes</small></div>':'')+
+      '<div class="sp">'+sp.join('')+'</div>'+
+      '<div class="approx">📍 Ubicación aproximada. La dirección exacta te la doy al concertar la visita.</div>'+
+      '<div class="acts"><a class="btn red" href="'+esc(safeUrl(p.link))+'" target="_blank" rel="noopener">Quiero visitarlo</a>'+
+      '<div class="row2"><a class="btn wa" href="'+esc(wa(msg))+'" target="_blank" rel="noopener">WhatsApp</a>'+
+      '<button class="btn" type="button" data-share="'+esc(p.id)+'">Compartir</button></div></div></div></div>';
+  }
+
+  function render(list){
+    shown = list; layer.clearLayers(); markers = {};
+    $('count').textContent = list.length + (list.length===1?' piso':' pisos');
+    var cards = $('cards'); cards.innerHTML='';
+    if(!list.length){
+      cards.innerHTML = '<div class="empty" style="width:100%">No hay pisos con esos filtros. Prueba a limpiarlos o <a style="text-decoration:underline" href="'+esc(wa('Hola Fernando, busco un piso de alquiler en Barcelona'))+'" target="_blank" rel="noopener">cuéntame qué buscas</a>.</div>';
+      return;
+    }
+    var bounds = [];
+    list.forEach(function(p){
+      var m = L.marker([p.lat,p.lng],{icon:L.divIcon({html:PIN,className:'',iconSize:[34,42],iconAnchor:[17,40],popupAnchor:[0,-36]}),title:p.titulo,alt:p.titulo}).addTo(layer);
+      m.bindPopup(popupHTML(p),{maxWidth:280,autoPanPaddingTopLeft:[20,30],autoPanPaddingBottomRight:[20,20],keepInView:true});
+      m.on('popupopen',function(){ setActive(p.id); history.replaceState(null,'',piso(p.id)); });
+      markers[p.id]=m; bounds.push([p.lat,p.lng]);
+
+      var b = document.createElement('button'); b.type='button'; b.className='card'; b.dataset.id=p.id;
+      b.innerHTML = '<div class="ph"'+(p.imagen?' style="background-image:url(\''+esc(safeUrl(p.imagen))+'\')"':'')+'></div><div class="bd"><span class="zona">'+esc(p.zona)+'</span><span class="tt">'+esc(p.titulo)+'</span>'+
+        (p.precio!=null?'<span class="pr">'+eur(p.precio)+' <small>/ mes</small></span>':'')+
+        '<span class="sp">'+[p.habitaciones!=null?p.habitaciones+' hab.':'',p.m2!=null?p.m2+' m²':''].filter(Boolean).join(' · ')+'</span></div>';
+      b.addEventListener('click',function(){ open(p.id); });
+      cards.appendChild(b);
+    });
+    if(bounds.length) map.fitBounds(bounds,{padding:[50,50],maxZoom:15});
+  }
+  function setActive(id){ document.querySelectorAll('.card').forEach(function(c){ c.classList.toggle('active', c.dataset.id===id); }); }
+  function open(id){
+    var m = markers[id]; if(!m) return;
+    $('map').scrollIntoView({behavior:'smooth',block:'center'});
+    var opened = false, go = function(){ if(opened) return; opened = true; m.openPopup(); };
+    map.once('moveend',go); setTimeout(go,1200);
+    map.flyTo(m.getLatLng(),Math.max(map.getZoom(),15),{duration:.6});
+    setActive(id);
+  }
+
+  function fillFilters(){
+    var zonas = Array.from(new Set(all.map(function(p){return p.zona;}).filter(Boolean))).sort();
+    $('fZona').innerHTML = '<option value="">Todas</option>'+zonas.map(function(z){return '<option>'+esc(z)+'</option>';}).join('');
+    var prices = all.map(function(p){return p.precio;}).filter(function(n){return n!=null;});
+    var max = prices.length ? Math.max.apply(null,prices) : 0;
+    var steps = []; for(var s=800; s<=Math.max(2500,max); s+=200) steps.push(s);
+    $('fPrecio').innerHTML = '<option value="">Sin límite</option>'+steps.map(function(s){return '<option value="'+s+'">Hasta '+eur(s)+'</option>';}).join('');
+    $('filters').hidden = all.length < 2;
+  }
+  function applyFilters(){
+    var z=$('fZona').value, pr=parseFloat($('fPrecio').value), h=parseInt($('fHab').value,10);
+    render(all.filter(function(p){
+      return (!z||p.zona===z) && (isNaN(pr)||p.precio==null||p.precio<=pr) && (isNaN(h)||(p.habitaciones||0)>=h);
+    }));
+  }
+
+  function setStatus(msg, retry){ $('statusTxt').textContent=msg; $('retry').hidden=!retry; }
+  function done(data,isDemo){
+    all = (data||[]).filter(function(p){return typeof p.lat==='number' && typeof p.lng==='number';});
+    $('demoBar').hidden = !isDemo;
+    fillFilters(); render(all);
+    setStatus(all.length ? all.length+(all.length===1?' piso ubicado':' pisos ubicados')+' · Ubicaciones aproximadas' : 'Ahora mismo no tengo pisos publicados. Escríbeme y te aviso en cuanto salga uno.', false);
+    var want = new URLSearchParams(location.search).get('piso');
+    if(want && markers[want]) setTimeout(function(){ open(want); },600);
+  }
+  function load(){
+    setStatus('Cargando pisos…',false);
+    if(API_URL.indexOf('PEGA_')===0 || new URLSearchParams(location.search).get('demo')==='1'){ done(DEMO,true); return; }
+    fetch(API_URL).then(function(r){return r.json();}).then(function(j){
+      if(!j.success) throw new Error(j.error||'error'); done(j.data,false);
+    }).catch(function(){ setStatus('No se pudieron cargar los pisos.',true); });
+  }
+
+  /* botones generales */
+  var generic = 'Hola Fernando, vi tu mapa de pisos en alquiler y quiero información.';
+  ['waTop','waCta'].forEach(function(id){ $(id).href = wa(generic); });
+  $('copyAll').addEventListener('click',function(){ share('Mira los pisos en alquiler disponibles ahora en Barcelona:',base); });
+  $('retry').addEventListener('click',load);
+  ['fZona','fPrecio','fHab'].forEach(function(id){ $(id).addEventListener('change',applyFilters); });
+  $('fClear').addEventListener('click',function(){ $('fZona').value='';$('fPrecio').value='';$('fHab').value=''; applyFilters(); });
+  document.addEventListener('click',function(e){
+    var b = e.target.closest && e.target.closest('[data-share]'); if(!b) return;
+    var p = all.filter(function(x){return x.id===b.dataset.share;})[0]; if(!p) return;
+    share('Piso en alquiler en '+p.zona+(p.precio!=null?' · '+eur(p.precio)+'/mes':''), piso(p.id));
+  });
+
+
+  /* ====== REELS DE INSTAGRAM ======
+     Pega aquí los enlaces de tus últimos reels (uno por línea, entre comillas).
+     Mientras la lista esté vacía, se muestran tarjetas que llevan a tu perfil. */
+  var IG_USER = 'fer_real_estate';
+  var REELS = [
+    // 'https://www.instagram.com/reel/XXXXXXXXXXX/',
+  ];
+  (function(){
+    var wrap = $('reels'); if(!wrap) return;
+    var PLAY = '<span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>';
+    function code(u){ var m = String(u).match(/instagram\.com\/(?:reel|reels|p)\/([A-Za-z0-9_-]+)/); return m ? m[1] : null; }
+    var list = REELS.map(code).filter(Boolean);
+    if(list.length){
+      list.forEach(function(c,i){
+        var b = document.createElement('button'); b.type='button'; b.className='reel'; b.setAttribute('aria-label','Reproducir reel '+(i+1));
+        b.innerHTML = '<div class="bg gen"></div><div class="shade"></div>'+PLAY+'<div class="meta"><span class="tag">Reel '+(i+1)+'</span><span class="tt">Toca para ver</span></div>';
+        b.addEventListener('click',function(){
+          b.innerHTML = '<iframe src="https://www.instagram.com/reel/'+c+'/embed" title="Reel de Instagram de @'+IG_USER+'" loading="lazy" allowfullscreen allow="encrypted-media"></iframe>';
+          b.style.cursor='default'; if(window.fbTrack) fbTrack('play_reel',{reel:c});
+        });
+        wrap.appendChild(b);
+      });
+    } else {
+      [['Zonas','Dónde alquilar en Barcelona'],['Pisos','Recorridos por dentro'],['Consejos','Antes de alquilar, mira esto']].forEach(function(t){
+        var a = document.createElement('a'); a.className='reel'; a.href='https://www.instagram.com/'+IG_USER+'/reels/'; a.target='_blank'; a.rel='noopener';
+        a.innerHTML = '<div class="bg gen"></div><div class="shade"></div>'+PLAY+'<div class="meta"><span class="tag">'+t[0]+'</span><span class="tt">'+t[1]+'</span></div>';
+        wrap.appendChild(a);
+      });
+    }
+  })();
+
+  initMap(); load();
+})();
+</script>
+<script src="site.js" defer></script>
+</body>
+</html>
