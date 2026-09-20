@@ -54,21 +54,25 @@
   .filters label{display:flex;flex-direction:column;gap:5px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
   .filters select{background:var(--black-2);color:var(--white);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:600 14px Inter,sans-serif;min-width:150px;}
   .filters .clear{align-self:flex-end;}
-  .cards{display:flex;gap:14px;overflow-x:auto;padding:4px 2px 14px;scroll-snap-type:x proximity;}
-  .cards::-webkit-scrollbar{height:6px}.cards::-webkit-scrollbar-thumb{background:var(--black-3);border-radius:6px}
-  .card{display:flex;flex-direction:column;align-self:stretch;flex:0 0 250px;scroll-snap-align:start;text-align:left;background:var(--black-2);border:1px solid var(--line);border-radius:14px;overflow:hidden;color:inherit;font-family:inherit;cursor:pointer;transition:border-color .25s var(--ease),transform .25s var(--ease);}
-  .card:hover,.card.active{border-color:var(--red);transform:translateY(-3px);}
+  .listbar{margin:0 0 12px;position:relative;z-index:1300}
+  .listbtn{display:inline-flex;align-items:center;gap:10px;background:var(--black-2);color:var(--white);border:1px solid var(--line);border-radius:12px;padding:10px 16px 10px 12px;font:700 14px 'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:border-color .25s var(--ease)}
+  .listbtn:hover,.listbtn[aria-expanded="true"]{border-color:var(--red)}
+  .listbtn svg{width:26px;height:26px;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .listbtn .chev{width:14px;height:14px;stroke:var(--muted);transition:transform .25s var(--ease)}
+  .listbtn[aria-expanded="true"] .chev{transform:rotate(180deg)}
+  .cards{margin:8px 0 0;background:var(--black-2);border:1px solid var(--line);border-radius:14px;overflow:hidden;max-height:min(60vh,420px);overflow-y:auto}
+  .cards[hidden]{display:none}
+  .row{display:grid;grid-template-columns:1fr auto;gap:2px 14px;align-items:center;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);color:inherit;font-family:inherit;padding:13px 16px;cursor:pointer;transition:background .2s}
+  .row:last-child{border-bottom:0}
+  .row:hover,.row.active{background:var(--black-3)}
+  .row.active{box-shadow:inset 3px 0 0 var(--red)}
+  .row .zona{grid-column:1;font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--red)}
+  .row .tt{grid-column:1;font-family:'Sora',sans-serif;font-weight:600;font-size:15px;line-height:1.25}
+  .row .pr{grid-column:2;grid-row:1 / span 2;font-weight:800;font-size:17px;white-space:nowrap;text-align:right}
+  .row .pr small{font-weight:500;color:var(--muted);font-size:12px}
+  .row .rs{display:inline-block;margin-left:8px;background:#f5b301;color:#111;font:800 9px/1 'Sora',sans-serif;letter-spacing:.12em;padding:4px 7px;border-radius:999px;vertical-align:middle}
   .ribbon{position:absolute;top:12px;left:12px;z-index:2;background:#f5b301;color:#111;font:800 11px/1 'Sora',sans-serif;letter-spacing:.14em;padding:7px 11px;border-radius:999px;box-shadow:0 6px 16px rgba(0,0,0,.4);}
-  .card .ph{position:relative;overflow:hidden}
-  .card .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
   .pin.res path{fill:#f5b301}.pin.res circle{fill:#111}
-  .card .ph{height:130px;background:var(--black-3) center/cover no-repeat;}
-  .card .bd{padding:14px 15px 16px;display:flex;flex-direction:column;gap:5px;}
-  .card .zona{font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--red);}
-  .card .tt{font-family:'Sora',sans-serif;font-weight:600;font-size:17px;line-height:1.2;}
-  .card .pr{font-weight:800;font-size:18px;}
-  .card .pr small{font-weight:500;color:var(--muted);font-size:12px;}
-  .card .sp{font-size:13px;color:var(--muted);}
   .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.82) contrast(.95) saturate(.5);}
   .leaflet-container{background:#111;}
   #map{height:min(70vh,660px);min-height:540px;border-radius:16px;border:1px solid var(--line);margin-top:6px;background:var(--black-2);}
@@ -142,7 +146,7 @@
   footer a:hover{color:var(--white);}
   .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:var(--white);color:#111;padding:11px 20px;border-radius:999px;font-weight:700;font-size:13.5px;opacity:0;pointer-events:none;transition:.3s var(--ease);z-index:2000;}
   .toast.show{opacity:1;transform:translate(-50%,0);}
-  @media(max-width:640px){.top-actions .btn span{display:none}.card{flex-basis:78%}.filters select{min-width:0;width:100%}.filters label{flex:1 1 44%}#map{height:46vh;min-height:340px}}
+  @media(max-width:640px){.top-actions .btn span{display:none}.filters select{min-width:0;width:100%}.filters label{flex:1 1 44%}#map{height:46vh;min-height:340px}}
 
   /* ---- foto + instagram ---- */
   .avatar{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--red);background:var(--black-2);}
@@ -232,7 +236,11 @@
     <button class="btn clear" id="fClear" type="button">Limpiar</button>
   </div>
 
-  <div class="cards" id="cards" aria-label="Lista de pisos"></div>
+  <div class="listbar">
+    <button class="listbtn" id="listBtn" type="button" aria-expanded="false" aria-controls="cards"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5L12 3l9 7.5"/><path d="M6.5 13h11M6.5 16.5h11M6.5 20h11"/></svg><span>Ver lista de pisos</span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button>
+    <div class="cards" id="cards" aria-label="Lista de pisos" hidden></div>
+  </div>
+  <div class="empty" id="emptyMsg" hidden></div>
   <div class="mapwrap" id="mapwrap">
     <div id="map" role="region" aria-label="Mapa de pisos disponibles"></div>
     <aside class="detail" id="detail" aria-live="polite" aria-label="Detalle del piso"></aside>
@@ -398,7 +406,7 @@
   function hideDetail(){
     unmark(); sel = null;
     $('detail').classList.remove('open'); $('mapwrap').classList.remove('has-detail');
-    document.querySelectorAll('.card.active').forEach(function(c){c.classList.remove('active');});
+    document.querySelectorAll('.row.active').forEach(function(c){c.classList.remove('active');});
   }
   function select(p){
     var m = markers[p.id]; if(!m) return;
@@ -415,9 +423,10 @@
     hideDetail(); shown = list; layer.clearLayers(); markers = {}; byId = {};
     $('navPrev').hidden = $('navNext').hidden = list.length < 2;
     $('count').textContent = list.length + (list.length===1?' piso':' pisos');
-    var cards = $('cards'); cards.innerHTML='';
+    var cards = $('cards'); cards.innerHTML=''; var em = $('emptyMsg');
+    em.hidden = !!list.length;
     if(!list.length){
-      cards.innerHTML = '<div class="empty" style="width:100%">No hay pisos con esos filtros. Prueba a limpiarlos o <a style="text-decoration:underline" href="'+esc(wa('Hola Fernando, busco un piso de alquiler en Barcelona'))+'" target="_blank" rel="noopener">cuéntame qué buscas</a>.</div>';
+      em.innerHTML = 'No hay pisos con esos filtros. Prueba a limpiarlos o <a style="text-decoration:underline" href="'+esc(wa('Hola Fernando, busco un piso de alquiler en Barcelona'))+'" target="_blank" rel="noopener">cuéntame qué buscas</a>.';
       return;
     }
     var bounds = [];
@@ -426,21 +435,15 @@
       m.on('click',function(){ open(p.id); });
       markers[p.id]=m; byId[p.id]=p; bounds.push([p.lat,p.lng]);
 
-      var b = document.createElement('button'); b.type='button'; b.className='card'; b.dataset.id=p.id;
-      b.innerHTML = '<div class="ph">'+(p.imagen?'<img src="'+esc(photo(p.imagen))+'" alt="" loading="eager" decoding="async" data-raw="'+esc(safeUrl(p.imagen))+'">':'')+(p.reservado?'<span class="ribbon">RESERVADO</span>':'')+'</div><div class="bd"><span class="zona">'+esc(p.zona)+'</span><span class="tt">'+esc(p.titulo)+'</span>'+
-        (p.precio!=null?'<span class="pr">'+eur(p.precio)+' <small>/ mes</small></span>':'')+
-        '<span class="sp">'+[p.habitaciones!=null?p.habitaciones+' hab.':'',p.m2!=null?p.m2+' m²':''].filter(Boolean).join(' · ')+'</span></div>';
-      b.addEventListener('click',function(){ open(p.id); });
-      var im = b.querySelector('.ph img');
-      if(im) im.addEventListener('error',function(){
-        if(!im.dataset.retry){ im.dataset.retry='1'; im.src = im.dataset.raw.replace(/\/upload\//,'/upload/f_jpg/'); }
-        else im.remove();
-      });
+      var b = document.createElement('button'); b.type='button'; b.className='row'; b.dataset.id=p.id;
+      b.innerHTML = '<span class="zona">'+esc(p.zona)+'</span><span class="tt">'+esc(p.titulo)+(p.reservado?'<span class="rs">RESERVADO</span>':'')+'</span>'+
+        (p.precio!=null?'<span class="pr">'+eur(p.precio)+' <small>/ mes</small></span>':'');
+      b.addEventListener('click',function(){ setList(false); open(p.id); });
       cards.appendChild(b);
     });
     if(bounds.length) map.fitBounds(bounds,{padding:[50,50],maxZoom:15});
   }
-  function setActive(id){ document.querySelectorAll('.card').forEach(function(c){ c.classList.toggle('active', c.dataset.id===id); }); }
+  function setActive(id){ document.querySelectorAll('.row').forEach(function(c){ c.classList.toggle('active', c.dataset.id===id); }); }
   function open(id, keepScroll){
     var m = markers[id], p = byId[id]; if(!m || !p) return;
     if(!keepScroll) $('mapwrap').scrollIntoView({behavior:'smooth',block: isMob() ? 'start' : 'center'});
@@ -530,17 +533,18 @@
     }
   })();
 
+  function setList(on){ $('cards').hidden = !on; $('listBtn').setAttribute('aria-expanded', on?'true':'false'); }
+  $('listBtn').addEventListener('click',function(){ setList($('cards').hidden); });
   function go(dir){
     if(!shown || shown.length<2) return;
     var i = -1; for(var k=0;k<shown.length;k++){ if(shown[k].id===sel){ i=k; break; } }
     i = i<0 ? (dir>0 ? 0 : shown.length-1) : (i+dir+shown.length)%shown.length;
     open(shown[i].id, true);
-    var c = document.querySelector('.card.active'); if(c && c.scrollIntoView) c.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
   }
   $('navPrev').addEventListener('click',function(){ go(-1); });
   $('navNext').addEventListener('click',function(){ go(1); });
   document.addEventListener('keydown',function(e){
-    if(e.key==='Escape') hideDetail();
+    if(e.key==='Escape'){ hideDetail(); setList(false); }
     var t = e.target && e.target.tagName;
     if((e.key==='ArrowLeft'||e.key==='ArrowRight') && t!=='INPUT' && t!=='SELECT' && t!=='TEXTAREA' && sel){ go(e.key==='ArrowRight'?1:-1); }
   });
