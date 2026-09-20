@@ -173,6 +173,8 @@
   .ig-btn{background:linear-gradient(135deg,#e0264f,#ff8a5c);border:0;color:#fff!important;}
   .reels{position:relative;display:flex;gap:18px;overflow-x:auto;padding:34px 4px 26px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;}
   .reels::-webkit-scrollbar{height:6px}.reels::-webkit-scrollbar-thumb{background:var(--black-3);border-radius:6px}
+  .reels.emb{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:22px;align-items:start;overflow:visible;scroll-snap-type:none;}
+  .reels.emb .embed{display:flex;justify-content:center;min-width:0}
   .reel{position:relative;flex:0 0 min(300px,78vw);aspect-ratio:9/16;scroll-snap-align:center;border-radius:22px;overflow:hidden;border:1px solid var(--line);background:var(--black-2);cursor:pointer;color:inherit;font-family:inherit;text-align:left;padding:0;transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .3s;}
   .reel:hover{transform:translateY(-8px) rotate(-.6deg);box-shadow:0 30px 60px -20px var(--glow);border-color:var(--red);}
   .reel:nth-child(even):hover{transform:translateY(-8px) rotate(.6deg);}
@@ -286,7 +288,7 @@
       <a class="btn ig-btn" href="https://www.instagram.com/fer_real_estate/" target="_blank" rel="noopener">Seguir en Instagram</a>
     </div>
     <div class="reels" id="reels" aria-label="Últimos reels de Instagram"></div>
-    <p class="ig-note">Pulsa un reel para reproducirlo aquí. Al hacerlo se carga contenido de Instagram.</p>
+    <p class="ig-note">Vídeos incrustados desde Instagram: al mostrarse, Instagram carga su propio contenido.</p>
   </section>
 </main>
 
@@ -490,15 +492,14 @@
     function code(u){ var m = String(u).match(/instagram\.com\/(?:reel|reels|p)\/([A-Za-z0-9_-]+)/); return m ? m[1] : null; }
     var list = REELS.map(code).filter(Boolean);
     if(list.length){
-      list.forEach(function(c,i){
-        var b = document.createElement('button'); b.type='button'; b.className='reel'; b.setAttribute('aria-label','Reproducir reel '+(i+1));
-        b.innerHTML = '<div class="bg gen"></div><div class="shade"></div>'+PLAY+'<div class="meta"><span class="tag">Reel '+(i+1)+'</span><span class="tt">Toca para ver</span></div>';
-        b.addEventListener('click',function(){
-          b.innerHTML = '<iframe src="https://www.instagram.com/reel/'+c+'/embed" title="Reel de Instagram de @'+IG_USER+'" loading="lazy" allowfullscreen allow="encrypted-media"></iframe>';
-          b.style.cursor='default'; if(window.fbTrack) fbTrack('play_reel',{reel:c});
-        });
-        wrap.appendChild(b);
+      wrap.classList.add('emb');
+      list.forEach(function(c){
+        var d = document.createElement('div'); d.className='embed';
+        var url = 'https://www.instagram.com/reel/'+c+'/';
+        d.innerHTML = '<blockquote class="instagram-media" data-instgrm-permalink="'+url+'" data-instgrm-version="14" data-instgrm-captioned style="background:#fff;border:0;border-radius:16px;margin:0;max-width:540px;min-width:280px;width:100%;padding:0"><a href="'+url+'" target="_blank" rel="noopener" style="color:#fff;display:block;padding:40px 16px;text-align:center;font-size:14px">Ver reel en Instagram</a></blockquote>';
+        wrap.appendChild(d);
       });
+      var sc = document.createElement('script'); sc.async = true; sc.src = 'https://www.instagram.com/embed.js'; document.body.appendChild(sc);
     } else {
       [['Zonas','Dónde alquilar en Barcelona'],['Pisos','Recorridos por dentro'],['Consejos','Antes de alquilar, mira esto']].forEach(function(t){
         var a = document.createElement('a'); a.className='reel'; a.href='https://www.instagram.com/'+IG_USER+'/reels/'; a.target='_blank'; a.rel='noopener';
