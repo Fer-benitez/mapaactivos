@@ -232,6 +232,7 @@
     ['Que no se te escape ningún piso', 'Never miss a new flat', 'Verpassen Sie keine neue Wohnung', 'Ne ratez aucun nouvel appartement'],
     ['Te aviso en cuanto sube uno nuevo. Elige cómo prefieres recibirlo.', 'I’ll let you know as soon as a new one goes up. Choose how you’d like to get it.', 'Ich informiere Sie, sobald eine neue online geht. Wählen Sie, wie Sie es erhalten möchten.', 'Je vous préviens dès qu’un nouveau est publié. Choisissez comment le recevoir.'],
     ['Por email', 'By email', 'Per E-Mail', 'Par e-mail'],
+    ['Más rápido', 'Faster', 'Schneller', 'Plus rapide'],
     ['Canal de WhatsApp', 'WhatsApp channel', 'WhatsApp-Kanal', 'Chaîne WhatsApp'],
     ['Elige tus filtros si quieres: solo te aviso de los pisos que encajen.', 'Set filters if you like: I’ll only alert you about flats that match.', 'Setzen Sie Filter, wenn Sie möchten: Ich informiere Sie nur über passende Wohnungen.', 'Choisissez vos filtres si vous voulez : je ne vous préviens que pour ce qui correspond.'],
     ['Avisarme por email', 'Alert me by email', 'Per E-Mail benachrichtigen', 'Me prévenir par e-mail'],
