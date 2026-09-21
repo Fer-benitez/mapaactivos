@@ -397,7 +397,11 @@
   }
   function acts(p){
     var msg = 'Hola Fernando, me interesa el piso "'+p.titulo+'" ('+p.zona+') que vi en tu mapa de alquileres: '+piso(p.id);
-    return '<div class="acts">'+(p.reservado?'<a class="btn" href="'+esc(wa('Hola Fernando, vi en tu mapa el piso "'+p.titulo+'" (reservado). Avísame si se libera o si tienes algo parecido.'))+'" target="_blank" rel="noopener">Reservado · avísame si se libera</a>':'<a class="btn red" href="'+esc(safeUrl(p.link))+'" target="_blank" rel="noopener">Quiero visitarlo</a>')+
+    var ok = /^https?:\/\//i.test(p.link||'');
+    var reqMsg = 'Hola Fernando, quiero visitar el piso "'+p.titulo+'" ('+p.zona+') que vi en tu mapa de alquileres: '+piso(p.id);
+    if(p.reservado) return '<div class="acts"><a class="btn" href="'+esc(wa('Hola Fernando, vi en tu mapa el piso "'+p.titulo+'" (reservado). Avísame si se libera o si tienes algo parecido.'))+'" target="_blank" rel="noopener">Reservado · avísame si se libera</a><div class="row2"><a class="btn wa" href="'+esc(wa(msg))+'" target="_blank" rel="noopener">WhatsApp</a><button class="btn" type="button" data-share="'+esc(p.id)+'">Compartir</button></div></div>';
+    if(!ok) return '<div class="acts"><a class="btn red" href="'+esc(wa(reqMsg))+'" target="_blank" rel="noopener">Quiero visitarlo · por WhatsApp</a><button class="btn" type="button" data-share="'+esc(p.id)+'">Compartir</button></div>';
+    return '<div class="acts"><a class="btn red" href="'+esc(safeUrl(p.link))+'" target="_blank" rel="noopener">Quiero visitarlo</a>'+
       '<div class="row2"><a class="btn wa" href="'+esc(wa(msg))+'" target="_blank" rel="noopener">WhatsApp</a>'+
       '<button class="btn" type="button" data-share="'+esc(p.id)+'">Compartir</button></div></div>';
   }
@@ -520,7 +524,7 @@
   var REELS = [
     'https://www.instagram.com/reel/DdapMTtNIWP/',
     'https://www.instagram.com/reel/DdhCg_MObrz/',
-    'https://www.instagram.com/reel/DbLaaMwIKQl/'
+    'https://www.instagram.com/reel/DdjEINYuy2b/'
   ];
   (function(){
     var wrap = $('reels'); if(!wrap) return;
