@@ -154,24 +154,116 @@
   .cta{align-items:center;gap:28px;}
 
   .cta-btns{display:flex;flex-wrap:wrap;gap:10px;}
-  dialog#leadDlg{margin:auto;border:1px solid var(--line);border-radius:18px;background:var(--black-2);color:var(--white);padding:0;width:min(520px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;}
-  dialog#leadDlg::backdrop{background:rgba(0,0,0,.72);backdrop-filter:blur(3px);}
-  #leadForm{padding:28px 24px 22px;position:relative;}
+  dialog#leadDlg{margin:auto;border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,#1a1a1a,#111);color:var(--white);padding:0;width:min(580px,calc(100vw - 20px));max-height:calc(100dvh - 20px);overflow:auto;box-shadow:0 40px 90px rgba(0,0,0,.7);}
+  dialog#leadDlg::backdrop{background:rgba(0,0,0,.75);backdrop-filter:blur(4px);}
+  dialog#leadDlg[open]{animation:dlgIn .35s var(--ease)}
+  @keyframes dlgIn{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+  #leadForm{padding:28px 24px 24px;position:relative;}
   #leadForm h2{font-size:24px;padding-right:32px;}
-  #leadForm .x{position:absolute;top:12px;right:14px;background:none;border:0;color:var(--muted);font-size:28px;line-height:1;cursor:pointer;}
+  #leadForm .x{position:absolute;top:12px;right:14px;background:none;border:0;color:var(--muted);font-size:28px;line-height:1;cursor:pointer;z-index:2}
   .lsub{color:var(--muted);font-size:14px;margin:8px 0 18px;line-height:1.5;}
   .lgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
   .lgrid[hidden]{display:none!important}
   .lgrid .wide{grid-column:1/-1}
-  #leadForm label{display:flex;flex-direction:column;gap:5px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
-  #leadForm input:not([type=checkbox]),#leadForm select{font:inherit;font-size:15px;letter-spacing:0;text-transform:none;font-weight:500;color:var(--white);background:var(--black);border:1px solid var(--line);border-radius:10px;padding:11px 12px;width:100%;color-scheme:dark;}
-  #leadForm input:focus,#leadForm select:focus{outline:2px solid var(--red);outline-offset:1px;}
-  #leadForm .chk{flex-direction:row;align-items:flex-start;gap:10px;text-transform:none;letter-spacing:0;font-weight:500;font-size:12.5px;margin:16px 0;line-height:1.45;}
+  #fTenant label{display:flex;flex-direction:column;gap:5px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+  #fTenant input:not([type=checkbox]),#fTenant select,.wiz input:not([type=checkbox]):not([type=radio]):not([type=range]),.wiz select,.wiz textarea{font:inherit;font-size:15px;letter-spacing:0;text-transform:none;font-weight:500;color:var(--white);background:var(--black);border:1px solid var(--line);border-radius:12px;padding:12px 13px;width:100%;color-scheme:dark;transition:border-color .2s,box-shadow .2s}
+  #fTenant input:focus,#fTenant select:focus,.wiz input:focus,.wiz select:focus,.wiz textarea:focus{outline:none;border-color:var(--red);box-shadow:0 0 0 3px rgba(224,38,79,.22)}
+  #leadForm .chk{display:flex;flex-direction:row;align-items:flex-start;gap:10px;text-transform:none;letter-spacing:0;font-weight:500;font-size:12.5px;margin:16px 0;line-height:1.45;color:var(--muted);cursor:pointer}
+  #leadForm .chk input{margin-top:2px;accent-color:var(--red);width:18px;height:18px;flex:none}
   #leadForm .chk a{color:var(--white)}
   .lsend{width:100%;justify-content:center;padding:14px}
-  .lmsg{margin-top:12px;font-size:14px;min-height:20px}
+  .lmsg{margin-top:10px;font-size:14px;min-height:0}
   .lmsg.ok{color:#4ade80}.lmsg.err{color:#ff8a8a}
   @media(max-width:520px){.lgrid{grid-template-columns:1fr}}
+
+  /* ---- asistente de 3 pasos (propietarios) ---- */
+  .ic{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+  @keyframes pop{0%{transform:scale(.6)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
+  .wsteps{display:flex;align-items:flex-start;list-style:none;padding:0;margin:4px 0 22px}
+  .wsteps li{display:flex;flex-direction:column;align-items:center;gap:7px;flex:none;width:70px;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);transition:color .3s}
+  .wsteps .dot{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--black-3);border:1px solid var(--line);transition:background .3s,border-color .3s,box-shadow .3s}
+  .wsteps li.on{color:#fff}
+  .wsteps li.on .dot{background:var(--red);border-color:rgba(255,255,255,.7);color:#fff;box-shadow:0 0 0 6px rgba(224,38,79,.2),0 10px 24px -8px var(--glow);animation:pop .45s var(--ease)}
+  .wsteps li.done{color:#8ee6ad}
+  .wsteps li.done .dot{background:#1f9d55;border-color:#1f9d55;color:#fff}
+  .wsteps li.wbar{flex:1;width:auto;height:4px;margin-top:20px;border-radius:4px;background:var(--black-3);position:relative;overflow:hidden}
+  .wbar i{position:absolute;inset:0;width:0;background:linear-gradient(90deg,#1f9d55,#4ade80);transition:width .5s var(--ease)}
+  .wbar.full i{width:100%}
+  .stp{display:none}
+  .stp.on{display:block;animation:stpIn .38s var(--ease)}
+  @keyframes stpIn{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+  .stp h3{font-size:21px;display:flex;align-items:center;gap:10px}
+  .stp h3 .ic{color:var(--red);width:26px;height:26px}
+  .stp .hint{color:var(--muted);font-size:13.5px;line-height:1.5;margin:6px 0 18px}
+  .fld{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
+  .fld>.lb,.lb{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .lb .ic{width:15px;height:15px;color:var(--red)}
+  .req{color:var(--red);margin-left:2px}
+  .opt{font-weight:600;letter-spacing:0;text-transform:none;color:#7c7c7c;margin-left:2px}
+  .inp{position:relative}
+  .inp>.ic{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--muted);pointer-events:none;transition:color .2s}
+  .inp:focus-within>.ic{color:var(--red)}
+  .wiz .inp input:not([type=checkbox]):not([type=radio]):not([type=range]),.wiz .inp select{padding-left:42px}
+  .wiz .inp .sfx{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:700;font-size:13px;pointer-events:none}
+  .wiz textarea{resize:vertical;min-height:84px;line-height:1.5}
+  .ferr{color:#ff8a8a;font-size:12.5px;min-height:0;font-weight:600}
+  .fld.bad input,.fld.bad select,.fld.bad .chips{border-color:#ff6b6b}
+  .fld.bad .inp input{box-shadow:0 0 0 3px rgba(255,107,107,.18)}
+  .fld.bad{animation:shake .35s}
+  @keyframes shake{20%{transform:translateX(-6px)}45%{transform:translateX(5px)}70%{transform:translateX(-3px)}100%{transform:none}}
+  .chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;border-radius:14px}
+  .chips.c2{grid-template-columns:1fr 1fr}
+  .chips.c3{grid-template-columns:repeat(3,1fr)}
+  .chip{position:relative;display:block}
+  .chip input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;z-index:1}
+  .chip>span{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;height:100%;padding:14px 8px;border-radius:14px;background:var(--black);border:1px solid var(--line);font-size:13px;font-weight:700;text-align:center;line-height:1.2;color:#d6d3ce;transition:border-color .2s,background .2s,transform .2s var(--ease),box-shadow .2s}
+  .chip>span .ic{width:28px;height:28px;color:var(--muted);transition:color .2s}
+  .chip:hover>span{border-color:rgba(255,255,255,.28)}
+  .chip input:checked+span{border-color:var(--red);background:rgba(224,38,79,.13);color:#fff;transform:translateY(-2px);box-shadow:0 12px 24px -12px var(--glow)}
+  .chip input:checked+span .ic{color:var(--red);animation:pop .4s var(--ease)}
+  .chip input:focus-visible+span{outline:2px solid var(--red);outline-offset:2px}
+  .chip.big>span{flex-direction:row;justify-content:flex-start;gap:12px;text-align:left;padding:14px}
+  .chip.big small{display:block;font-weight:500;color:var(--muted);font-size:12px;margin-top:2px}
+  .chip.sm>span{padding:11px 6px;font-size:12.5px}
+  .chip.sm>span .ic{width:24px;height:24px}
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+  .g2 .fld{margin-bottom:0}
+  @media(max-width:520px){.g2{grid-template-columns:1fr}.chips.c3{grid-template-columns:1fr 1fr 1fr}}
+  .stpr{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--black);border:1px solid var(--line);border-radius:14px;padding:8px 10px 8px 14px}
+  .stpr .lab{display:flex;align-items:center;gap:9px;font-weight:700;font-size:14px}
+  .stpr .lab .ic{color:var(--red);width:22px;height:22px}
+  .stpr .ctl{display:flex;align-items:center;gap:6px}
+  .stpr button{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--black-3);color:#fff;font-size:20px;line-height:1;cursor:pointer;transition:background .2s,transform .15s}
+  .stpr button:hover{background:var(--red);border-color:var(--red)}
+  .stpr button:active{transform:scale(.88)}
+  .stpr output{min-width:34px;text-align:center;font:800 19px 'Sora',sans-serif}
+  .ppl{display:flex;gap:4px;margin:10px 4px 0;flex-wrap:wrap}
+  .ppl .ic{width:26px;height:26px;color:#3a3a3a;transition:color .25s,transform .25s var(--ease)}
+  .ppl .ic.on{color:var(--red);transform:translateY(-3px)}
+  .rng{background:var(--black);border:1px solid var(--line);border-radius:14px;padding:14px 16px 12px}
+  .rng .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+  .rng .rv{font:800 24px 'Sora',sans-serif}
+  .rng .rv small{font:600 13px 'Plus Jakarta Sans',sans-serif;color:var(--muted)}
+  .rng input[type=range]{width:100%;accent-color:var(--red);height:28px;cursor:pointer}
+  .cond{margin-top:12px;padding:14px;border:1px dashed rgba(255,255,255,.18);border-radius:14px;animation:stpIn .35s var(--ease)}
+  .cond[hidden]{display:none}
+  .cond .fld:last-child{margin-bottom:0}
+  .wnav{display:flex;gap:10px;margin-top:20px}
+  .wnav .btn{flex:1;padding:14px;font-size:14.5px}
+  .wnav .btn .ic{width:18px;height:18px}
+  .wnav #wBack{flex:0 0 auto;padding-inline:18px}
+  .wnav .btn[hidden]{display:none}
+  .done{display:none;text-align:center;padding:26px 6px 8px;position:relative;overflow:hidden}
+  .done.on{display:block}
+  .done .okc{width:88px;height:88px;border-radius:50%;background:#1f9d55;display:grid;place-items:center;margin:0 auto 18px;animation:pop .55s var(--ease);box-shadow:0 0 0 10px rgba(31,157,85,.18)}
+  .done .okc .ic{width:46px;height:46px;stroke:#fff;stroke-width:2.8;stroke-dasharray:32;animation:draw .6s .25s both}
+  @keyframes draw{from{stroke-dashoffset:32}to{stroke-dashoffset:0}}
+  .done h2{font-size:26px;padding:0!important}
+  .done p{color:var(--muted);line-height:1.6;margin:10px auto 20px;max-width:420px}
+  .done .cf{position:absolute;inset:0;pointer-events:none}
+  .done .cf i{position:absolute;top:-12px;width:9px;height:14px;border-radius:2px;opacity:0;animation:fall 2.6s ease-in forwards}
+  @keyframes fall{0%{opacity:1;transform:translateY(0) rotate(0)}100%{opacity:0;transform:translateY(420px) rotate(560deg)}}
+  @media(prefers-reduced-motion:reduce){.done .cf{display:none}.stp.on,.cond,dialog#leadDlg[open]{animation:none}}
   .cta .who{display:flex;align-items:center;gap:22px;flex:1 1 420px;}
   .cta .who img{width:104px;height:104px;border-radius:50%;flex:none;box-shadow:0 0 0 3px var(--red),0 18px 40px -10px var(--glow);}
   .cta .who p{color:var(--muted);margin-top:10px;line-height:1.55;font-size:14.5px;}
@@ -280,37 +372,214 @@
     </div>
   </section>
 
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol>
+    <symbol id="i-piso" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M10 21v-4h4v4"/></symbol>
+    <symbol id="i-atico" viewBox="0 0 24 24"><path d="M4 21V10h16v11M2 10h20M7 10V6h10v4M9 21v-5h6v5"/><path d="M12 3v3"/></symbol>
+    <symbol id="i-duplex" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="8" rx="1.5"/><rect x="4" y="13" width="16" height="8" rx="1.5"/><path d="M9 7h6M9 17h6"/></symbol>
+    <symbol id="i-bed" viewBox="0 0 24 24"><path d="M2 5v15M2 9h17a3 3 0 013 3v8M2 16h20M6 9v7"/></symbol>
+    <symbol id="i-shop" viewBox="0 0 24 24"><path d="M4 9l1-5h14l1 5"/><path d="M4 9v11h16V9"/><path d="M4 9a2.7 2.7 0 005.3 0 2.7 2.7 0 005.4 0A2.7 2.7 0 0020 9"/><path d="M10 20v-5h4v5"/></symbol>
+    <symbol id="i-dots" viewBox="0 0 24 24"><circle cx="5.5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="18.5" cy="12" r="1.6"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 005 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+    <symbol id="i-ruler" viewBox="0 0 24 24"><path d="M3 17L17 3l4 4L7 21z"/><path d="M8 12l2 2M11 9l2 2M14 6l2 2"/></symbol>
+    <symbol id="i-bath" viewBox="0 0 24 24"><path d="M4 12h16v3a4 4 0 01-4 4H8a4 4 0 01-4-4v-3z"/><path d="M6 12V6a2 2 0 014 0M7 19l-1 2M17 19l1 2"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M10.8 12.2L20 3M16 7l3 3M14 9l2 2"/></symbol>
+    <symbol id="i-usercheck" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6M16 11l2 2 4-4"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+    <symbol id="i-euro" viewBox="0 0 24 24"><path d="M18 7a7 7 0 100 10M4 10h9M4 14h9"/></symbol>
+    <symbol id="i-sofa" viewBox="0 0 24 24"><path d="M4 11V8a2 2 0 012-2h12a2 2 0 012 2v3"/><path d="M2 13a2 2 0 014 0v2h12v-2a2 2 0 014 0v5H2z"/><path d="M5 18v2M19 18v2"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 16l.7 1.8L21.5 18.5l-1.8.7L19 21l-.7-1.8-1.8-.7 1.8-.7z"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></symbol>
+    <symbol id="i-people" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-5.5 7-5.5s7 2 7 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14.5c2.8 0 5 1.6 5 4.5"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a4.5 4.5 0 018-2.7A4.5 4.5 0 0120 10c0 5.8-8 11-8 11z"/></symbol>
+    <symbol id="i-cap" viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></symbol>
+    <symbol id="i-brief" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 012-2h2a2 2 0 012 2v2M3 13h18"/></symbol>
+    <symbol id="i-paw" viewBox="0 0 24 24"><circle cx="6.5" cy="11" r="1.7"/><circle cx="9.5" cy="6.5" r="1.7"/><circle cx="14.5" cy="6.5" r="1.7"/><circle cx="17.5" cy="11" r="1.7"/><path d="M8 17c0-2.5 2-4.5 4-4.5s4 2 4 4.5c0 2-1.8 2.5-4 2.5s-4-.5-4-2.5z"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></symbol>
+    <symbol id="i-next" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-prev" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></symbol>
+  </defs></svg>
+
   <dialog id="leadDlg" aria-labelledby="leadTitle">
-    <form id="leadForm" action="https://api.web3forms.com/submit" method="POST">
+    <form id="leadForm" action="https://api.web3forms.com/submit" method="POST" novalidate>
       <button class="x" type="button" data-lclose aria-label="Cerrar">×</button>
       <input type="hidden" name="access_key" value="77447d6b-9902-4e95-bde8-d14e3fed7375">
       <input type="hidden" name="subject" id="lSubject" value="Mapa de alquileres: nuevo contacto">
       <input type="hidden" name="from_name" value="Mapa de alquileres · Fernando Benitez">
       <input type="hidden" name="tipo" id="lTipo" value="">
       <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
-      <h2 id="leadTitle"></h2>
-      <p class="lsub" id="leadSub"></p>
-      <div class="lgrid">
-        <label>Nombre<input name="nombre" required autocomplete="name"></label>
-        <label>Teléfono / WhatsApp<input name="telefono" type="tel" required autocomplete="tel"></label>
-        <label class="wide">Email (opcional)<input name="email" type="email" autocomplete="email"></label>
-        <div class="wide lgrid" id="fOwner">
-          <label class="wide">Dirección o barrio del piso<input name="direccion" data-o placeholder="Calle y número, o barrio"></label>
-          <label>Superficie (m²)<input name="m2" inputmode="numeric" data-o></label>
-          <label>Habitaciones<input name="habitaciones_piso" inputmode="numeric" data-o></label>
-          <label class="wide">Qué te interesa<select name="servicio" data-o><option>Valoración gratuita de alquiler</option><option>Gestión completa (inquilino, contrato y seguimiento)</option><option>Las dos cosas</option></select></label>
-        </div>
-        <div class="wide lgrid" id="fTenant" hidden>
-          <label>Zona o barrios<input name="zona" data-t placeholder="Ej. Eixample, Gràcia"></label>
-          <label>Presupuesto máx. (€/mes)<input name="presupuesto" inputmode="numeric" data-t></label>
-          <label>Habitaciones<select name="habitaciones" data-t><option>1</option><option>2</option><option>3</option><option>4 o más</option></select></label>
-          <label>Fecha de entrada<input name="entrada" type="date" data-t></label>
-          <label class="wide">Algo más (mascotas, amueblado…)<input name="notas" data-t></label>
+      <div id="lHead">
+        <h2 id="leadTitle"></h2>
+        <p class="lsub" id="leadSub"></p>
+      </div>
+
+      <!-- ===== PROPIETARIO: asistente de 3 pasos ===== -->
+      <div class="wiz" id="fOwner">
+        <ol class="wsteps" id="wSteps" aria-label="Progreso del formulario">
+          <li class="on" data-s="1"><span class="dot" data-ico="i-user"><svg class="ic"><use href="#i-user"/></svg></span>Tú</li>
+          <li class="wbar" aria-hidden="true"><i></i></li>
+          <li data-s="2"><span class="dot" data-ico="i-home"><svg class="ic"><use href="#i-home"/></svg></span>Tu piso</li>
+          <li class="wbar" aria-hidden="true"><i></i></li>
+          <li data-s="3"><span class="dot" data-ico="i-target"><svg class="ic"><use href="#i-target"/></svg></span>Objetivo</li>
+        </ol>
+
+        <!-- PASO 1 -->
+        <section class="stp on" data-step="1">
+          <h3><svg class="ic"><use href="#i-user"/></svg>¿Con quién hablo?</h3>
+          <p class="hint">Solo tres datos y sigo yo. Te escribo por WhatsApp, sin llamadas de sorpresa.</p>
+          <div class="fld"><label class="lb" for="oNombre"><svg class="ic"><use href="#i-user"/></svg>Nombre<span class="req">*</span></label>
+            <div class="inp"><svg class="ic"><use href="#i-user"/></svg><input id="oNombre" name="nombre" data-o autocomplete="name" placeholder="Tu nombre"></div><span class="ferr"></span></div>
+          <div class="fld"><label class="lb" for="oWa"><svg class="ic"><use href="#i-phone"/></svg>WhatsApp<span class="req">*</span></label>
+            <div class="inp"><svg class="ic"><use href="#i-phone"/></svg><input id="oWa" name="whatsapp" data-o type="tel" inputmode="tel" autocomplete="tel" placeholder="+34 600 000 000"></div><span class="ferr"></span></div>
+          <div class="fld"><label class="lb" for="oEmail"><svg class="ic"><use href="#i-mail"/></svg>Email<span class="req">*</span></label>
+            <div class="inp"><svg class="ic"><use href="#i-mail"/></svg><input id="oEmail" name="email" data-o type="email" autocomplete="email" placeholder="tu@email.com"></div><span class="ferr"></span></div>
+        </section>
+
+        <!-- PASO 2 -->
+        <section class="stp" data-step="2">
+          <h3><svg class="ic"><use href="#i-home"/></svg>Cuéntame cómo es tu piso</h3>
+          <p class="hint">Lo que sepas, aunque sea aproximado. Lo afino yo después.</p>
+
+          <div class="fld"><span class="lb"><svg class="ic"><use href="#i-home"/></svg>¿Qué tipo de inmueble es?</span>
+            <div class="chips" role="radiogroup" aria-label="Tipo de inmueble">
+              <label class="chip"><input type="radio" name="tipo_inmueble" value="Piso" data-o><span><svg class="ic"><use href="#i-piso"/></svg>Piso</span></label>
+              <label class="chip"><input type="radio" name="tipo_inmueble" value="Ático" data-o><span><svg class="ic"><use href="#i-atico"/></svg>Ático</span></label>
+              <label class="chip"><input type="radio" name="tipo_inmueble" value="Dúplex" data-o><span><svg class="ic"><use href="#i-duplex"/></svg>Dúplex</span></label>
+              <label class="chip"><input type="radio" name="tipo_inmueble" value="Estudio" data-o><span><svg class="ic"><use href="#i-bed"/></svg>Estudio</span></label>
+              <label class="chip"><input type="radio" name="tipo_inmueble" value="Casa / Chalet" data-o><span><svg class="ic"><use href="#i-home"/></svg>Casa / Chalet</span></label>
+              <label class="chip"><input type="radio" name="tipo_inmueble" value="Local" data-o><span><svg class="ic"><use href="#i-shop"/></svg>Local</span></label>
+              <label class="chip"><input type="radio" name="tipo_inmueble" value="Otro" data-o><span><svg class="ic"><use href="#i-dots"/></svg>Otro</span></label>
+            </div>
+          </div>
+          <div class="fld" id="tipoOtroWrap" hidden><label class="lb" for="oTipoOtro"><svg class="ic"><use href="#i-dots"/></svg>¿Cuál?</label>
+            <div class="inp"><svg class="ic"><use href="#i-dots"/></svg><input id="oTipoOtro" name="tipo_otro" data-o placeholder="Ej. buhardilla, loft, plaza de parking…"></div></div>
+
+          <div class="fld"><label class="lb" for="oBarrio"><svg class="ic"><use href="#i-pin"/></svg>Barrio</label>
+            <div class="inp"><svg class="ic"><use href="#i-pin"/></svg><select id="oBarrio" name="barrio" data-o></select></div></div>
+          <div class="fld" id="barrioOtroWrap" hidden><label class="lb" for="oBarrioOtro"><svg class="ic"><use href="#i-pin"/></svg>¿Qué municipio o zona?</label>
+            <div class="inp"><svg class="ic"><use href="#i-pin"/></svg><input id="oBarrioOtro" name="zona_otra" data-o placeholder="Ej. Sitges, Terrassa…"></div></div>
+          <div class="fld"><label class="lb" for="oDir"><svg class="ic"><use href="#i-home"/></svg>Calle y número<span class="opt">(opcional)</span></label>
+            <div class="inp"><svg class="ic"><use href="#i-home"/></svg><input id="oDir" name="direccion" data-o autocomplete="street-address" placeholder="Solo lo veo yo. No se publica."></div></div>
+
+          <div class="fld"><span class="lb"><svg class="ic"><use href="#i-ruler"/></svg>Superficie</span>
+            <div class="rng"><div class="top"><span class="rv" id="rSupV"><small>Desliza para elegir</small></span><svg class="ic" style="color:var(--red)"><use href="#i-ruler"/></svg></div>
+              <input type="range" id="rSup" min="15" max="300" step="1" value="60" aria-label="Superficie en metros cuadrados"></div>
+            <input type="hidden" name="superficie_m2" id="oSup" data-o value=""></div>
+
+          <div class="g2">
+            <div class="stpr" data-stepper="hab" data-min="0" data-max="8"><span class="lab"><svg class="ic"><use href="#i-bed"/></svg>Habitaciones</span><span class="ctl"><button type="button" data-d="-1" aria-label="Menos habitaciones">−</button><output>2</output><button type="button" data-d="1" aria-label="Más habitaciones">+</button></span><input type="hidden" name="habitaciones" data-o value="2"></div>
+            <div class="stpr" data-stepper="ban" data-min="1" data-max="5"><span class="lab"><svg class="ic"><use href="#i-bath"/></svg>Baños</span><span class="ctl"><button type="button" data-d="-1" aria-label="Menos baños">−</button><output>1</output><button type="button" data-d="1" aria-label="Más baños">+</button></span><input type="hidden" name="banos" data-o value="1"></div>
+          </div>
+
+          <div class="fld"><span class="lb"><svg class="ic"><use href="#i-sofa"/></svg>¿Está amueblado?</span>
+            <div class="chips c3" role="radiogroup" aria-label="Amueblado">
+              <label class="chip sm"><input type="radio" name="amueblado" value="Amueblado" data-o><span><svg class="ic"><use href="#i-sofa"/></svg>Amueblado</span></label>
+              <label class="chip sm"><input type="radio" name="amueblado" value="Sin amueblar" data-o><span><svg class="ic"><use href="#i-key"/></svg>Vacío</span></label>
+              <label class="chip sm"><input type="radio" name="amueblado" value="Parcialmente" data-o><span><svg class="ic"><use href="#i-spark"/></svg>Parcial</span></label>
+            </div>
+          </div>
+
+          <div class="fld" style="margin-bottom:4px"><span class="lb"><svg class="ic"><use href="#i-people"/></svg>¿Cuántas personas pueden vivir en él?</span>
+            <div class="stpr" data-stepper="ppl" data-min="1" data-max="8"><span class="lab"><svg class="ic"><use href="#i-people"/></svg>Personas</span><span class="ctl"><button type="button" data-d="-1" aria-label="Menos personas">−</button><output>2</output><button type="button" data-d="1" aria-label="Más personas">+</button></span><input type="hidden" name="personas_max" data-o value="2"></div>
+            <div class="ppl" id="pplRow" aria-hidden="true"></div>
+          </div>
+        </section>
+
+        <!-- PASO 3 -->
+        <section class="stp" data-step="3">
+          <h3><svg class="ic"><use href="#i-target"/></svg>Situación y objetivo</h3>
+          <p class="hint">Así sé por dónde empezar y qué te conviene más.</p>
+
+          <div class="fld"><span class="lb"><svg class="ic"><use href="#i-key"/></svg>¿Cómo está ahora?</span>
+            <div class="chips c2" role="radiogroup" aria-label="Situación actual">
+              <label class="chip big"><input type="radio" name="situacion" value="Libre" data-o><span><svg class="ic"><use href="#i-key"/></svg><b>Libre<small>Sin inquilino</small></b></span></label>
+              <label class="chip big"><input type="radio" name="situacion" value="Alquilado" data-o><span><svg class="ic"><use href="#i-usercheck"/></svg><b>Alquilado<small>Con inquilino</small></b></span></label>
+            </div>
+            <div class="cond" id="sitLibre" hidden>
+              <div class="fld"><label class="lb" for="oDisp"><svg class="ic"><use href="#i-clock"/></svg>¿Cuándo podría entrar alguien?</label>
+                <div class="inp"><svg class="ic"><use href="#i-clock"/></svg><select id="oDisp" name="disponible" data-o><option value="Ya mismo">Ya mismo</option><option value="En menos de 1 mes">En menos de 1 mes</option><option value="En 1 a 3 meses">En 1 a 3 meses</option><option value="Sin fecha todavía">Sin fecha todavía</option></select></div></div>
+            </div>
+            <div class="cond" id="sitAlq" hidden>
+              <div class="g2">
+                <div class="fld"><label class="lb" for="oDesde"><svg class="ic"><use href="#i-cal"/></svg>Inquilino desde</label>
+                  <div class="inp"><svg class="ic"><use href="#i-cal"/></svg><input id="oDesde" name="inquilino_desde" data-o type="month"></div></div>
+                <div class="fld"><label class="lb" for="oRentaAct"><svg class="ic"><use href="#i-euro"/></svg>Renta que cobras</label>
+                  <div class="inp"><svg class="ic"><use href="#i-euro"/></svg><input id="oRentaAct" name="renta_actual" data-o inputmode="numeric" placeholder="Ej. 850"><span class="sfx">€/mes</span></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fld"><span class="lb"><svg class="ic"><use href="#i-target"/></svg>¿Qué buscas conmigo?</span>
+            <div class="chips c3" role="radiogroup" aria-label="Servicio">
+              <label class="chip sm"><input type="radio" name="servicio" value="Valoración gratuita de alquiler" data-o checked><span><svg class="ic"><use href="#i-target"/></svg>Valoración gratis</span></label>
+              <label class="chip sm"><input type="radio" name="servicio" value="Gestión completa (inquilino, contrato y seguimiento)" data-o><span><svg class="ic"><use href="#i-shield"/></svg>Gestión completa</span></label>
+              <label class="chip sm"><input type="radio" name="servicio" value="Las dos cosas" data-o><span><svg class="ic"><use href="#i-spark"/></svg>Las dos</span></label>
+            </div>
+          </div>
+
+          <div class="fld"><span class="lb"><svg class="ic"><use href="#i-heart"/></svg>Inquilino ideal <span class="opt">(marca los que quieras)</span></span>
+            <div class="chips" id="perfilChips">
+              <label class="chip sm"><input type="checkbox" data-perfil value="Familias"><span><svg class="ic"><use href="#i-people"/></svg>Familias</span></label>
+              <label class="chip sm"><input type="checkbox" data-perfil value="Parejas"><span><svg class="ic"><use href="#i-heart"/></svg>Parejas</span></label>
+              <label class="chip sm"><input type="checkbox" data-perfil value="Estudiantes"><span><svg class="ic"><use href="#i-cap"/></svg>Estudiantes</span></label>
+              <label class="chip sm"><input type="checkbox" data-perfil value="Profesionales"><span><svg class="ic"><use href="#i-brief"/></svg>Profesionales</span></label>
+              <label class="chip sm"><input type="checkbox" data-perfil value="Piso compartido"><span><svg class="ic"><use href="#i-sofa"/></svg>Compartir piso</span></label>
+              <label class="chip sm"><input type="checkbox" data-perfil value="Admite mascotas"><span><svg class="ic"><use href="#i-paw"/></svg>Con mascotas</span></label>
+              <label class="chip sm"><input type="checkbox" data-perfil value="Me da igual"><span><svg class="ic"><use href="#i-spark"/></svg>Me da igual</span></label>
+            </div>
+          </div>
+
+          <div class="g2">
+            <div class="fld"><label class="lb" for="oRentaDes"><svg class="ic"><use href="#i-euro"/></svg>Renta que te gustaría <span class="opt">(opcional)</span></label>
+              <div class="inp"><svg class="ic"><use href="#i-euro"/></svg><input id="oRentaDes" name="renta_deseada" data-o inputmode="numeric" placeholder="Ej. 1.000"><span class="sfx">€/mes</span></div></div>
+            <div class="fld"><label class="lb" for="oCuando"><svg class="ic"><use href="#i-clock"/></svg>¿Para cuándo?</label>
+              <div class="inp"><svg class="ic"><use href="#i-clock"/></svg><select id="oCuando" name="urgencia" data-o><option value="Cuanto antes">Cuanto antes</option><option value="En 1 o 2 meses">En 1 o 2 meses</option><option value="Sin prisa">Sin prisa, solo miro</option></select></div></div>
+          </div>
+
+          <div class="fld"><label class="lb" for="oNotas"><svg class="ic"><use href="#i-chat"/></svg>¿Algo más que deba saber? <span class="opt">(opcional)</span></label>
+            <textarea id="oNotas" name="notas" data-o rows="3" placeholder="Reformas, ascensor, terraza, comunidad, lo que quieras…"></textarea></div>
+
+          <div class="fld" style="margin-bottom:0"><label class="chk"><input type="checkbox" id="oConsent" name="consentimiento" value="Sí" data-o><span>Acepto que Fernando Benitez use mis datos para contactarme. <a href="https://fer-benitez.github.io/consultor/privacidad.html" target="_blank" rel="noopener">Privacidad</a></span></label><span class="ferr"></span></div>
+        </section>
+
+        <p class="lmsg" id="lMsg" role="status" aria-live="polite"></p>
+        <div class="wnav">
+          <button class="btn" type="button" id="wBack" hidden><svg class="ic"><use href="#i-prev"/></svg>Atrás</button>
+          <button class="btn red" type="button" id="wNext">Siguiente<svg class="ic"><use href="#i-next"/></svg></button>
+          <button class="btn red" type="submit" id="lSend" hidden><svg class="ic"><use href="#i-send"/></svg>Enviar</button>
         </div>
       </div>
-      <label class="chk"><input type="checkbox" name="consentimiento" value="Sí" required> <span>Acepto que Fernando Benitez use mis datos para contactarme. <a href="https://fer-benitez.github.io/consultor/privacidad.html" target="_blank" rel="noopener">Privacidad</a></span></label>
-      <button class="btn red lsend" type="submit" id="lSend">Enviar</button>
-      <p class="lmsg" id="lMsg" role="status"></p>
+
+      <!-- ===== INQUILINO: formulario corto ===== -->
+      <div class="lgrid" id="fTenant" hidden>
+        <label>Nombre<input id="tNombre" name="nombre" data-t autocomplete="name"></label>
+        <label>Teléfono / WhatsApp<input id="tTel" name="telefono" data-t type="tel" autocomplete="tel"></label>
+        <label class="wide">Email (opcional)<input id="tEmail" name="email" data-t type="email" autocomplete="email"></label>
+        <label>Zona o barrios<input name="zona" data-t placeholder="Ej. Eixample, Gràcia"></label>
+        <label>Presupuesto máx. (€/mes)<input name="presupuesto" data-t inputmode="numeric"></label>
+        <label>Habitaciones<select name="habitaciones" data-t><option>1</option><option>2</option><option>3</option><option>4 o más</option></select></label>
+        <label>Fecha de entrada<input name="entrada" data-t type="date"></label>
+        <label class="wide">Algo más (mascotas, amueblado…)<input name="notas" data-t></label>
+        <label class="chk wide"><input type="checkbox" name="consentimiento" value="Sí" data-t id="tConsent"> <span>Acepto que Fernando Benitez use mis datos para contactarme. <a href="https://fer-benitez.github.io/consultor/privacidad.html" target="_blank" rel="noopener">Privacidad</a></span></label>
+        <button class="btn red lsend wide" type="submit" id="lSendT">Enviar</button>
+        <p class="lmsg wide" id="lMsgT" role="status"></p>
+      </div>
+
+      <!-- ===== Gracias ===== -->
+      <div class="done" id="lDone" role="status">
+        <div class="cf" id="cf" aria-hidden="true"></div>
+        <div class="okc"><svg class="ic"><use href="#i-check"/></svg></div>
+        <h2 id="doneTitle">¡Recibido!</h2>
+        <p id="doneTxt">Te escribo en cuanto lo revise.</p>
+        <a class="btn wa" id="doneWa" href="#" target="_blank" rel="noopener">Escríbeme ya por WhatsApp</a>
+      </div>
     </form>
   </dialog>
 
@@ -593,40 +862,190 @@
 
   /* ---- formulario de captación (Web3Forms) ---- */
   (function(){
-    var dlg=document.getElementById('leadDlg'), f=document.getElementById('leadForm'), msg=document.getElementById('lMsg'), send=document.getElementById('lSend');
-    var T={owner:['Cuéntame sobre tu piso','Te digo cuánto puedes cobrar de alquiler y, si quieres, me encargo de todo. Sin compromiso.','Propietario'],
+    var $$ = function(id){ return document.getElementById(id); };
+    var dlg=$$('leadDlg'), f=$$('leadForm'), msg=$$('lMsg'), msgT=$$('lMsgT');
+    var sendO=$$('lSend'), sendT=$$('lSendT'), bNext=$$('wNext'), bBack=$$('wBack');
+    var T={owner:['Cuéntame sobre tu piso','Tres pasos rápidos, menos de dos minutos. Te respondo yo personalmente.','Propietario'],
            tenant:['Te aviso antes que a nadie','Dime qué buscas y te escribo cuando entre un piso que encaje, antes de que se publique.','Inquilino']};
+    var WA = '34672907381';
+    var BARRIOS = {
+      'Ciutat Vella':['el Raval','el Gòtic','la Barceloneta','Sant Pere, Santa Caterina i la Ribera'],
+      'Eixample':['el Fort Pienc','la Sagrada Família','la Dreta de l\'Eixample','l\'Antiga Esquerra de l\'Eixample','la Nova Esquerra de l\'Eixample','Sant Antoni'],
+      'Sants-Montjuïc':['el Poble-sec','la Marina del Prat Vermell','la Marina de Port','la Font de la Guatlla','Hostafrancs','la Bordeta','Sants-Badal','Sants'],
+      'Les Corts':['les Corts','la Maternitat i Sant Ramon','Pedralbes'],
+      'Sarrià-Sant Gervasi':['Vallvidrera, el Tibidabo i les Planes','Sarrià','les Tres Torres','Sant Gervasi-la Bonanova','Sant Gervasi-Galvany','el Putxet i el Farró'],
+      'Gràcia':['Vallcarca i els Penitents','el Coll','la Salut','la Vila de Gràcia','el Camp d\'en Grassot i Gràcia Nova'],
+      'Horta-Guinardó':['el Baix Guinardó','el Guinardó','Can Baró','el Carmel','la Font d\'en Fargues','Horta','la Clota','Montbau','Sant Genís dels Agudells','la Vall d\'Hebron'],
+      'Nou Barris':['Porta','Vilapicina i la Torre Llobeta','el Turó de la Peira','Can Peguera','la Guineueta','Canyelles','les Roquetes','Verdun','la Prosperitat','la Trinitat Nova','Torre Baró','Ciutat Meridiana','Vallbona'],
+      'Sant Andreu':['la Trinitat Vella','Baró de Viver','el Bon Pastor','Sant Andreu','la Sagrera','el Congrés i els Indians','Navas'],
+      'Sant Martí':['el Camp de l\'Arpa del Clot','el Clot','el Parc i la Llacuna del Poblenou','la Vila Olímpica del Poblenou','el Poblenou','Diagonal Mar i el Front Marítim','el Besòs i el Maresme','Provençals del Poblenou','Sant Martí de Provençals','la Verneda i la Pau'],
+      'Área metropolitana':['L\'Hospitalet de Llobregat','Badalona','Santa Coloma de Gramenet','Sant Adrià de Besòs','Cornellà de Llobregat','Esplugues de Llobregat','Sant Cugat del Vallès']
+    };
+    (function(){
+      var h='<option value="">Elige tu barrio…</option>';
+      Object.keys(BARRIOS).forEach(function(d){
+        h+='<optgroup label="'+d+'">'+BARRIOS[d].map(function(b){return '<option value="'+b+' ('+d+')">'+b+'</option>';}).join('')+'</optgroup>';
+      });
+      h+='<optgroup label="Otro"><option value="Otro municipio o zona">Otro municipio o zona…</option></optgroup>';
+      $$('oBarrio').innerHTML=h;
+    })();
+
+    /* ---- estado / pasos ---- */
+    var mode_='owner', step=1, TOTAL=3, touchedSup=false;
+    var secs=[].slice.call(f.querySelectorAll('.stp')), lis=[].slice.call($$('wSteps').querySelectorAll('li[data-s]')), bars=[].slice.call($$('wSteps').querySelectorAll('.wbar'));
+    var ico=function(id){ return '<svg class="ic"><use href="#'+id+'"/></svg>'; };
+    function setStep(n, focus){
+      step=n;
+      secs.forEach(function(s){ s.classList.toggle('on', +s.dataset.step===n); });
+      lis.forEach(function(li){
+        var s=+li.dataset.s, dot=li.querySelector('.dot');
+        li.classList.toggle('on', s===n); li.classList.toggle('done', s<n);
+        dot.innerHTML = s<n ? ico('i-check') : ico(dot.dataset.ico);
+      });
+      bars.forEach(function(b,i){ b.classList.toggle('full', n>i+1); });
+      bBack.hidden = n===1; bNext.hidden = n===TOTAL; sendO.hidden = n!==TOTAL;
+      msg.textContent=''; msg.className='lmsg';
+      dlg.scrollTop=0;
+      if(focus && window.matchMedia('(hover:hover)').matches){ var i=secs[n-1].querySelector('input:not([type=hidden]):not([type=radio]):not([type=checkbox]),select'); if(i) setTimeout(function(){i.focus({preventScroll:true});},60); }
+      if(window.fbTrack) fbTrack('lead_step',{step:n});
+    }
+
+    /* ---- validación ---- */
+    function mark(inp, ok, text){
+      var w=inp.closest('.fld'); w.classList.remove('bad'); void w.offsetWidth;
+      if(!ok) w.classList.add('bad');
+      var e=w.querySelector('.ferr'); if(e) e.textContent = ok ? '' : text;
+      return ok;
+    }
+    var okMail=function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); };
+    var okTel=function(v){ var d=v.replace(/\D/g,''); return d.length>=9 && d.length<=15; };
+    function v1(){
+      var a=mark($$('oNombre'), $$('oNombre').value.trim().length>=2, 'Dime tu nombre para saber cómo llamarte');
+      var b=mark($$('oWa'), okTel($$('oWa').value), 'Pon un WhatsApp válido (mínimo 9 cifras)');
+      var c=mark($$('oEmail'), okMail($$('oEmail').value.trim()), 'Pon un email válido, por ejemplo nombre@correo.com');
+      return a&&b&&c;
+    }
+    function v3(){ return mark($$('oConsent'), $$('oConsent').checked, 'Necesito tu OK para poder contactarte'); }
+    function firstBad(){ var b=f.querySelector('.stp.on .fld.bad input, .stp.on .fld.bad select'); if(b && b.focus) b.focus({preventScroll:false}); }
+
+    bNext.addEventListener('click',function(){
+      if(step===1 && !v1()){ msg.className='lmsg err'; msg.textContent='Faltan datos obligatorios (*)'; firstBad(); return; }
+      setStep(step+1,true);
+    });
+    bBack.addEventListener('click',function(){ setStep(step-1,false); });
+    f.addEventListener('keydown',function(e){
+      if(e.key!=='Enter' || mode_!=='owner') return;
+      var t=e.target.tagName; if(t==='TEXTAREA'||t==='BUTTON') return;
+      e.preventDefault();
+      if(step<TOTAL) bNext.click(); else f.requestSubmit(sendO);
+    });
+
+    /* ---- controles: steppers, personas, superficie, condicionales ---- */
+    var pplRow=$$('pplRow'); pplRow.innerHTML=new Array(9).join(ico('i-user'));
+    function paintPpl(n){ [].forEach.call(pplRow.children,function(s,i){ s.classList.toggle('on', i<n); }); }
+    function stepper(box, v){
+      var min=+box.dataset.min, max=+box.dataset.max; v=Math.max(min,Math.min(max,v));
+      box.querySelector('output').textContent=v; box.querySelector('input').value=v;
+      if(box.dataset.stepper==='ppl') paintPpl(v);
+    }
+    f.addEventListener('click',function(e){
+      var b=e.target.closest && e.target.closest('.stpr button'); if(!b) return;
+      var box=b.closest('.stpr'); stepper(box, (+box.querySelector('input').value)+(+b.dataset.d));
+    });
+    var rSup=$$('rSup');
+    rSup.addEventListener('input',function(){
+      touchedSup=true; $$('oSup').value=rSup.value; $$('rSupV').innerHTML=rSup.value+' <small>m²</small>';
+    });
+    f.addEventListener('change',function(e){
+      var t=e.target;
+      if(t.name==='tipo_inmueble') $$('tipoOtroWrap').hidden = t.value!=='Otro';
+      if(t.id==='oBarrio') $$('barrioOtroWrap').hidden = t.value.indexOf('Otro municipio')!==0;
+      if(t.name==='situacion'){ $$('sitLibre').hidden = t.value!=='Libre'; $$('sitAlq').hidden = t.value!=='Alquilado'; }
+      if(t.id==='oConsent' && t.checked) mark(t,true,'');
+    });
+    f.addEventListener('input',function(e){
+      var t=e.target; if(t.closest && t.closest('.fld.bad') && ['oNombre','oWa','oEmail'].indexOf(t.id)!==-1){
+        var ok = t.id==='oNombre' ? t.value.trim().length>=2 : t.id==='oWa' ? okTel(t.value) : okMail(t.value.trim());
+        if(ok) mark(t,true,'');
+      }
+    });
+
+    function resetWizard(){
+      f.reset();
+      [].forEach.call(f.querySelectorAll('.fld.bad'),function(w){ w.classList.remove('bad'); var e=w.querySelector('.ferr'); if(e) e.textContent=''; });
+      [].forEach.call(f.querySelectorAll('.stpr'),function(b){ var d={hab:2,ban:1,ppl:2}[b.dataset.stepper]; stepper(b,d); });
+      touchedSup=false; rSup.value=60; $$('oSup').value=''; $$('rSupV').innerHTML='<small>Desliza para elegir</small>';
+      ['tipoOtroWrap','barrioOtroWrap','sitLibre','sitAlq'].forEach(function(i){ $$(i).hidden=true; });
+      $$('lDone').classList.remove('on'); $$('lHead').hidden=false;
+      setStep(1,false);
+    }
+
+    /* ---- modo (propietario / inquilino) ---- */
     function mode(m){
-      document.getElementById('leadTitle').textContent=T[m][0];
-      document.getElementById('leadSub').textContent=T[m][1];
-      document.getElementById('lTipo').value=T[m][2];
-      document.getElementById('lSubject').value='Mapa de alquileres · '+T[m][2]+': nuevo contacto';
+      mode_=m;
+      $$('leadTitle').textContent=T[m][0]; $$('leadSub').textContent=T[m][1];
+      $$('lTipo').value=T[m][2];
+      $$('lSubject').value='Mapa de alquileres · '+T[m][2]+': nuevo contacto';
       var o=m==='owner';
-      document.getElementById('fOwner').hidden=!o; document.getElementById('fTenant').hidden=o;
+      $$('fOwner').hidden=!o; $$('fTenant').hidden=o;
       f.querySelectorAll('[data-o]').forEach(function(e){e.disabled=!o;});
       f.querySelectorAll('[data-t]').forEach(function(e){e.disabled=o;});
-      f.querySelector('[name=direccion]').required=o;
-      f.querySelector('[name=zona]').required=!o;
-      msg.textContent=''; msg.className='lmsg';
+      msg.textContent=''; msgT.textContent='';
     }
     document.querySelectorAll('[data-lead]').forEach(function(b){b.addEventListener('click',function(){
-      mode(b.getAttribute('data-lead')); dlg.showModal();
+      resetWizard(); mode(b.getAttribute('data-lead')); dlg.showModal();
       if(window.fbTrack) fbTrack('open_lead_form',{tipo:b.getAttribute('data-lead')});
     });});
     dlg.querySelector('[data-lclose]').addEventListener('click',function(){dlg.close();});
     dlg.addEventListener('click',function(e){ if(e.target===dlg) dlg.close(); });
+
+    /* ---- envío ---- */
+    function confetti(){
+      var c=$$('cf'); c.innerHTML=''; var cols=['#e0264f','#ff8a5c','#ffcc33','#4ade80','#7aa7ff','#fff'];
+      for(var i=0;i<34;i++){ var p=document.createElement('i'); p.style.left=(Math.random()*100)+'%'; p.style.background=cols[i%cols.length]; p.style.animationDelay=(Math.random()*.7)+'s'; p.style.transform='rotate('+Math.floor(Math.random()*180)+'deg)'; c.appendChild(p); }
+    }
+    function showDone(nombre, owner){
+      $$('lHead').hidden=true; $$('fOwner').hidden=true; $$('fTenant').hidden=true;
+      var first=(nombre||'').trim().split(/\s+/)[0];
+      $$('doneTitle').textContent = first ? '¡Recibido, '+first+'!' : '¡Recibido!';
+      $$('doneTxt').textContent = owner ? 'Reviso los datos de tu piso y te escribo por WhatsApp para contarte cuánto puedes cobrar y cómo lo haríamos.' : 'Te escribo por WhatsApp en cuanto entre un piso que encaje contigo.';
+      $$('doneWa').href='https://wa.me/'+WA+'?text='+encodeURIComponent(owner?'Hola Fernando, acabo de enviarte los datos de mi piso desde tu mapa de alquileres.':'Hola Fernando, acabo de dejarte lo que busco desde tu mapa de alquileres.');
+      $$('lDone').classList.add('on'); confetti();
+    }
     f.addEventListener('submit',function(e){
-      e.preventDefault(); send.disabled=true; msg.className='lmsg'; msg.textContent='Enviando…';
+      e.preventDefault();
+      var owner = mode_==='owner', btn = owner ? sendO : sendT, m = owner ? msg : msgT;
+      if(owner){
+        if(!v1()){ setStep(1,true); msg.className='lmsg err'; msg.textContent='Faltan datos obligatorios (*)'; firstBad(); return; }
+        if(!v3()){ return; }
+      } else {
+        if(!$$('tNombre').value.trim() || !okTel($$('tTel').value) || !$$('tConsent').checked){ m.className='lmsg err wide'; m.textContent='Rellena tu nombre, un teléfono válido y acepta la privacidad.'; return; }
+      }
+      btn.disabled=true; m.className='lmsg'+(owner?'':' wide'); m.textContent='Enviando…';
       var fd=new FormData(f);
+      if(owner){
+        var perfil=[].map.call(f.querySelectorAll('[data-perfil]:checked'),function(i){return i.value;}).join(', ');
+        if(perfil) fd.set('perfil_inquilino_ideal', perfil);
+        if(!touchedSup) fd.delete('superficie_m2');
+        var sit=fd.get('situacion');
+        if(sit!=='Libre') fd.delete('disponible');
+        if(sit!=='Alquilado'){ fd.delete('inquilino_desde'); fd.delete('renta_actual'); }
+        if(fd.get('tipo_inmueble')!=='Otro') fd.delete('tipo_otro');
+        if((fd.get('barrio')||'').indexOf('Otro municipio')!==0) fd.delete('zona_otra');
+        Array.from(fd.keys()).forEach(function(k){ if(fd.get(k)==='') fd.delete(k); });
+      }
       fetch(f.action,{method:'POST',headers:{'Accept':'application/json'},body:fd})
         .then(function(r){return r.json();})
         .then(function(j){
-          if(j.success){ msg.className='lmsg ok'; msg.textContent='¡Recibido! Te escribo en cuanto lo revise.'; f.reset(); if(window.fbTrack) fbTrack('generate_lead',{form:'mapa_'+fd.get('tipo')}); setTimeout(function(){dlg.close();},2600); }
-          else throw 0;
+          if(j.success){
+            if(window.fbTrack) fbTrack('generate_lead',{form:'mapa_'+fd.get('tipo')});
+            showDone(fd.get('nombre'), owner);
+          } else throw 0;
         })
-        .catch(function(){ msg.className='lmsg err'; msg.textContent='No se pudo enviar. Escríbeme por WhatsApp y lo vemos.'; })
-        .then(function(){ send.disabled=false; });
+        .catch(function(){ m.className='lmsg err'+(owner?'':' wide'); m.textContent='No se pudo enviar. Escríbeme por WhatsApp y lo vemos.'; })
+        .then(function(){ btn.disabled=false; });
     });
+    resetWizard(); mode('owner');
   })();
 })();
 </script>
