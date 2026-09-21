@@ -179,8 +179,8 @@
   .ig::before{content:"";position:absolute;left:50%;top:-140px;width:900px;height:520px;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(224,38,79,.22),transparent);pointer-events:none;}
   .ig-head{position:relative;display:flex;align-items:center;gap:22px;flex-wrap:wrap;justify-content:space-between;}
   .ig-id{display:flex;align-items:center;gap:20px;}
-  .ring{width:96px;height:96px;border-radius:50%;padding:4px;background:conic-gradient(from 0deg,#e0264f,#ff8a5c,#e0264f,#a01c3a,#e0264f);animation:spin 8s linear infinite;flex:none;}
-  .ring>span{display:block;width:100%;height:100%;border-radius:50%;background:var(--black);padding:3px;animation:spin 8s linear infinite reverse;}
+  .ring{width:96px;height:96px;border-radius:50%;padding:4px;background:conic-gradient(from 0deg,#e0264f 0%,#ffcc33 18%,rgba(224,38,79,.12) 38%,rgba(224,38,79,.12) 55%,#ff8a5c 75%,#e0264f 100%);animation:spin 3.2s linear infinite;flex:none;}
+  .ring>span{display:block;width:100%;height:100%;border-radius:50%;background:var(--black);padding:3px;animation:spin 3.2s linear infinite reverse;}
   .ring img{width:100%;height:100%;border-radius:50%;display:block;}
   @keyframes spin{to{transform:rotate(360deg)}}
   .ig-id h2{font-size:clamp(26px,3.6vw,38px);}
@@ -205,6 +205,11 @@
   .reel .tag{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--red);}
   .reel .tt{font-family:'Sora',sans-serif;font-weight:600;font-size:20px;line-height:1.15;}
   .reel iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff;}
+  .reels.emb .embed.vid{flex-direction:column;align-items:stretch;gap:12px;max-width:380px;margin:0 auto;width:100%}
+  .reels.emb .embed.vid video{width:100%;height:auto;max-height:78vh;display:block;background:#000;border-radius:18px;border:1px solid var(--line);object-fit:contain}
+  .vlink{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:11px 16px;border-radius:999px;font-weight:700;font-size:13.5px;color:#fff;background:linear-gradient(135deg,#e0264f,#ff8a5c);transition:transform .25s var(--ease)}
+  .vlink:hover{transform:translateY(-1px)}
+  .vlink svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2}
   .ig-note{font-size:12.5px;color:var(--muted);margin-top:4px;}
   @media(max-width:640px){.cta .who img{width:84px;height:84px}.ig-head{justify-content:flex-start}}
   .nvs{display:block;position:relative;overflow:hidden;background:linear-gradient(90deg,#b3163a,var(--red) 30%,#ff4a73 50%,var(--red) 70%,#b3163a);color:#fff;text-decoration:none;box-shadow:0 6px 24px var(--glow);z-index:20}
@@ -522,36 +527,43 @@
      Mientras la lista esté vacía, se muestran tarjetas que llevan a tu perfil. */
   var IG_USER = 'fer_real_estate';
   var REELS = [
-    'https://www.instagram.com/reel/DdapMTtNIWP/',
-    'https://www.instagram.com/reel/DdhCg_MObrz/',
-    { video: 'reel3.mp4', url: 'https://www.instagram.com/reel/DdjEINYuy2b/' }   /* si subes reel3.mp4 junto al index se reproduce aquí mismo; si no existe, se usa el embed de Instagram */
+    { video: 'reel1.mp4', poster: 'reel1.jpg', url: 'https://www.instagram.com/fer_real_estate/reels/' },
+    { video: 'reel2.mp4', poster: 'reel2.jpg', url: 'https://www.instagram.com/fer_real_estate/reels/' },
+    { video: 'reel3.mp4', poster: 'reel3.jpg', url: 'https://www.instagram.com/reel/DdjEINYuy2b/' }
   ];
   (function(){
     var wrap = $('reels'); if(!wrap) return;
     var PLAY = '<span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>';
     function code(u){ var m = String(u).match(/instagram\.com\/(?:reel|reels|p)\/([A-Za-z0-9_-]+)/); return m ? m[1] : null; }
-    var list = REELS.map(function(r){ var u = typeof r==='string' ? r : r.url; var c = code(u); return c ? {c:c, video:(typeof r==='object'?r.video:null)} : null; }).filter(Boolean);
     function igEmbed(c){
       var url = 'https://www.instagram.com/reel/'+c+'/';
       return '<blockquote class="instagram-media" data-instgrm-permalink="'+url+'" data-instgrm-version="14" data-instgrm-captioned style="background:#fff;border:0;border-radius:16px;margin:0;max-width:540px;min-width:280px;width:100%;padding:0"><a href="'+url+'" target="_blank" rel="noopener" style="color:#fff;display:block;padding:40px 16px;text-align:center;font-size:14px">Ver reel en Instagram</a></blockquote>';
     }
+    var list = REELS.map(function(r){ return typeof r==='string' ? {url:r} : r; }).filter(function(r){ return r && (r.video || code(r.url)); });
     if(list.length){
       wrap.classList.add('emb');
+      var needEmbed = false;
       list.forEach(function(it){
         var d = document.createElement('div'); d.className='embed';
+        var c = code(it.url);
         if(it.video){
+          d.className = 'embed vid';
           var v = document.createElement('video');
-          v.src = it.video; v.controls = true; v.playsInline = true; v.preload = 'metadata'; v.setAttribute('playsinline','');
-          v.style.cssText = 'width:100%;max-width:540px;aspect-ratio:9/16;object-fit:cover;background:#000;border-radius:16px;border:1px solid var(--line)';
+          v.src = it.video; if(it.poster) v.poster = it.poster;
+          v.controls = true; v.playsInline = true; v.preload = 'metadata'; v.setAttribute('playsinline','');
           v.addEventListener('error',function(){
-            d.innerHTML = igEmbed(it.c);
-            if(window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
+            if(c){ d.className='embed'; d.innerHTML = igEmbed(c); if(window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process(); else needEmbedLoad(); }
+            else d.remove();
           });
           d.appendChild(v);
-        } else d.innerHTML = igEmbed(it.c);
+          var a = document.createElement('a'); a.className='vlink'; a.href = it.url; a.target='_blank'; a.rel='noopener';
+          a.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor" stroke="none"/></svg>Ver en Instagram';
+          d.appendChild(a);
+        } else { d.innerHTML = igEmbed(c); needEmbed = true; }
         wrap.appendChild(d);
       });
-      var sc = document.createElement('script'); sc.async = true; sc.src = 'https://www.instagram.com/embed.js'; document.body.appendChild(sc);
+      function needEmbedLoad(){ if(document.getElementById('igjs')) return; var sc = document.createElement('script'); sc.id='igjs'; sc.async = true; sc.src = 'https://www.instagram.com/embed.js'; document.body.appendChild(sc); }
+      if(needEmbed) needEmbedLoad();
     } else {
       [['Zonas','Dónde alquilar en Barcelona'],['Pisos','Recorridos por dentro'],['Consejos','Antes de alquilar, mira esto']].forEach(function(t){
         var a = document.createElement('a'); a.className='reel'; a.href='https://www.instagram.com/'+IG_USER+'/reels/'; a.target='_blank'; a.rel='noopener';
