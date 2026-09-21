@@ -33,12 +33,21 @@
     '.ck button.ok{background:#e0264f;border-color:#e0264f}' +
     '@media(max-width:640px){.ck{bottom:76px}}';
 
+  function T(s) { return window.fbT ? window.fbT(s) : s; }
+  function paintBanner(d) {
+    d.setAttribute('aria-label', T('Aviso de cookies'));
+    d.querySelector('p').innerHTML = T('Uso cookies analíticas (Google Analytics) para entender qué partes de la web funcionan y mejorarla. Solo se activan si las aceptas. Más info en la <a href="privacidad.html#cookies">Política de Privacidad</a>.');
+    d.querySelector('.ok').textContent = T('Aceptar');
+    d.querySelector('.no').textContent = T('Rechazar');
+  }
+  document.addEventListener('fblang', function () { var d = document.querySelector('.ck'); if (d) paintBanner(d); });
+
   function banner() {
     var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
     var d = document.createElement('div');
-    d.className = 'ck'; d.setAttribute('role', 'dialog'); d.setAttribute('aria-label', 'Aviso de cookies');
-    d.innerHTML = '<p>Uso cookies analíticas (Google Analytics) para entender qué partes de la web funcionan y mejorarla. Solo se activan si las aceptas. Más info en la <a href="privacidad.html#cookies">Política de Privacidad</a>.</p>' +
-      '<div class="ck-row"><button type="button" class="ok">Aceptar</button><button type="button" class="no">Rechazar</button></div>';
+    d.className = 'ck'; d.setAttribute('role', 'dialog');
+    d.innerHTML = '<p></p><div class="ck-row"><button type="button" class="ok"></button><button type="button" class="no"></button></div>';
+    paintBanner(d);
     d.querySelector('.ok').onclick = function () { set('granted'); grant(); d.remove(); };
     d.querySelector('.no').onclick = function () { set('denied'); d.remove(); };
     document.body.appendChild(d);

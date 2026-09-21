@@ -40,6 +40,13 @@
   .brand{font-family:'Sora',sans-serif;font-weight:700;text-transform:uppercase;font-size:16px;letter-spacing:.02em;}
   .brand span{color:var(--red);}
   .top-actions{display:flex;gap:10px;}
+  .lang{display:flex;gap:9px;align-items:center}
+  .lang button{width:34px;height:34px;padding:0;border-radius:50%;overflow:hidden;cursor:pointer;background:none;border:2px solid rgba(255,255,255,.28);box-shadow:0 2px 8px rgba(0,0,0,.5),inset 0 0 0 1px rgba(0,0,0,.35);opacity:.78;filter:saturate(.85);transition:transform .25s var(--ease),opacity .2s,filter .2s,border-color .2s,box-shadow .25s;display:grid;place-items:center}
+  .lang button svg{width:100%;height:100%;display:block}
+  .lang button:hover{opacity:1;filter:none;transform:translateY(-2px) scale(1.06)}
+  .lang button[aria-pressed=true]{opacity:1;filter:none;border-color:var(--red);box-shadow:0 0 0 3px rgba(224,38,79,.28),0 6px 16px -4px var(--glow);transform:scale(1.08)}
+  .lang button:focus-visible{outline:2px solid #fff;outline-offset:3px}
+  @media(max-width:640px){.top{flex-wrap:wrap;row-gap:10px}.brandrow{min-width:0;gap:9px}.brandrow .brand{font-size:14px}.brandrow .avatar{width:34px;height:34px}.top-actions{flex:none;gap:6px}.top-actions .btn{padding:10px 14px}.brandrow .brand{font-size:13px}.top{gap:8px}.lang{order:3;width:100%;justify-content:center;gap:12px;padding:2px 0 0}.lang button{width:38px;height:38px}}
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 20px;border-radius:999px;font-weight:700;font-size:13.5px;border:1px solid rgba(255,255,255,.25);background:transparent;color:var(--white);cursor:pointer;font-family:inherit;transition:transform .25s var(--ease),background .25s var(--ease);}
   .btn:hover{transform:translateY(-1px);}
   .btn.red{background:var(--red);border-color:var(--red);}
@@ -282,8 +289,8 @@
   .price{margin-top:12px;border:1px solid var(--line);border-radius:16px;background:var(--black);padding:16px}
   .pr-top{display:flex;align-items:center;gap:12px;font-size:15px}
   .pr-top>.ic{width:34px;height:34px;color:var(--red);flex:none}
-  .pr-top b{font:800 30px 'Sora',sans-serif;color:#fff}
-  .pr-top span{color:var(--muted);font-size:13px}
+  .pr-top b{font:800 19px 'Sora',sans-serif;color:#fff;display:block}
+  .pr-top span{color:var(--muted);font-size:13px;display:block;margin-top:2px}
   .pr-list{list-style:none;margin:14px 0;padding:0;display:grid;gap:11px}
   .pr-list li{display:flex;gap:10px;font-size:13px;line-height:1.5;color:#cfcac3}
   .pr-list .ic{width:20px;height:20px;color:var(--red);margin-top:1px}
@@ -357,6 +364,7 @@
 <header>
   <div class="wrap top">
     <a class="brandrow" href="https://fer-benitez.github.io/consultor/"><img class="avatar" src="fer-azul.webp" alt="Fernando Benitez, asesor inmobiliario" width="38" height="38"><span class="brand">Fernando <span>Benitez</span></span></a>
+    <nav class="lang" id="lang" aria-label="Idioma / Language / Sprache / Langue"><button type="button" data-lang="es" aria-label="Español" title="Español" aria-pressed="true"><svg viewBox="0 0 32 32" aria-hidden="true" preserveAspectRatio="xMidYMid slice"><rect width="32" height="32" fill="#c60b1e"/><rect y="8" width="32" height="16" fill="#ffc400"/></svg></button><button type="button" data-lang="en" aria-label="English" title="English" aria-pressed="false"><svg viewBox="0 0 32 32" aria-hidden="true" preserveAspectRatio="xMidYMid slice"><rect width="32" height="32" fill="#012169"/><path d="M0 0L32 32M32 0L0 32" stroke="#fff" stroke-width="6"/><path d="M0 0L32 32M32 0L0 32" stroke="#c8102e" stroke-width="2"/><path d="M16 0V32M0 16H32" stroke="#fff" stroke-width="10"/><path d="M16 0V32M0 16H32" stroke="#c8102e" stroke-width="6"/></svg></button><button type="button" data-lang="de" aria-label="Deutsch" title="Deutsch" aria-pressed="false"><svg viewBox="0 0 32 32" aria-hidden="true" preserveAspectRatio="xMidYMid slice"><rect width="32" height="11" fill="#000"/><rect y="10.6" width="32" height="10.9" fill="#dd0000"/><rect y="21.3" width="32" height="10.7" fill="#ffce00"/></svg></button><button type="button" data-lang="fr" aria-label="Français" title="Français" aria-pressed="false"><svg viewBox="0 0 32 32" aria-hidden="true" preserveAspectRatio="xMidYMid slice"><rect width="11" height="32" fill="#0055a4"/><rect x="10.6" width="10.9" height="32" fill="#fff"/><rect x="21.3" width="10.7" height="32" fill="#ef4135"/></svg></button></nav>
     <div class="top-actions">
       <button class="btn" id="copyAll" type="button">🔗 <span>Copiar enlace</span></button>
       <a class="btn wa" id="waTop" href="#" target="_blank" rel="noopener">WhatsApp</a>
@@ -630,9 +638,9 @@
           <div class="price">
             <div class="pr-top"><svg class="ic"><use href="#i-bolt"/></svg><div><b>Servicio personalizado</b><span>Sin precios cerrados: primero hablamos</span></div></div>
             <ul class="pr-list">
-              <li><svg class="ic"><use href="#i-doc"/></svg><span>Antes de empezar hago un <b>estudio de tu situación financiera</b> (solvencia) para saber qué tipo de piso puedes conseguir y cómo prepararte.</span></li>
-              <li><svg class="ic"><use href="#i-search"/></svg><span>Busco, filtro, visito contigo y negocio, incluidos pisos que <b>no llegan a publicarse</b>.</span></li>
-              <li><svg class="ic"><use href="#i-shield"/></svg><span>Es un servicio adicional a la lista de espera, con condiciones propias. Te las explico <b>por escrito antes de empezar</b>, sin compromiso hasta que las aceptes.</span></li>
+              <li><svg class="ic"><use href="#i-doc"/></svg><span data-h="h1">Antes de empezar hago un <b>estudio de tu situación financiera</b> (solvencia) para saber qué tipo de piso puedes conseguir y cómo prepararte.</span></li>
+              <li><svg class="ic"><use href="#i-search"/></svg><span data-h="h2">Busco, filtro, visito contigo y negocio, incluidos pisos que <b>no llegan a publicarse</b>.</span></li>
+              <li><svg class="ic"><use href="#i-shield"/></svg><span data-h="h3">Es un servicio adicional a la lista de espera, con condiciones propias. Te las explico <b>por escrito antes de empezar</b>, sin compromiso hasta que las aceptes.</span></li>
             </ul>
           </div>
 
@@ -740,6 +748,7 @@
 </footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<script src="i18n.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" crossorigin></script>
 <script>
 (function(){
@@ -758,7 +767,9 @@
   var $ = function(id){ return document.getElementById(id); };
   var map, layer, markers = {}, all = [], shown = [];
   var esc = function(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); };
-  var eur = function(n){ return n==null ? '' : n.toLocaleString('es-ES') + ' €'; };
+  var tr = window.fbT || function(s,p){ return p ? s.replace(/\{(\w+)\}/g,function(m,k){return p[k]!=null?p[k]:m;}) : s; };
+  var loc = function(){ return window.fbI18n ? fbI18n.locale() : 'es-ES'; };
+  var eur = function(n){ return n==null ? '' : n.toLocaleString(loc()) + ' €'; };
   var base = location.href.split('#')[0].split('?')[0];
   var piso = function(id){ return base + '?piso=' + encodeURIComponent(id); };
   var safeUrl = function(u){ return /^https?:\/\//i.test(u) ? u : '#'; };
@@ -766,11 +777,11 @@
 
   function toast(msg){ var t=$('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(function(){t.classList.remove('show');},2200); }
   function copy(text){
-    if(navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text).then(function(){toast('Enlace copiado ✓');}).catch(function(){prompt('Copia el enlace:',text);});
-    prompt('Copia el enlace:',text);
+    if(navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text).then(function(){toast(tr('Enlace copiado ✓'));}).catch(function(){prompt(tr('Copia el enlace:'),text);});
+    prompt(tr('Copia el enlace:'),text);
   }
   function share(text,url){
-    if(navigator.share){ navigator.share({title:'Pisos en alquiler — Fernando Benitez',text:text,url:url}).catch(function(){}); }
+    if(navigator.share){ navigator.share({title:tr('Pisos en alquiler — Fernando Benitez'),text:text,url:url}).catch(function(){}); }
     else copy(url);
   }
   function wa(text){ return 'https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(text); }
@@ -790,31 +801,32 @@
   var isMob = function(){ return window.matchMedia('(max-width:640px)').matches; };
   function extras(p){
     var sp = [];
-    if(p.habitaciones!=null) sp.push('<span>'+p.habitaciones+' hab.</span>');
-    if(p.banos!=null) sp.push('<span>'+p.banos+' baño'+(p.banos==1?'':'s')+'</span>');
+    if(p.habitaciones!=null) sp.push('<span>'+p.habitaciones+' '+tr('hab.')+'</span>');
+    if(p.banos!=null) sp.push('<span>'+p.banos+' '+(p.banos==1?tr('baño'):tr('baños'))+'</span>');
     if(p.m2!=null) sp.push('<span>'+p.m2+' m²</span>');
-    if(p.amueblado) sp.push('<span>'+esc(p.amueblado)+'</span>');
-    if(p.disponibilidad) sp.push('<span>Libre: '+esc(p.disponibilidad)+'</span>');
+    if(p.amueblado) sp.push('<span>'+esc(tr(p.amueblado))+'</span>');
+    if(p.disponibilidad) sp.push('<span>'+tr('Libre:')+' '+esc(tr(p.disponibilidad))+'</span>');
     return sp.join('');
   }
   function acts(p){
-    var msg = 'Hola Fernando, me interesa el piso "'+p.titulo+'" ('+p.zona+') que vi en tu mapa de alquileres: '+piso(p.id);
+    var pm = {t:p.titulo,z:p.zona,u:piso(p.id)};
+    var msg = tr('Hola Fernando, me interesa el piso "{t}" ({z}) que vi en tu mapa de alquileres: {u}',pm);
     var ok = /^https?:\/\//i.test(p.link||'');
-    var reqMsg = 'Hola Fernando, quiero visitar el piso "'+p.titulo+'" ('+p.zona+') que vi en tu mapa de alquileres: '+piso(p.id);
-    if(p.reservado) return '<div class="acts"><a class="btn" href="'+esc(wa('Hola Fernando, vi en tu mapa el piso "'+p.titulo+'" (reservado). Avísame si se libera o si tienes algo parecido.'))+'" target="_blank" rel="noopener">Reservado · avísame si se libera</a><div class="row2"><a class="btn wa" href="'+esc(wa(msg))+'" target="_blank" rel="noopener">WhatsApp</a><button class="btn" type="button" data-share="'+esc(p.id)+'">Compartir</button></div></div>';
-    if(!ok) return '<div class="acts"><a class="btn red" href="'+esc(wa(reqMsg))+'" target="_blank" rel="noopener">Quiero visitarlo · por WhatsApp</a><button class="btn" type="button" data-share="'+esc(p.id)+'">Compartir</button></div>';
-    return '<div class="acts"><a class="btn red" href="'+esc(safeUrl(p.link))+'" target="_blank" rel="noopener">Quiero visitarlo</a>'+
-      '<div class="row2"><a class="btn wa" href="'+esc(wa(msg))+'" target="_blank" rel="noopener">WhatsApp</a>'+
-      '<button class="btn" type="button" data-share="'+esc(p.id)+'">Compartir</button></div></div>';
+    var reqMsg = tr('Hola Fernando, quiero visitar el piso "{t}" ({z}) que vi en tu mapa de alquileres: {u}',pm);
+    var shareBtn = '<button class="btn" type="button" data-share="'+esc(p.id)+'">'+tr('Compartir')+'</button>';
+    if(p.reservado) return '<div class="acts"><a class="btn" href="'+esc(wa(tr('Hola Fernando, vi en tu mapa el piso "{t}" (reservado). Avísame si se libera o si tienes algo parecido.',pm)))+'" target="_blank" rel="noopener">'+tr('Reservado · avísame si se libera')+'</a><div class="row2"><a class="btn wa" href="'+esc(wa(msg))+'" target="_blank" rel="noopener">WhatsApp</a>'+shareBtn+'</div></div>';
+    if(!ok) return '<div class="acts"><a class="btn red" href="'+esc(wa(reqMsg))+'" target="_blank" rel="noopener">'+tr('Quiero visitarlo · por WhatsApp')+'</a>'+shareBtn+'</div>';
+    return '<div class="acts"><a class="btn red" href="'+esc(safeUrl(p.link))+'" target="_blank" rel="noopener">'+tr('Quiero visitarlo')+'</a>'+
+      '<div class="row2"><a class="btn wa" href="'+esc(wa(msg))+'" target="_blank" rel="noopener">WhatsApp</a>'+shareBtn+'</div></div>';
   }
   function pinEl(id){ var m = markers[id], e = m && m.getElement(); return e && e.querySelector('.pin'); }
   function detailHTML(p){
-    return '<div class="dph"'+(p.imagen?' style="background-image:url(\''+esc(photo(p.imagen))+'\')"':'')+' role="img" aria-label="Foto del piso en '+esc(p.zona)+'">'+(p.reservado?'<span class="ribbon">RESERVADO</span>':'')+
-      '<button class="d-close" type="button" aria-label="Cerrar" data-close>✕</button></div>'+
+    return '<div class="dph"'+(p.imagen?' style="background-image:url(\''+esc(photo(p.imagen))+'\')"':'')+' role="img" aria-label="'+esc(tr('Foto del piso en ')+p.zona)+'">'+(p.reservado?'<span class="ribbon">'+tr('RESERVADO')+'</span>':'')+
+      '<button class="d-close" type="button" aria-label="'+tr('Cerrar')+'" data-close>✕</button></div>'+
       '<div class="bd"><span class="zona">'+esc(p.zona)+'</span><h3>'+esc(p.titulo)+'</h3>'+
-      (p.precio!=null?'<div class="pr">'+eur(p.precio)+' <small>/ mes</small></div>':'')+
+      (p.precio!=null?'<div class="pr">'+eur(p.precio)+' <small>'+tr('/ mes')+'</small></div>':'')+
       '<div class="sp">'+extras(p)+'</div>'+
-      '<div class="approx">📍 Ubicación aproximada (pin blanco en el mapa). La dirección exacta te la doy al concertar la visita.</div>'+acts(p)+'</div>';
+      '<div class="approx">'+tr('📍 Ubicación aproximada (pin blanco en el mapa). La dirección exacta te la doy al concertar la visita.')+'</div>'+acts(p)+'</div>';
   }
   function unmark(){
     if(!sel) return;
@@ -837,14 +849,19 @@
   }
   var sel = null;
 
+  function emptyHTML(){ return esc(tr('No hay pisos con esos filtros. Prueba a limpiarlos o '))+'<a style="text-decoration:underline" href="'+esc(wa(tr('Hola Fernando, busco un piso de alquiler en Barcelona')))+'" target="_blank" rel="noopener">'+esc(tr('cuéntame qué buscas'))+'</a>.'; }
+  function rowHTML(p){
+    return '<span class="zona">'+esc(p.zona)+'</span><span class="tt">'+esc(p.titulo)+(p.reservado?'<span class="rs">'+tr('RESERVADO')+'</span>':'')+'</span>'+
+        (p.precio!=null?'<span class="pr">'+eur(p.precio)+' <small>'+tr('/ mes')+'</small></span>':'');
+  }
   function render(list){
     hideDetail(); shown = list; layer.clearLayers(); markers = {}; byId = {};
     $('navPrev').hidden = $('navNext').hidden = list.length < 2;
-    $('count').textContent = list.length + (list.length===1?' piso':' pisos');
+    $('count').textContent = list.length + ' ' + (list.length===1?tr('piso'):tr('pisos'));
     var cards = $('cards'); cards.innerHTML=''; var em = $('emptyMsg');
     em.hidden = !!list.length;
     if(!list.length){
-      em.innerHTML = 'No hay pisos con esos filtros. Prueba a limpiarlos o <a style="text-decoration:underline" href="'+esc(wa('Hola Fernando, busco un piso de alquiler en Barcelona'))+'" target="_blank" rel="noopener">cuéntame qué buscas</a>.';
+      em.innerHTML = emptyHTML();
       return;
     }
     var bounds = [];
@@ -854,8 +871,7 @@
       markers[p.id]=m; byId[p.id]=p; bounds.push([p.lat,p.lng]);
 
       var b = document.createElement('button'); b.type='button'; b.className='row'; b.dataset.id=p.id;
-      b.innerHTML = '<span class="zona">'+esc(p.zona)+'</span><span class="tt">'+esc(p.titulo)+(p.reservado?'<span class="rs">RESERVADO</span>':'')+'</span>'+
-        (p.precio!=null?'<span class="pr">'+eur(p.precio)+' <small>/ mes</small></span>':'');
+      b.innerHTML = rowHTML(p);
       b.addEventListener('click',function(){ setList(false); open(p.id); });
       cards.appendChild(b);
     });
@@ -872,12 +888,14 @@
   }
 
   function fillFilters(){
+    var v0=[$('fZona').value,$('fPrecio').value];
     var zonas = Array.from(new Set(all.map(function(p){return p.zona;}).filter(Boolean))).sort();
-    $('fZona').innerHTML = '<option value="">Todas</option>'+zonas.map(function(z){return '<option>'+esc(z)+'</option>';}).join('');
+    $('fZona').innerHTML = '<option value="">'+tr('Todas')+'</option>'+zonas.map(function(z){return '<option>'+esc(z)+'</option>';}).join('');
     var prices = all.map(function(p){return p.precio;}).filter(function(n){return n!=null;});
     var max = prices.length ? Math.max.apply(null,prices) : 0;
     var steps = []; for(var s=800; s<=Math.max(2500,max); s+=200) steps.push(s);
-    $('fPrecio').innerHTML = '<option value="">Sin límite</option>'+steps.map(function(s){return '<option value="'+s+'">Hasta '+eur(s)+'</option>';}).join('');
+    $('fPrecio').innerHTML = '<option value="">'+tr('Sin límite')+'</option>'+steps.map(function(s){return '<option value="'+s+'">'+tr('Hasta ')+eur(s)+'</option>';}).join('');
+    $('fZona').value=v0[0]; $('fPrecio').value=v0[1];
     $('filters').hidden = all.length < 2;
   }
   function applyFilters(){
@@ -887,27 +905,31 @@
     }));
   }
 
-  function setStatus(msg, retry){ $('statusTxt').textContent=msg; $('retry').hidden=!retry; }
+  var stFn=function(){return '';};
+  function setStatus(m, retry){ stFn = typeof m==='function' ? m : function(){return m;}; $('statusTxt').textContent=stFn(); $('retry').hidden=!retry; }
   function done(data,isDemo){
     all = (data||[]).filter(function(p){return typeof p.lat==='number' && typeof p.lng==='number';});
     $('demoBar').hidden = !isDemo;
     fillFilters(); render(all);
-    setStatus(all.length ? all.length+(all.length===1?' piso ubicado':' pisos ubicados')+' · Ubicaciones aproximadas' : 'Ahora mismo no tengo pisos publicados. Escríbeme y te aviso en cuanto salga uno.', false);
+    setStatus(function(){ return all.length ? all.length+' '+(all.length===1?tr('piso ubicado'):tr('pisos ubicados'))+' · '+tr('Ubicaciones aproximadas') : tr('Ahora mismo no tengo pisos publicados. Escríbeme y te aviso en cuanto salga uno.'); }, false);
     var want = new URLSearchParams(location.search).get('piso');
     if(want && markers[want]) setTimeout(function(){ open(want); },600);
   }
   function load(){
-    setStatus('Cargando pisos…',false);
+    setStatus(function(){ return tr('Cargando pisos…'); },false);
     if(API_URL.indexOf('PEGA_')===0 || new URLSearchParams(location.search).get('demo')==='1'){ done(DEMO,true); return; }
     fetch(API_URL).then(function(r){return r.json();}).then(function(j){
       if(!j.success) throw new Error(j.error||'error'); done(j.data,false);
-    }).catch(function(){ setStatus('No se pudieron cargar los pisos.',true); });
+    }).catch(function(){ setStatus(function(){ return tr('No se pudieron cargar los pisos.'); },true); });
   }
 
   /* botones generales */
-  var generic = 'Hola Fernando, vi tu mapa de pisos en alquiler y quiero información.';
-  $('waTop').href = wa(generic);
-  $('copyAll').addEventListener('click',function(){ share('Mira los pisos en alquiler disponibles ahora en Barcelona:',base); });
+  function relabelStatic(){
+    $('waTop').href = wa(tr('Hola Fernando, vi tu mapa de pisos en alquiler y quiero información.'));
+    try{ $('nvsLink').href = wa(tr('Hola Fernando, quiero enterarme de las novedades de alquiler, también las off market')); }catch(e){}
+  }
+  relabelStatic();
+  $('copyAll').addEventListener('click',function(){ share(tr('Mira los pisos en alquiler disponibles ahora en Barcelona:'),base); });
   $('retry').addEventListener('click',load);
   ['fZona','fPrecio','fHab'].forEach(function(id){ $(id).addEventListener('change',applyFilters); });
   $('fClear').addEventListener('click',function(){ $('fZona').value='';$('fPrecio').value='';$('fHab').value=''; applyFilters(); });
@@ -915,7 +937,7 @@
     if(e.target.closest && e.target.closest('[data-close]')){ hideDetail(); return; }
     var b = e.target.closest && e.target.closest('[data-share]'); if(!b) return;
     var p = all.filter(function(x){return x.id===b.dataset.share;})[0]; if(!p) return;
-    share('Piso en alquiler en '+p.zona+(p.precio!=null?' · '+eur(p.precio)+'/mes':''), piso(p.id));
+    share(tr('Piso en alquiler en ')+p.zona+(p.precio!=null?' · '+eur(p.precio)+tr('/mes'):''), piso(p.id));
   });
 
 
@@ -934,7 +956,7 @@
     function code(u){ var m = String(u).match(/instagram\.com\/(?:reel|reels|p)\/([A-Za-z0-9_-]+)/); return m ? m[1] : null; }
     function igEmbed(c){
       var url = 'https://www.instagram.com/reel/'+c+'/';
-      return '<blockquote class="instagram-media" data-instgrm-permalink="'+url+'" data-instgrm-version="14" data-instgrm-captioned style="background:#fff;border:0;border-radius:16px;margin:0;max-width:540px;min-width:280px;width:100%;padding:0"><a href="'+url+'" target="_blank" rel="noopener" style="color:#fff;display:block;padding:40px 16px;text-align:center;font-size:14px">Ver reel en Instagram</a></blockquote>';
+      return '<blockquote class="instagram-media" data-instgrm-permalink="'+url+'" data-instgrm-version="14" data-instgrm-captioned style="background:#fff;border:0;border-radius:16px;margin:0;max-width:540px;min-width:280px;width:100%;padding:0"><a href="'+url+'" target="_blank" rel="noopener" style="color:#fff;display:block;padding:40px 16px;text-align:center;font-size:14px">'+tr('Ver reel en Instagram')+'</a></blockquote>';
     }
     var list = REELS.map(function(r){ return typeof r==='string' ? {url:r} : r; }).filter(function(r){ return r && (r.video || code(r.url)); });
     if(list.length){
@@ -954,7 +976,7 @@
           });
           d.appendChild(v);
           var a = document.createElement('a'); a.className='vlink'; a.href = it.url; a.target='_blank'; a.rel='noopener';
-          a.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor" stroke="none"/></svg>Ver en Instagram';
+          a.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor" stroke="none"/></svg><span data-vl>'+tr('Ver en Instagram')+'</span>';
           d.appendChild(a);
         } else { d.innerHTML = igEmbed(c); needEmbed = true; }
         wrap.appendChild(d);
@@ -985,16 +1007,27 @@
     var t = e.target && e.target.tagName;
     if((e.key==='ArrowLeft'||e.key==='ArrowRight') && t!=='INPUT' && t!=='SELECT' && t!=='TEXTAREA' && sel){ go(e.key==='ArrowRight'?1:-1); }
   });
-  try{ $('nvsLink').href = wa('Hola Fernando, quiero enterarme de las novedades de alquiler, también las off market'); }catch(e){}
   initMap(); load();
+  /* cambio de idioma: repinta lo que genera JS */
+  document.addEventListener('fblang',function(){
+    relabelStatic();
+    if(all.length) fillFilters();
+    $('statusTxt').textContent = stFn();
+    if(shown && all.length){
+      $('count').textContent = shown.length + ' ' + (shown.length===1?tr('piso'):tr('pisos'));
+      [].forEach.call($('cards').children,function(b){ var p=byId[b.dataset.id]; if(p) b.innerHTML=rowHTML(p); });
+      if(!shown.length && all.length) $('emptyMsg').innerHTML = emptyHTML();
+      if(sel && byId[sel]){ $('detail').innerHTML = detailHTML(byId[sel]); }
+    }
+    [].forEach.call(document.querySelectorAll('.vlink [data-vl]'),function(x){ x.textContent = tr('Ver en Instagram'); });
+  });
 
   /* ---- formulario de captación (Web3Forms) ---- */
   (function(){
     var $$ = function(id){ return document.getElementById(id); };
     var dlg=$$('leadDlg'), f=$$('leadForm'), msg=$$('lMsg');
     var sendO=$$('lSend'), bNext=$$('wNext'), bBack=$$('wBack');
-    var T={owner:['Cuéntame sobre tu piso','Tres pasos rápidos, menos de dos minutos. Te respondo yo personalmente.','Propietario'],
-           tenant:['Búsqueda prioritaria de piso','Tres pasos. Yo busco por ti y tú vas primero.','Inquilino prioritario']};
+    function T(m){ return m==='owner' ? [tr('Cuéntame sobre tu piso'),tr('Tres pasos rápidos, menos de dos minutos. Te respondo yo personalmente.'),'Propietario'] : [tr('Búsqueda prioritaria de piso'),tr('Tres pasos. Yo busco por ti y tú vas primero.'),'Inquilino prioritario']; }
     var WA = '34672907381';
     var BARRIOS = {
       'Ciutat Vella':['el Raval','el Gòtic','la Barceloneta','Sant Pere, Santa Caterina i la Ribera'],
@@ -1009,14 +1042,16 @@
       'Sant Martí':['el Camp de l\'Arpa del Clot','el Clot','el Parc i la Llacuna del Poblenou','la Vila Olímpica del Poblenou','el Poblenou','Diagonal Mar i el Front Marítim','el Besòs i el Maresme','Provençals del Poblenou','Sant Martí de Provençals','la Verneda i la Pau'],
       'Área metropolitana':['L\'Hospitalet de Llobregat','Badalona','Santa Coloma de Gramenet','Sant Adrià de Besòs','Cornellà de Llobregat','Esplugues de Llobregat','Sant Cugat del Vallès']
     };
-    (function(){
-      var h='<option value="">Elige tu barrio…</option>';
+    function buildBarrios(){
+      var cur=$$('oBarrio').value;
+      var h='<option value="">'+tr('Elige tu barrio…')+'</option>';
       Object.keys(BARRIOS).forEach(function(d){
-        h+='<optgroup label="'+d+'">'+BARRIOS[d].map(function(b){return '<option value="'+b+' ('+d+')">'+b+'</option>';}).join('')+'</optgroup>';
+        h+='<optgroup label="'+tr(d)+'">'+BARRIOS[d].map(function(b){return '<option value="'+b+' ('+d+')">'+b+'</option>';}).join('')+'</optgroup>';
       });
-      h+='<optgroup label="Otro"><option value="Otro municipio o zona">Otro municipio o zona…</option></optgroup>';
-      $$('oBarrio').innerHTML=h;
-    })();
+      h+='<optgroup label="'+tr('Otro')+'"><option value="Otro municipio o zona">'+tr('Otro municipio o zona…')+'</option></optgroup>';
+      $$('oBarrio').innerHTML=h; $$('oBarrio').value=cur;
+    }
+    buildBarrios();
 
     /* ---- estado / pasos ---- */
     var mode_='owner', step=1, TOTAL=3, touchedSup=false;
@@ -1050,19 +1085,19 @@
     var okTel=function(v){ var d=v.replace(/\D/g,''); return d.length>=9 && d.length<=15; };
     function v1(){
       var p=mode_==='owner'?'o':'t';
-      var a=mark($$(p+'Nombre'), $$(p+'Nombre').value.trim().length>=2, 'Dime tu nombre para saber cómo llamarte');
-      var b=mark($$(p+'Wa'), okTel($$(p+'Wa').value), 'Pon un WhatsApp válido (mínimo 9 cifras)');
-      var c=mark($$(p+'Email'), okMail($$(p+'Email').value.trim()), 'Pon un email válido, por ejemplo nombre@correo.com');
+      var a=mark($$(p+'Nombre'), $$(p+'Nombre').value.trim().length>=2, tr('Dime tu nombre para saber cómo llamarte'));
+      var b=mark($$(p+'Wa'), okTel($$(p+'Wa').value), tr('Pon un WhatsApp válido (mínimo 9 cifras)'));
+      var c=mark($$(p+'Email'), okMail($$(p+'Email').value.trim()), tr('Pon un email válido, por ejemplo nombre@correo.com'));
       return a&&b&&c;
     }
-    function v3(){ var c=$$(mode_==='owner'?'oConsent':'tConsent'); return mark(c, c.checked, 'Necesito tu OK para poder contactarte'); }
+    function v3(){ var c=$$(mode_==='owner'?'oConsent':'tConsent'); return mark(c, c.checked, tr('Necesito tu OK para poder contactarte')); }
     function prio(){ var r=f.querySelector('input[name=servicio][data-t]:checked'); return !!r && r.value.indexOf('prioritaria')!==-1; }
-    function v2t(){ if(!prio()) return true; return mark($$('tAcepta'), $$('tAcepta').checked, 'Marca esta casilla para seguir con la búsqueda prioritaria'); }
+    function v2t(){ if(!prio()) return true; return mark($$('tAcepta'), $$('tAcepta').checked, tr('Marca esta casilla para seguir con la búsqueda prioritaria')); }
     function firstBad(){ var b=f.querySelector('.stp.on .fld.bad input, .stp.on .fld.bad select'); if(b && b.focus) b.focus({preventScroll:false}); }
 
     bNext.addEventListener('click',function(){
-      if(step===1 && !v1()){ msg.className='lmsg err'; msg.textContent='Faltan datos obligatorios (*)'; firstBad(); return; }
-      if(step===2 && mode_==='tenant' && !v2t()){ msg.className='lmsg err'; msg.textContent='Necesito tu confirmación para continuar'; return; }
+      if(step===1 && !v1()){ msg.className='lmsg err'; msg.textContent=tr('Faltan datos obligatorios (*)'); firstBad(); return; }
+      if(step===2 && mode_==='tenant' && !v2t()){ msg.className='lmsg err'; msg.textContent=tr('Necesito tu confirmación para continuar'); return; }
       setStep(step+1,true);
     });
     bBack.addEventListener('click',function(){ setStep(step-1,false); });
@@ -1108,7 +1143,7 @@
       f.reset();
       [].forEach.call(f.querySelectorAll('.fld.bad'),function(w){ w.classList.remove('bad'); var e=w.querySelector('.ferr'); if(e) e.textContent=''; });
       [].forEach.call(f.querySelectorAll('.stpr'),function(b){ var d={hab:2,ban:1,ppl:2,thab:1,tppl:2}[b.dataset.stepper]; stepper(b,d); });
-      touchedSup=false; rSup.value=60; $$('oSup').value=''; $$('rSupV').innerHTML='<small>Desliza para elegir</small>';
+      touchedSup=false; rSup.value=60; $$('oSup').value=''; $$('rSupV').innerHTML='<small>'+tr('Desliza para elegir')+'</small>';
       ['tipoOtroWrap','barrioOtroWrap','sitLibre','sitAlq'].forEach(function(i){ $$(i).hidden=true; });
       $$('tAceptaWrap').hidden=false;
       $$('lDone').classList.remove('on'); $$('lHead').hidden=false; $$('wNavBox').hidden=false;
@@ -1118,9 +1153,10 @@
     /* ---- modo (propietario / inquilino) ---- */
     function mode(m){
       mode_=m;
-      $$('leadTitle').textContent=T[m][0]; $$('leadSub').textContent=T[m][1];
-      $$('lTipo').value=T[m][2];
-      $$('lSubject').value='Mapa de alquileres · '+T[m][2]+': nuevo contacto';
+      var tt=T(m);
+      $$('leadTitle').textContent=tt[0]; $$('leadSub').textContent=tt[1];
+      $$('lTipo').value=tt[2];
+      $$('lSubject').value='Mapa de alquileres · '+tt[2]+': nuevo contacto';
       var o=m==='owner';
       $$('fOwner').hidden=!o; $$('fTen').hidden=o;
       f.querySelectorAll('[data-o]').forEach(function(e){e.disabled=!o;});
@@ -1142,19 +1178,20 @@
     function showDone(nombre, owner, free){
       $$('lHead').hidden=true; $$('fOwner').hidden=true; $$('fTen').hidden=true; $$('wNavBox').hidden=true;
       var first=(nombre||'').trim().split(/\s+/)[0];
-      $$('doneTitle').textContent = first ? '¡Recibido, '+first+'!' : '¡Recibido!';
-      $$('doneTxt').textContent = owner ? 'Reviso los datos de tu piso y te escribo por WhatsApp para contarte cuánto puedes cobrar y cómo lo haríamos.' : free ? 'Te escribo por WhatsApp en cuanto entre un piso que encaje contigo.' : 'Te escribo por WhatsApp para hacer el estudio de tu situación financiera y empezar a buscar por ti.';
-      $$('doneWa').href='https://wa.me/'+WA+'?text='+encodeURIComponent(owner?'Hola Fernando, acabo de enviarte los datos de mi piso desde tu mapa de alquileres.':'Hola Fernando, acabo de dejarte lo que busco desde tu mapa de alquileres.');
+      $$('doneTitle').textContent = first ? tr('¡Recibido, {n}!',{n:first}) : tr('¡Recibido!');
+      $$('doneTxt').textContent = tr(owner ? 'Reviso los datos de tu piso y te escribo por WhatsApp para contarte cuánto puedes cobrar y cómo lo haríamos.' : free ? 'Te escribo por WhatsApp en cuanto entre un piso que encaje contigo.' : 'Te escribo por WhatsApp para hacer el estudio de tu situación financiera y empezar a buscar por ti.');
+      $$('doneWa').href='https://wa.me/'+WA+'?text='+encodeURIComponent(tr(owner?'Hola Fernando, acabo de enviarte los datos de mi piso desde tu mapa de alquileres.':'Hola Fernando, acabo de dejarte lo que busco desde tu mapa de alquileres.'));
       $$('lDone').classList.add('on'); confetti();
     }
     f.addEventListener('submit',function(e){
       e.preventDefault();
       var owner = mode_==='owner', btn = sendO, m = msg;
-      if(!v1()){ setStep(1,true); msg.className='lmsg err'; msg.textContent='Faltan datos obligatorios (*)'; firstBad(); return; }
-      if(!owner && !v2t()){ setStep(2,false); msg.className='lmsg err'; msg.textContent='Necesito tu confirmación para continuar'; return; }
+      if(!v1()){ setStep(1,true); msg.className='lmsg err'; msg.textContent=tr('Faltan datos obligatorios (*)'); firstBad(); return; }
+      if(!owner && !v2t()){ setStep(2,false); msg.className='lmsg err'; msg.textContent=tr('Necesito tu confirmación para continuar'); return; }
       if(!v3()){ return; }
-      btn.disabled=true; m.className='lmsg'; m.textContent='Enviando…';
+      btn.disabled=true; m.className='lmsg'; m.textContent=tr('Enviando…');
       var fd=new FormData(f);
+      fd.set('idioma', window.fbI18n ? fbI18n.lang() : 'es');
       if(owner){
         var perfil=[].map.call(f.querySelectorAll('[data-perfil]:checked'),function(i){return i.value;}).join(', ');
         if(perfil) fd.set('perfil_inquilino_ideal', perfil);
@@ -1180,13 +1217,20 @@
             showDone(fd.get('nombre'), owner, !owner && !prio());
           } else throw 0;
         })
-                .catch(function(){ m.className='lmsg err'; m.textContent='No se pudo enviar. Escríbeme por WhatsApp y lo vemos.'; })
+                .catch(function(){ m.className='lmsg err'; m.textContent=tr('No se pudo enviar. Escríbeme por WhatsApp y lo vemos.'); })
         .then(function(){ btn.disabled=false; });
     });
-    (function(){
+    function buildZonas(){
+      var on=[].map.call(f.querySelectorAll('[data-zona]:checked'),function(i){return i.value;});
       var z=Object.keys(BARRIOS).concat(['Me da igual']);
-      $$('zonaChips').innerHTML=z.map(function(n){ return '<label class="chip sm"><input type="checkbox" data-zona value="'+n+'"><span>'+ico(n==='Me da igual'?'i-spark':'i-pin')+n+'</span></label>'; }).join('');
-    })();
+      $$('zonaChips').innerHTML=z.map(function(n){ return '<label class="chip sm"><input type="checkbox" data-zona value="'+n+'"'+(on.indexOf(n)!==-1?' checked':'')+'><span>'+ico(n==='Me da igual'?'i-spark':'i-pin')+tr(n)+'</span></label>'; }).join('');
+    }
+    buildZonas();
+    document.addEventListener('fblang',function(){
+      var tt=T(mode_); $$('leadTitle').textContent=tt[0]; $$('leadSub').textContent=tt[1];
+      buildBarrios(); buildZonas();
+      if(!touchedSup) $$('rSupV').innerHTML='<small>'+tr('Desliza para elegir')+'</small>';
+    });
     resetWizard(); mode('owner');
   })();
 })();
