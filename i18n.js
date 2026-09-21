@@ -228,6 +228,22 @@
     ['Aire acond.', 'Air con', 'Klimaanlage', 'Clim.'],
     ['Parking', 'Parking', 'Parkplatz', 'Parking'],
     ['Lo que se te ocurra', 'Anything else', 'Was Ihnen sonst einfällt', 'Tout ce qui vous passe par la tête'],
+    /* --- avisos de pisos nuevos --- */
+    ['Que no se te escape ningún piso', 'Never miss a new flat', 'Verpassen Sie keine neue Wohnung', 'Ne ratez aucun nouvel appartement'],
+    ['Te aviso en cuanto sube uno nuevo. Elige cómo prefieres recibirlo.', 'I’ll let you know as soon as a new one goes up. Choose how you’d like to get it.', 'Ich informiere Sie, sobald eine neue online geht. Wählen Sie, wie Sie es erhalten möchten.', 'Je vous préviens dès qu’un nouveau est publié. Choisissez comment le recevoir.'],
+    ['Por email', 'By email', 'Per E-Mail', 'Par e-mail'],
+    ['Canal de WhatsApp', 'WhatsApp channel', 'WhatsApp-Kanal', 'Chaîne WhatsApp'],
+    ['Elige tus filtros si quieres: solo te aviso de los pisos que encajen.', 'Set filters if you like: I’ll only alert you about flats that match.', 'Setzen Sie Filter, wenn Sie möchten: Ich informiere Sie nur über passende Wohnungen.', 'Choisissez vos filtres si vous voulez : je ne vous préviens que pour ce qui correspond.'],
+    ['Avisarme por email', 'Alert me by email', 'Per E-Mail benachrichtigen', 'Me prévenir par e-mail'],
+    ['Acepto recibir avisos de pisos nuevos por email. Puedo darme de baja cuando quiera.', 'I agree to receive new-flat alerts by email. I can unsubscribe at any time.', 'Ich bin damit einverstanden, E-Mails zu neuen Wohnungen zu erhalten. Ich kann mich jederzeit abmelden.', 'J’accepte de recevoir des alertes par e-mail sur les nouveaux appartements. Je peux me désabonner à tout moment.'],
+    ['Casi listo: te he enviado un email para confirmar tu suscripción. Mira también en spam.', 'Almost done: I’ve sent you an email to confirm your subscription. Check your spam folder too.', 'Fast geschafft: Ich habe Ihnen eine E-Mail zur Bestätigung geschickt. Schauen Sie auch im Spam-Ordner nach.', 'Presque fini : je vous ai envoyé un e-mail pour confirmer votre abonnement. Regardez aussi dans vos spams.'],
+    ['Ya estabas suscrito. ¡Gracias!', 'You were already subscribed. Thanks!', 'Sie sind bereits angemeldet. Danke!', 'Vous étiez déjà abonné. Merci !'],
+    ['Ahora mismo hay muchas solicitudes. Prueba mañana o escríbeme por WhatsApp.', 'There are a lot of requests right now. Try tomorrow or message me on WhatsApp.', 'Derzeit gibt es viele Anfragen. Versuchen Sie es morgen oder schreiben Sie mir per WhatsApp.', 'Beaucoup de demandes en ce moment. Réessayez demain ou écrivez-moi sur WhatsApp.'],
+    ['No se pudo suscribir. Inténtalo de nuevo o escríbeme por WhatsApp.', 'Couldn’t subscribe. Try again or message me on WhatsApp.', 'Anmeldung fehlgeschlagen. Versuchen Sie es erneut oder schreiben Sie mir per WhatsApp.', 'Abonnement impossible. Réessayez ou écrivez-moi sur WhatsApp.'],
+    ['Recibe cada piso nuevo en tu móvil, sin dar tu email. Unirte es gratis y puedes salir cuando quieras.', 'Get every new flat on your phone, without giving your email. Joining is free and you can leave whenever you want.', 'Erhalten Sie jede neue Wohnung auf Ihrem Handy, ohne E-Mail-Adresse. Der Beitritt ist kostenlos, Sie können jederzeit austreten.', 'Recevez chaque nouvel appartement sur votre téléphone, sans donner votre e-mail. C’est gratuit et vous pouvez quitter quand vous voulez.'],
+    ['Unirme al canal', 'Join the channel', 'Kanal beitreten', 'Rejoindre la chaîne'],
+    ['Avísame de pisos nuevos', 'Alert me about new flats', 'Über neue Wohnungen benachrichtigen', 'Me prévenir des nouveaux appartements'],
+    ['Avisos de pisos nuevos', 'New-flat alerts', 'Benachrichtigungen zu neuen Wohnungen', 'Alertes nouveaux appartements'],
     /* --- Instagram, pie --- */
     ['Detrás de cada piso', 'Behind every flat', 'Hinter jeder Wohnung', 'Derrière chaque appartement'],
     ['Recorridos, barrios y consejos reales, en vídeo.', 'Walk-throughs, neighbourhoods and real advice, on video.', 'Rundgänge, Viertel und echte Tipps, im Video.', 'Visites, quartiers et vrais conseils, en vidéo.'],
@@ -311,7 +327,7 @@
   function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
   function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
 
-  var SKIP = ['cards', 'detail', 'count', 'statusTxt', 'emptyMsg', 'fZona', 'fPrecio', 'zonaChips', 'oBarrio', 'doneTitle', 'doneTxt', 'lMsg', 'toast', 'reels', 'rSupV', 'leadTitle', 'leadSub', 'demoBar', 'lang'];
+  var SKIP = ['cards', 'detail', 'count', 'statusTxt', 'emptyMsg', 'fZona', 'fPrecio', 'zonaChips', 'oBarrio', 'doneTitle', 'doneTxt', 'lMsg', 'toast', 'reels', 'rSupV', 'alMsg', 'alPrecio', 'alHab', 'leadTitle', 'leadSub', 'demoBar', 'lang'];
   function skipped(el) {
     while (el && el !== document.body) {
       if (el.nodeType === 1) {

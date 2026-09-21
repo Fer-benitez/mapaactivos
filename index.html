@@ -303,6 +303,52 @@
   #tAceptaWrap{margin-top:12px}
   #tAceptaWrap[hidden]{display:none}
   @media(max-width:520px){.vs{grid-template-columns:1fr}}
+  /* ---- campana de avisos ---- */
+  .hero-row{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .bellbtn{position:relative;flex:none;width:54px;height:54px;border-radius:50%;border:2px solid rgba(255,255,255,.9);background:var(--red);color:#fff;cursor:pointer;display:inline-grid;place-items:center;padding:0;box-shadow:0 12px 28px -8px var(--glow);transition:transform .25s var(--ease),box-shadow .25s}
+  .bellbtn::before,.bellbtn::after{content:'';position:absolute;inset:-2px;border-radius:50%;border:2px solid var(--red);opacity:0;animation:ripple 2.6s ease-out infinite;pointer-events:none}
+  .bellbtn::after{animation-delay:1.3s}
+  @keyframes ripple{0%{transform:scale(1);opacity:.75}100%{transform:scale(2);opacity:0}}
+  .bellbtn .ic{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;transform-origin:50% 8%;animation:bell 3s ease-in-out infinite}
+  .bellbtn .bdot{position:absolute;top:8px;right:9px;width:12px;height:12px;border-radius:50%;background:#ffcc33;border:2px solid var(--red);box-shadow:0 0 0 0 rgba(255,204,51,.7);animation:bdot 1.6s ease-out infinite}
+  @keyframes bdot{0%{box-shadow:0 0 0 0 rgba(255,204,51,.75)}80%,100%{box-shadow:0 0 0 9px rgba(255,204,51,0)}}
+  .bellbtn:hover{transform:translateY(-2px) scale(1.08);box-shadow:0 16px 34px -8px var(--glow)}
+  .bellbtn:hover .ic{animation-duration:.9s}
+  .bellbtn:active{transform:scale(.94)}
+  .bell-map{display:none;position:absolute;z-index:1200;top:14px;left:14px;width:50px;height:50px}
+  @media(max-width:640px){.bell-hero{display:none}.bell-map{display:inline-grid}}
+  dialog#alertDlg{margin:auto;border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,#1a1a1a,#111);color:var(--white);padding:0;width:min(720px,calc(100vw - 20px));max-height:calc(100dvh - 20px);overflow:auto;box-shadow:0 40px 90px rgba(0,0,0,.7)}
+  dialog#alertDlg::backdrop{background:rgba(0,0,0,.75);backdrop-filter:blur(4px)}
+  dialog#alertDlg[open]{animation:dlgIn .35s var(--ease)}
+  .al-pop{position:relative;padding:26px 22px 22px}
+  .al-pop .x{position:absolute;top:10px;right:14px;background:none;border:0;color:var(--muted);font-size:28px;line-height:1;cursor:pointer;z-index:2}
+  .al-head{padding-right:26px}
+  @media(prefers-reduced-motion:reduce){.bellbtn::before,.bellbtn::after,.bellbtn .ic,.bellbtn .bdot{animation:none}}
+  /* ---- avisos de pisos nuevos ---- */
+  .al-head{display:flex;gap:16px;align-items:center;margin-bottom:22px}
+  .al-ic{flex:none;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:var(--red);box-shadow:0 0 0 7px rgba(224,38,79,.18),0 12px 26px -10px var(--glow)}
+  .al-ic .ic{width:26px;height:26px;color:#fff;animation:bell 3s ease-in-out infinite;transform-origin:50% 8%}
+  @keyframes bell{0%,72%,100%{transform:rotate(0)}76%{transform:rotate(14deg)}80%{transform:rotate(-12deg)}84%{transform:rotate(9deg)}88%{transform:rotate(-6deg)}92%{transform:rotate(0)}}
+  .al-head h2{font-size:clamp(22px,3vw,28px)}
+  .al-head p{color:var(--muted);margin-top:5px;line-height:1.5;font-size:15px}
+  .al-grid{display:grid;grid-template-columns:1.35fr 1fr;gap:16px;align-items:stretch}
+  .al-grid.one{grid-template-columns:minmax(0,640px)}
+  .al-box{border:1px solid var(--line);border-radius:18px;padding:20px;background:var(--black)}
+  .al-box h3{font-size:18px;display:flex;align-items:center;gap:9px}
+  .al-box h3 .ic{color:var(--red)}
+  .al-box .hint{color:var(--muted);font-size:13.5px;line-height:1.5;margin:6px 0 16px}
+  .al-box .chk{display:flex;align-items:flex-start;gap:10px;font-size:12.5px;line-height:1.45;color:var(--muted);cursor:pointer}
+  .al-box .chk input{margin-top:2px;accent-color:var(--red);width:18px;height:18px;flex:none}
+  .al-box .chk a{color:var(--white);text-decoration:underline}
+  .al-send{width:100%;justify-content:center;padding:14px}
+  .al-send .ic{width:18px;height:18px}
+  .al-wa{display:flex;flex-direction:column;background:linear-gradient(160deg,rgba(31,168,85,.16),rgba(31,168,85,.03));border-color:rgba(31,168,85,.5)}
+  .al-wa h3 .ic{color:#4ade80}
+  .al-wa .al-send{margin-top:auto}
+  .al-pop .lmsg{margin-top:12px;font-size:14px;line-height:1.5;min-height:0}
+  .al-pop .lmsg.ok{color:#4ade80}.al-pop .lmsg.err{color:#ff8a8a}
+  @media(max-width:820px){.al-grid{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){.al-ic .ic{animation:none}}
   @media(prefers-reduced-motion:reduce){.done .cf{display:none}.stp.on,.cond,dialog#leadDlg[open]{animation:none}}
   .cta .who{display:flex;align-items:center;gap:22px;flex:1 1 420px;}
   .cta .who img{width:104px;height:104px;border-radius:50%;flex:none;box-shadow:0 0 0 3px var(--red),0 18px 40px -10px var(--glow);}
@@ -375,7 +421,7 @@
 <main class="wrap">
   <section class="hero">
     <span class="eyebrow">Alquiler · Barcelona</span>
-    <h1>Pisos disponibles ahora<span class="count" id="count">…</span></h1>
+    <div class="hero-row"><h1>Pisos disponibles ahora<span class="count" id="count">…</span></h1><button class="bellbtn bell-hero" type="button" data-alert aria-label="Avísame de pisos nuevos" title="Avísame de pisos nuevos"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 17V11a6 6 0 0112 0v6l2 2H4z"/><path d="M10 21a2 2 0 004 0"/></svg><i class="bdot" aria-hidden="true"></i></button></div>
     <p>Mira dónde está cada piso, su precio y sus fotos. Cuando uno te encaje, pide la visita desde su ficha: te contesto yo directamente.</p>
   </section>
 
@@ -392,12 +438,14 @@
   </div>
   <div class="empty" id="emptyMsg" hidden></div>
   <div class="mapwrap" id="mapwrap">
+    <button class="bellbtn bell-map" type="button" data-alert aria-label="Avísame de pisos nuevos" title="Avísame de pisos nuevos"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 17V11a6 6 0 0112 0v6l2 2H4z"/><path d="M10 21a2 2 0 004 0"/></svg><i class="bdot" aria-hidden="true"></i></button>
     <div id="map" role="region" aria-label="Mapa de pisos disponibles"></div>
     <aside class="detail" id="detail" aria-live="polite" aria-label="Detalle del piso"></aside>
     <button class="navarrow prev" id="navPrev" type="button" aria-label="Piso anterior" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4l-8 8 8 8"/></svg></button>
     <button class="navarrow next" id="navNext" type="button" aria-label="Piso siguiente" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4l8 8-8 8"/></svg></button>
   </div>
   <div class="status" id="status"><span id="statusTxt">Cargando pisos…</span><button class="btn" id="retry" type="button" hidden>↻ Reintentar</button></div>
+
 
   <section class="cta" id="servicios">
     <div class="who">
@@ -446,6 +494,7 @@
     <symbol id="i-next" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
     <symbol id="i-prev" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
     <symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0112 0v6l2 2H4z"/><path d="M10 21a2 2 0 004 0"/></symbol>
     <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol>
     <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
     <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/></symbol>
@@ -719,6 +768,43 @@
     </form>
   </dialog>
 
+  <dialog id="alertDlg" aria-labelledby="alTitle">
+    <div class="al-pop">
+      <button class="x" type="button" data-alclose aria-label="Cerrar">×</button>
+      <div class="al-head">
+        <span class="al-ic"><svg class="ic"><use href="#i-bell"/></svg></span>
+        <div>
+          <h2 id="alTitle">Que no se te escape ningún piso</h2>
+          <p>Te aviso en cuanto sube uno nuevo. Elige cómo prefieres recibirlo.</p>
+        </div>
+      </div>
+    <div class="al-grid" id="alGrid">
+      <form class="wiz al-box" id="alForm" novalidate aria-label="Avisos de pisos nuevos">
+        <h3><svg class="ic"><use href="#i-mail"/></svg>Por email</h3>
+        <p class="hint">Elige tus filtros si quieres: solo te aviso de los pisos que encajen.</p>
+        <div class="fld"><label class="lb" for="alEmail"><svg class="ic"><use href="#i-mail"/></svg>Email<span class="req">*</span></label>
+          <div class="inp"><svg class="ic"><use href="#i-mail"/></svg><input id="alEmail" type="email" inputmode="email" autocomplete="email" placeholder="tu@email.com"></div><span class="ferr" id="alEmailErr"></span></div>
+        <div class="g2">
+          <div class="fld"><label class="lb" for="alPrecio"><svg class="ic"><use href="#i-euro"/></svg>Precio máx.</label>
+            <div class="inp"><svg class="ic"><use href="#i-euro"/></svg><select id="alPrecio"></select></div></div>
+          <div class="fld"><label class="lb" for="alHab"><svg class="ic"><use href="#i-bed"/></svg>Habitaciones</label>
+            <div class="inp"><svg class="ic"><use href="#i-bed"/></svg><select id="alHab"></select></div></div>
+        </div>
+        <input type="text" id="alHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+        <div class="fld" style="margin-bottom:12px"><label class="chk"><input type="checkbox" id="alConsent"><span>Acepto recibir avisos de pisos nuevos por email. Puedo darme de baja cuando quiera. <a href="https://fer-benitez.github.io/consultor/privacidad.html" target="_blank" rel="noopener">Privacidad</a></span></label><span class="ferr" id="alConsentErr"></span></div>
+        <button class="btn red al-send" type="submit" id="alSend"><svg class="ic"><use href="#i-bell"/></svg>Avisarme por email</button>
+        <p class="lmsg" id="alMsg" role="status" aria-live="polite"></p>
+      </form>
+      <div class="al-box al-wa" id="alWa" hidden>
+        <h3><svg class="ic"><use href="#i-chat"/></svg>Canal de WhatsApp</h3>
+        <p class="hint">Recibe cada piso nuevo en tu móvil, sin dar tu email. Unirte es gratis y puedes salir cuando quieras.</p>
+        <a class="btn wa al-send" id="alWaBtn" href="#" target="_blank" rel="noopener"><svg class="ic"><use href="#i-chat"/></svg>Unirme al canal</a>
+      </div>
+    </div>
+    </div>
+  </dialog>
+
+
   <section class="ig" id="instagram" aria-labelledby="igTitle">
     <div class="ig-head">
       <div class="ig-id">
@@ -755,6 +841,7 @@
   /* ====== CONFIGURACIÓN ====== */
   var API_URL   = 'https://script.google.com/macros/s/AKfycbwz3g8ZNRAtqxDwHMT3ersFKSxRNFNCx1WtvYnPL42ujnE_AY4cJXnQ9N4eIOFmfjn-AA/exec';   // Web App "Mapa alquileres"
   var WA_NUMBER = '34672907381';
+  var WA_CHANNEL = 'https://whatsapp.com/channel/0029VbDIheD3GJP2fI83ZT3q';   // enlace de tu canal de WhatsApp (https://whatsapp.com/channel/...). Vacío = el botón no se muestra.
   var CENTER    = [41.3874, 2.1686];                         // Barcelona
   /* =========================== */
 
@@ -1008,6 +1095,55 @@
     if((e.key==='ArrowLeft'||e.key==='ArrowRight') && t!=='INPUT' && t!=='SELECT' && t!=='TEXTAREA' && sel){ go(e.key==='ArrowRight'?1:-1); }
   });
   initMap(); load();
+
+  /* ---- avisos de pisos nuevos (email + canal de WhatsApp) ---- */
+  (function(){
+    var f=$('alForm'); if(!f) return;
+    var dlgA=$('alertDlg');
+    [].forEach.call(document.querySelectorAll('[data-alert]'),function(b){ b.addEventListener('click',function(){
+      dlgA.showModal(); if(window.fbTrack) fbTrack('open_alert_form');
+    }); });
+    dlgA.querySelector('[data-alclose]').addEventListener('click',function(){ dlgA.close(); });
+    dlgA.addEventListener('click',function(e){ if(e.target===dlgA) dlgA.close(); });
+    var msg=$('alMsg'), sel1=$('alPrecio'), sel2=$('alHab');
+    function build(){
+      var v1=sel1.value, v2=sel2.value;
+      sel1.innerHTML='<option value="">'+tr('Sin límite')+'</option>'+[900,1100,1300,1500,1800,2200].map(function(n){return '<option value="'+n+'">'+tr('Hasta ')+eur(n)+'</option>';}).join('');
+      sel2.innerHTML='<option value="">'+tr('Cualquiera')+'</option>'+[1,2,3].map(function(n){return '<option value="'+n+'">'+tr(n+' o más')+'</option>';}).join('');
+      sel1.value=v1; sel2.value=v2;
+    }
+    build();
+    document.addEventListener('fblang',build);
+    if(WA_CHANNEL && /^https:\/\/(www\.)?whatsapp\.com\//i.test(WA_CHANNEL)){
+      $('alWa').hidden=false; $('alWaBtn').href=WA_CHANNEL;
+      $('alWaBtn').addEventListener('click',function(){ if(window.fbTrack) fbTrack('join_whatsapp_channel'); });
+    } else { $('alGrid').classList.add('one'); }
+    var okMail=function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); };
+    var setErr=function(id,txt,wrap){ $(id).textContent=txt; wrap.classList.toggle('bad',!!txt); };
+    f.addEventListener('submit',function(e){
+      e.preventDefault();
+      var em=$('alEmail').value.trim(), c=$('alConsent');
+      var ok1=okMail(em), ok2=c.checked;
+      setErr('alEmailErr', ok1?'':tr('Pon un email válido, por ejemplo nombre@correo.com'), $('alEmail').closest('.fld'));
+      setErr('alConsentErr', ok2?'':tr('Necesito tu OK para poder contactarte'), c.closest('.fld'));
+      msg.className='lmsg'; msg.textContent='';
+      if(!ok1||!ok2) return;
+      var btn=$('alSend'); btn.disabled=true; msg.textContent=tr('Enviando…');
+      var q='?action=subscribe&email='+encodeURIComponent(em)+'&lang='+encodeURIComponent(window.fbI18n?fbI18n.lang():'es')+'&precio='+encodeURIComponent(sel1.value)+'&hab='+encodeURIComponent(sel2.value)+'&consent=1&hp='+encodeURIComponent($('alHp').value);
+      fetch(API_URL+q).then(function(r){return r.json();}).then(function(j){
+        if(j.success){
+          msg.className='lmsg ok'; msg.textContent = j.status==='exists' ? tr('Ya estabas suscrito. ¡Gracias!') : tr('Casi listo: te he enviado un email para confirmar tu suscripción. Mira también en spam.');
+          if(window.fbTrack) fbTrack('subscribe_email',{status:j.status});
+          if(j.status!=='exists'){ f.reset(); build(); }
+        } else if(j.error==='email'){ setErr('alEmailErr', tr('Pon un email válido, por ejemplo nombre@correo.com'), $('alEmail').closest('.fld')); msg.textContent=''; }
+        else if(j.error==='busy'){ msg.className='lmsg err'; msg.textContent=tr('Ahora mismo hay muchas solicitudes. Prueba mañana o escríbeme por WhatsApp.'); }
+        else throw 0;
+      }).catch(function(){ msg.className='lmsg err'; msg.textContent=tr('No se pudo suscribir. Inténtalo de nuevo o escríbeme por WhatsApp.'); })
+        .then(function(){ btn.disabled=false; });
+    });
+    f.addEventListener('input',function(e){ if(e.target.id==='alEmail' && okMail(e.target.value.trim())) setErr('alEmailErr','',e.target.closest('.fld')); });
+    f.addEventListener('change',function(e){ if(e.target.id==='alConsent' && e.target.checked) setErr('alConsentErr','',e.target.closest('.fld')); });
+  })();
   /* cambio de idioma: repinta lo que genera JS */
   document.addEventListener('fblang',function(){
     relabelStatic();
