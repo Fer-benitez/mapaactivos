@@ -44,6 +44,8 @@
   .btn:hover{transform:translateY(-1px);}
   .btn.red{background:var(--red);border-color:var(--red);}
   .btn.red:hover{background:#f43a63;}
+  .btn.gold{background:linear-gradient(115deg,#e8621f 0%,#f28a1c 35%,#ffc02e 70%,#f5d77a 100%);background-size:180% 100%;border-color:#ffcf5a;color:#2a1200;font-weight:800;box-shadow:0 10px 26px -10px rgba(255,170,30,.7);transition:background-position .5s var(--ease),transform .2s var(--ease),box-shadow .2s}
+  .btn.gold:hover{background-position:100% 0;transform:translateY(-2px);box-shadow:0 14px 30px -10px rgba(255,190,50,.85)}
   .btn.wa{background:var(--wa);border-color:var(--wa);}
   .hero{padding:34px 0 18px;}
   .eyebrow{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;padding-bottom:9px;border-bottom:3px solid var(--red);margin-bottom:16px;}
@@ -398,8 +400,8 @@
       </div>
     </div>
     <div class="cta-btns">
-      <button class="btn red" type="button" data-lead="owner">Tengo un piso para alquilar</button>
-      <button class="btn" type="button" data-lead="tenant">Busco piso y quiero prioridad</button>
+      <button class="btn gold" type="button" data-lead="owner">Tengo un piso para alquilar</button>
+      <button class="btn red" type="button" data-lead="tenant">Busco piso y quiero prioridad</button>
     </div>
   </section>
 
@@ -588,7 +590,6 @@
 
       <!-- ===== INQUILINO: busqueda prioritaria, 3 pasos ===== -->
       <div class="wiz" id="fTen" hidden>
-        <input type="hidden" name="precio_servicio" value="80% de un mes de alquiler + IVA (21%)" data-t>
         <ol class="wsteps" id="tSteps" aria-label="Progreso del formulario">
           <li class="on" data-s="1"><span class="dot" data-ico="i-user"><svg class="ic"><use href="#i-user"/></svg></span>Tú</li>
           <li class="wbar" aria-hidden="true"><i></i></li>
@@ -627,24 +628,21 @@
           </div>
 
           <div class="price">
-            <div class="pr-top"><svg class="ic"><use href="#i-euro"/></svg><div><b>80%</b> de un mes de alquiler <span>+ IVA (21%)</span></div></div>
+            <div class="pr-top"><svg class="ic"><use href="#i-bolt"/></svg><div><b>Servicio personalizado</b><span>Sin precios cerrados: primero hablamos</span></div></div>
             <ul class="pr-list">
               <li><svg class="ic"><use href="#i-doc"/></svg><span>Antes de empezar hago un <b>estudio de tu situación financiera</b> (solvencia) para saber qué tipo de piso puedes conseguir y cómo prepararte.</span></li>
               <li><svg class="ic"><use href="#i-search"/></svg><span>Busco, filtro, visito contigo y negocio, incluidos pisos que <b>no llegan a publicarse</b>.</span></li>
-              <li><svg class="ic"><use href="#i-shield"/></svg><span>Solo se cobra si la búsqueda termina en contrato firmado. Los detalles te los confirmo por escrito antes de empezar.</span></li>
+              <li><svg class="ic"><use href="#i-shield"/></svg><span>Es un servicio adicional a la lista de espera, con condiciones propias. Te las explico <b>por escrito antes de empezar</b>, sin compromiso hasta que las aceptes.</span></li>
             </ul>
-            <div class="calc"><label for="tCalc"><svg class="ic"><use href="#i-euro"/></svg>Calcula el coste con tu presupuesto</label>
-              <div class="inp"><svg class="ic"><use href="#i-euro"/></svg><input id="tCalc" inputmode="numeric" value="1200" aria-label="Alquiler mensual"><span class="sfx">€/mes</span></div>
-              <div class="calc-out" id="tCalcOut" aria-live="polite"></div></div>
           </div>
 
           <div class="fld" style="margin-top:16px"><span class="lb"><svg class="ic"><use href="#i-target"/></svg>¿Qué prefieres?</span>
             <div class="chips c2" role="radiogroup" aria-label="Servicio elegido">
-              <label class="chip big"><input type="radio" name="servicio" value="Búsqueda prioritaria (80% + IVA)" data-t checked><span><svg class="ic"><use href="#i-bolt"/></svg><b>Quiero prioridad<small>Busco por ti</small></b></span></label>
+              <label class="chip big"><input type="radio" name="servicio" value="Búsqueda prioritaria" data-t checked><span><svg class="ic"><use href="#i-bolt"/></svg><b>Quiero prioridad<small>Busco por ti</small></b></span></label>
               <label class="chip big"><input type="radio" name="servicio" value="Solo aviso gratuito (lista de espera)" data-t><span><svg class="ic"><use href="#i-hourglass"/></svg><b>Solo el aviso<small>Gratis</small></b></span></label>
             </div>
           </div>
-          <div class="fld" id="tAceptaWrap" style="margin-bottom:0"><label class="chk"><input type="checkbox" id="tAcepta" name="acepta_condiciones_prioridad" value="Sí" data-t><span>Entiendo que es un servicio de pago (80% de un mes + IVA) y que primero se hace un estudio de mi situación financiera.</span></label><span class="ferr"></span></div>
+          <div class="fld" id="tAceptaWrap" style="margin-bottom:0"><label class="chk"><input type="checkbox" id="tAcepta" name="acepta_condiciones_prioridad" value="Sí" data-t><span>Entiendo que es un servicio personalizado con condiciones propias, que Fernando me explicará por escrito antes de empezar, y que primero se hace un estudio de mi situación financiera.</span></label><span class="ferr"></span></div>
         </section>
 
         <section class="stp" data-step="3">
@@ -1112,7 +1110,7 @@
       [].forEach.call(f.querySelectorAll('.stpr'),function(b){ var d={hab:2,ban:1,ppl:2,thab:1,tppl:2}[b.dataset.stepper]; stepper(b,d); });
       touchedSup=false; rSup.value=60; $$('oSup').value=''; $$('rSupV').innerHTML='<small>Desliza para elegir</small>';
       ['tipoOtroWrap','barrioOtroWrap','sitLibre','sitAlq'].forEach(function(i){ $$(i).hidden=true; });
-      $$('tAceptaWrap').hidden=false; calc();
+      $$('tAceptaWrap').hidden=false;
       $$('lDone').classList.remove('on'); $$('lHead').hidden=false; $$('wNavBox').hidden=false;
       setStep(1,false);
     }
@@ -1171,7 +1169,7 @@
         if(zs) fd.set('zonas', zs);
         var im=[].map.call(f.querySelectorAll('[data-imp]:checked'),function(i){return i.value;}).join(', ');
         if(im) fd.set('imprescindibles', im);
-        if(!prio()){ fd.delete('acepta_condiciones_prioridad'); fd.delete('precio_servicio'); }
+        if(!prio()){ fd.delete('acepta_condiciones_prioridad'); }
       }
       Array.from(fd.keys()).forEach(function(k){ if(fd.get(k)==='') fd.delete(k); });
       fetch(f.action,{method:'POST',headers:{'Accept':'application/json'},body:fd})
@@ -1189,15 +1187,6 @@
       var z=Object.keys(BARRIOS).concat(['Me da igual']);
       $$('zonaChips').innerHTML=z.map(function(n){ return '<label class="chip sm"><input type="checkbox" data-zona value="'+n+'"><span>'+ico(n==='Me da igual'?'i-spark':'i-pin')+n+'</span></label>'; }).join('');
     })();
-    var FEE=0.8, IVA=0.21, eur=function(n){ return n.toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2})+' €'; };
-    function calc(){
-      var v=parseFloat(($$('tCalc').value||'').replace(/\./g,'').replace(',','.'));
-      var o=$$('tCalcOut');
-      if(!(v>0)){ o.textContent='Escribe cuánto pagarías de alquiler al mes.'; return; }
-      var base=v*FEE, tot=base*(1+IVA);
-      o.innerHTML='<b>'+eur(tot)+'</b>'+eur(base)+' (80% de '+eur(v)+') + IVA '+eur(base*IVA)+'. Pago único, no es mensual.';
-    }
-    $$('tCalc').addEventListener('input',calc);
     resetWizard(); mode('owner');
   })();
 })();
