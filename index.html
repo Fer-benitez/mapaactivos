@@ -524,19 +524,31 @@
   var REELS = [
     'https://www.instagram.com/reel/DdapMTtNIWP/',
     'https://www.instagram.com/reel/DdhCg_MObrz/',
-    'https://www.instagram.com/reel/DdjEINYuy2b/'
+    { video: 'reel3.mp4', url: 'https://www.instagram.com/reel/DdjEINYuy2b/' }   /* si subes reel3.mp4 junto al index se reproduce aquí mismo; si no existe, se usa el embed de Instagram */
   ];
   (function(){
     var wrap = $('reels'); if(!wrap) return;
     var PLAY = '<span class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>';
     function code(u){ var m = String(u).match(/instagram\.com\/(?:reel|reels|p)\/([A-Za-z0-9_-]+)/); return m ? m[1] : null; }
-    var list = REELS.map(code).filter(Boolean);
+    var list = REELS.map(function(r){ var u = typeof r==='string' ? r : r.url; var c = code(u); return c ? {c:c, video:(typeof r==='object'?r.video:null)} : null; }).filter(Boolean);
+    function igEmbed(c){
+      var url = 'https://www.instagram.com/reel/'+c+'/';
+      return '<blockquote class="instagram-media" data-instgrm-permalink="'+url+'" data-instgrm-version="14" data-instgrm-captioned style="background:#fff;border:0;border-radius:16px;margin:0;max-width:540px;min-width:280px;width:100%;padding:0"><a href="'+url+'" target="_blank" rel="noopener" style="color:#fff;display:block;padding:40px 16px;text-align:center;font-size:14px">Ver reel en Instagram</a></blockquote>';
+    }
     if(list.length){
       wrap.classList.add('emb');
-      list.forEach(function(c){
+      list.forEach(function(it){
         var d = document.createElement('div'); d.className='embed';
-        var url = 'https://www.instagram.com/reel/'+c+'/';
-        d.innerHTML = '<blockquote class="instagram-media" data-instgrm-permalink="'+url+'" data-instgrm-version="14" data-instgrm-captioned style="background:#fff;border:0;border-radius:16px;margin:0;max-width:540px;min-width:280px;width:100%;padding:0"><a href="'+url+'" target="_blank" rel="noopener" style="color:#fff;display:block;padding:40px 16px;text-align:center;font-size:14px">Ver reel en Instagram</a></blockquote>';
+        if(it.video){
+          var v = document.createElement('video');
+          v.src = it.video; v.controls = true; v.playsInline = true; v.preload = 'metadata'; v.setAttribute('playsinline','');
+          v.style.cssText = 'width:100%;max-width:540px;aspect-ratio:9/16;object-fit:cover;background:#000;border-radius:16px;border:1px solid var(--line)';
+          v.addEventListener('error',function(){
+            d.innerHTML = igEmbed(it.c);
+            if(window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
+          });
+          d.appendChild(v);
+        } else d.innerHTML = igEmbed(it.c);
         wrap.appendChild(d);
       });
       var sc = document.createElement('script'); sc.async = true; sc.src = 'https://www.instagram.com/embed.js'; document.body.appendChild(sc);
